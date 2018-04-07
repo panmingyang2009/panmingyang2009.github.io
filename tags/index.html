@@ -3,16 +3,17 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Punmy</title>
+    <title>Tags | Punmy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="潘名扬的博客">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Punmy">
-<meta property="og:url" content="http://punmy.cn/index.html">
+<meta property="og:title" content="Tags">
+<meta property="og:url" content="http://punmy.cn/tags/index.html">
 <meta property="og:site_name" content="Punmy">
 <meta property="og:description" content="潘名扬的博客">
+<meta property="og:updated_time" content="2017-07-31T15:43:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Punmy">
+<meta name="twitter:title" content="Tags">
 <meta name="twitter:description" content="潘名扬的博客">
     
 
@@ -228,273 +229,16 @@ var _hmt = _hmt || [];
 </aside>
 
             
-            <section id="main">
-    <article id="post-15041894895980" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/08/31/15041894895980/">HTTP/2 初探</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/08/31/15041894895980/">
-            <time datetime="2017-08-31T14:24:00.000Z" itemprop="datePublished">2017-08-31</time>
-        </a>
+            <section id="main"><section class="layout-wrap">
+    <div class="layout-title">
+        <span>Tags</span>
     </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Code/">Code</a>
+    <div class="layout-wrap-inner tag-cloud">
+        
+            <a href="/tags/HTTP2/" style="font-size: 14px;">HTTP2</a> <a href="/tags/iOS/" style="font-size: 14px;">iOS</a> <a href="/tags/基础/" style="font-size: 14px;">基础</a> <a href="/tags/技能/" style="font-size: 14px;">技能</a> <a href="/tags/正则表达式/" style="font-size: 14px;">正则表达式</a> <a href="/tags/网络/" style="font-size: 14px;">网络</a>
+        
     </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/HTTP2/">HTTP2</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/基础/">基础</a>, <a class="tag-link" href="/tags/网络/">网络</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><p>HTTP/2 是一个比它的几个前任更快、更简单、更稳定的 HTTP 协议。在 HTTP/2 中，我们可以摒弃掉很多以往针对 HTTP/1.1 想出来的“歪招儿”，因为它们的解决方案都内置在了传输层中。不仅如此，它还为我们进一步优化应用和提升性能提供全新的机会！</p></p>
-            <p class="article-more-link">
-                <a href="/2017/08/31/15041894895980/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://punmy.cn/2017/08/31/15041894895980/" data-id="cjfp69wgr0001jtgpd7p4jqsy" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://punmy.cn/2017/08/31/15041894895980/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2017/08/31/15041894895980/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-15018607710939" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/08/04/15018607710939/">五分钟重拾正则表达式</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/08/04/15018607710939/">
-            <time datetime="2017-08-04T15:01:00.000Z" itemprop="datePublished">2017-08-04</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Code/">Code</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/技能/">技能</a>, <a class="tag-link" href="/tags/正则表达式/">正则表达式</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            <p><h2 id="什么是正则表达式"><a href="#什么是正则表达式" class="headerlink" title="什么是正则表达式"></a>什么是正则表达式</h2><p>正则表达式（Regular Expression，常简写为Regex）是一种表示文本规则的代码。在编写处理字符串的程序时，经常会有查找、替换符合某些规则的字符串的需要，正则表达式就是用于描述这些规则的工具。</p></p>
-            <p class="article-more-link">
-                <a href="/2017/08/04/15018607710939/#more">Read More</a>
-            </p>
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://punmy.cn/2017/08/04/15018607710939/" data-id="cjfp69wgm0000jtgpvuzvzb7l" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://punmy.cn/2017/08/04/15018607710939/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2017/08/04/15018607710939/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-</section>
+</section></section>
             
                 
 <aside id="sidebar">
@@ -609,11 +353,13 @@ var _hmt = _hmt || [];
     <script>
     var disqus_config = function () {
         
+            this.page.url = 'http://punmy.cn/tags/index.html';
+        
         this.page.identifier = '';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'punmy' + '.disqus.com/count.js';
+        s.src = '//' + 'punmy' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
