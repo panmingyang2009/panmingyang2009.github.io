@@ -176,7 +176,7 @@ var _hmt = _hmt || [];
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                6
+                7
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -229,6 +229,213 @@ var _hmt = _hmt || [];
 
             
             <section id="main">
+    <article id="post-iOS 最全面的功耗分析之——Power Log" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="iOS-最全面的功耗分析之——Power-Log"><a href="#iOS-最全面的功耗分析之——Power-Log" class="headerlink" title="iOS 最全面的功耗分析之——Power Log"></a>iOS 最全面的功耗分析之——Power Log</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。但是在 iOS 设备上，由于苹果严格的限制，我们一直较难开展功耗分析的工作。在 iOS 10 以前，我们还可以通过 IOKit 中的 IOPMPowerSource 私有接口，获取较为详细的电量信息，如电量、电压、电池温度等一系列的信息，腾讯的 GT 就是通过该接口获取电池的信息。然而，在 iOS 10 以及更高的系统中，该接口也被封印了，现在读取该接口，只能获取到很鸡肋的信息，如下图所示。</p>
+<p><img src="media/15284462930320/15287021385503.jpg" alt="iOS 10 及之后的系统版本只能获取到零星的数据"></p>
+<p>因此，iOS 平台上急切地需要一个功耗分析的工具。</p>
+<h2 id="Power-Log（Sysdiagnose）"><a href="#Power-Log（Sysdiagnose）" class="headerlink" title="Power Log（Sysdiagnose）"></a>Power Log（Sysdiagnose）</h2><p>我们都知道，iOS 系统本身是有对电量的使用情况进行记录和分析的，所以我们才能在系统设置里看到过去一段时间里，各个 App 的前台工作时间和耗电情况。在进行了一整天的调研后，我震惊地发现，iOS 的耗电记录是可以导出的，并且它记录的详细程度简直令人发指！简单地说，它包括了过去几天里，系统整体的详细功耗情况、各个 App 在各个硬件上的耗电情况（包括第三方 App），等等一系列详细的数据。</p>
+<p>有的同学可能遇到过，在向苹果反馈 Bug 时，有时苹果的工程师会要求你附上设备的诊断日志，其中，在遇到电池续航相关的问题时，苹果的工程师会让你提供一下电池的诊断日志。在电池的诊断日志中，就包含了电池电量的使用记录。</p>
+<blockquote>
+<p>这些诊断工具在之前被苹果称为 Sysdiagnose，现在，它们被苹果统一归类到 Bug Reporting 的主题中，电池续航相关的诊断日志被称为“Power Log”。</p>
+</blockquote>
+<p>我在苹果的 Bug Reporting 中发现了一份<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="external">电池诊断日志的导出指南</a>，其中仅仅简短地介绍了导出日志的几个步骤。我按照其中的步骤成功导出了电池续航日志，发现该日志其实是一个数据库，其中储存了几十张表。至于这几十张表中存储的内容是什么，各个字段的含义是什么，以及如何分析其中的数据，苹果的指南中则只字未提。好在经过一番查找后，我发现了腾讯的一篇<a href="https://cloud.tencent.com/developer/article/1006222" target="_blank" rel="external">博客</a> 中有提到其中几张表的内容，有了这个开头后，我便顺腾摸瓜，大致了解了其中的结构。</p>
+<p>下面，我简单地介绍一下，如何通过这个方法获取最全面的功耗信息，以及如何分析其中的数据。</p>
+<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h2><p>苹果在<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="external">电池诊断日志的导出指南</a>中详细说明了导出日志的步骤。我这里简要说明一下大概的步骤。</p>
+<ul>
+<li>首先在你的测试机上，安装电量分析的 <a href="https://developer.apple.com/services-account/download?path=/iOS/iOS_Logs/BatteryLife.mobileconfig" target="_blank" rel="external">profile</a>，安装完成后，iOS 才会记录最详细的功耗数据，并开放读取；（推荐下载后用 Airdrop 发送到手机上安装）</li>
+<li>第二步，连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的功耗的历史记录拷贝到电脑上；</li>
+<li>第三步，断开设备，运行你的 App，这时设备已经在记录功耗信息，记得留意你运行 App 时的时间，因为稍后要和数据库中的时间戳进行匹配；</li>
+<li>第四部，再次连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的详细功耗记录拷贝到电脑上；</li>
+</ul>
+<h3 id="诊断日志的目录"><a href="#诊断日志的目录" class="headerlink" title="诊断日志的目录"></a>诊断日志的目录</h3><p>到 iTunes 的同步文件夹（<br><code>~/Library/Logs/CrashReporter/MobileDevice/你的手机名/</code>）下，找到以<code>Powerlog_</code>开头，后缀是<code>.PLSQL</code>或者<code>.PLSQL.gz</code>的几个文件，这些就是记录了所有功耗信息的数据库文件了，可以使用简单的数据库查看工具打开看看。</p>
+<p><img src="media/15284462930320/15287660449685.jpg" alt="诊断日志的目录"></p>
+<h2 id="分析数据"><a href="#分析数据" class="headerlink" title="分析数据"></a>分析数据</h2><p>打开数据库后，我们可以看到里面有数百张表。苹果没有解释这些表的具体作用，只介绍了如何导出，因为苹果实际上只打算用这份记录来诊断问题，目前并没有直接向开发者开放。但我们可以通过各个表中的字段名，来了解各个表的大概用途。此外，腾讯的文档中介绍了其中比较重要的七张表，这节省了我们不少时间。下面列举一下关键的几张表的作用。</p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLBatteryAgent_EventBackward_Battery</td>
+<td>整机的电量信息，包含电流、电压、温度等信息。（每20秒记录一条数据）</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventBackward_Battery_UI</td>
+<td>剩余电量百分比。（每20秒记录一条数据）</td>
+</tr>
+<tr>
+<td>PLIOReportAgent_EventBackward_EnergyModel</td>
+<td>整机不同硬件上的详细功耗数据。分别记录了 CPU、GPU、DRAM 等硬件的耗电量。</td>
+</tr>
+<tr>
+<td>PLAccountingOperator_Aggregate_RootNodeEnergy</td>
+<td>各个 App 的详细耗电数据。记录各个 App 在各个硬件上的耗电量。（每小时更新一次数据）</td>
+</tr>
+<tr>
+<td>PLAccountingOperator_EventNone_Nodes</td>
+<td>各个硬件对应的 Node ID，以及各个 App 的对应的 Node ID。</td>
+</tr>
+<tr>
+<td>PLAccountingOperator_EventNone_AllApps</td>
+<td>手机中安装的所有 App 的信息</td>
+</tr>
+<tr>
+<td>PLApplicationAgent_EventForward_Application</td>
+<td>App 运行状态记录。记录各个 App 在某个时间段以什么状态运行。</td>
+</tr>
+<tr>
+<td>PLAppTimeService_Aggregate_AppRunTime</td>
+<td>App 的运行时长统计。（每小时更新一次数据。</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventForward_LightningConnectorStatus</td>
+<td>Lighting 接口连接状态</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventNone_BatteryConfig</td>
+<td>电池的配置信息。包括电池容量、循环计数、电池寿命、电池温度等信息。</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventNone_BatteryShutdown</td>
+<td>电池导致的意外关机记录。</td>
+</tr>
+<tr>
+<td>PLButtonAgent_EventPoint_Button</td>
+<td>疑似物理按键的点击记录。</td>
+</tr>
+<tr>
+<td>PLCameraAgent_EventForward_Camera</td>
+<td>相机使用记录。记录了相机类型和使用相机的 App</td>
+</tr>
+<tr>
+<td>PLConfigAgent_EventNone_Config</td>
+<td>本机的一些配置信息和一些系统设置。</td>
+</tr>
+<tr>
+<td>PLDisplayAgent_Aggregate_UserTouch</td>
+<td>屏幕点击计数。每 15 分钟记录一条数据。</td>
+</tr>
+<tr>
+<td>PLDisplayAgent_EventForward_Display</td>
+<td>屏幕亮度信息。包括流明、尼特、亮度滑竿值等信息。</td>
+</tr>
+<tr>
+<td>PLProcessNetworkAgent_EventPoint_Connection</td>
+<td>网络连接记录。记录了发起网络连接的 App、地址、端口等信息。</td>
+</tr>
+<tr>
+<td>PLXPCAgent_EventPoint_CacheDelete</td>
+<td>清除缓存的记录。包括申请的空间大小、清除缓存的耗时、清除的缓存大小、服务名称、紧急程度等信息。</td>
+</tr>
+</tbody>
+</table>
+<p>我们结合几张表就可以简单地分析出一些衡量耗电量的维度，例如：</p>
+<h3 id="1、绘制电量百分比变化曲线"><a href="#1、绘制电量百分比变化曲线" class="headerlink" title="1、绘制电量百分比变化曲线"></a>1、绘制电量百分比变化曲线</h3><p>直接读取 <code>PLBatteryAgent_EventBackward_Battery_UI</code> 表中的数据即可。</p>
+<h3 id="2、iPhone-整体耗电量和温度变化"><a href="#2、iPhone-整体耗电量和温度变化" class="headerlink" title="2、iPhone 整体耗电量和温度变化"></a>2、iPhone 整体耗电量和温度变化</h3><p>直接读取 <code>PLBatteryAgent_EventBackward_Battery</code> 表中的电量、温度数据，数据的记录间隔是 20 秒，基本上满足了各种各样的需求。</p>
+<h3 id="3、分析特定-App-的详细功耗数据"><a href="#3、分析特定-App-的详细功耗数据" class="headerlink" title="3、分析特定 App 的详细功耗数据"></a>3、分析特定 App 的详细功耗数据</h3><p>结合 <code>PLAccountingOperator_Aggregate_RootNodeEnergy</code> 和 <code>PLAccountingOperator_EventNone_Nodes</code> 两张表，可以得到某个 Bundle ID 对应的 App 在各个硬件上的耗电情况。</p>
+<p><img src="media/15284462930320/15287863692382.jpg" alt="存储了硬件节点 ID 的表"></p>
+<p>由于 <code>PLAccountingOperator_Aggregate_RootNodeEnergy</code> 中的每条数据，是记录该时间点之前一个小时内的耗电情况，所以我们可以知道在每个小时内，这个 App 在各个硬件上的耗电情况。例如，我们可以查到美拍在过去一个小时内的耗电情况，如下图所示，从中我们可以找出耗电较多的硬件，其中，耗电最多的是 RootNodeID 为 10 的硬件，也就是屏幕。</p>
+<p><img src="media/15284462930320/15287872779775.jpg" alt="美拍在一个小时内各个硬件的耗电情况"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Power Log 能够为我们提供十分详细和准确的功耗数据，从细节到整体都能够兼顾到。并且根据苹果官方的说法，记录详细的功耗数据并不会导致 iPhone 性能的下降，只是会占据一定的磁盘空间。不过，也因为它的数据量太大，导致它对我们不太友好。我们需要用 SQL 去读取、处理庞杂的原始数据，才能得到理想的信息。最好的方案是为此开发一个读取和分析的前端，这样才能够提高效率。此外，由于它的数据是离线获取的，这在某些情况下可能不是很方便。</p>
+<p>但总的来说，Power Log 是十分强大的，它记录的信息之丰富让人印象深刻，也为我们的功耗分析提供了更好更强大的手段。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://punmy.cn/2018/06/08/iOS 最全面的功耗分析之——Power Log/" data-id="cjibfryz90008kennjj1luigv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://punmy.cn/2018/06/08/iOS 最全面的功耗分析之——Power Log/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2018/06/08/iOS 最全面的功耗分析之——Power Log/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-条件变量（Condition Variables）" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -284,7 +491,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/07/条件变量（Condition Variables）/" data-id="cji3e6xom000apknnl3cil5eg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/07/条件变量（Condition Variables）/" data-id="cjibfryze000bkennv4r3nj3i" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -417,7 +624,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/08/31/15041894895980/" data-id="cji3e6xo70002pknnu4nn3235" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2017/08/31/15041894895980/" data-id="cjibfryyx0002kenntyiw6cww" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -550,7 +757,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/08/04/15018607710939/" data-id="cji3e6xoi0008pknn6evwbem1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2017/08/04/15018607710939/" data-id="cjibfryyr0000kennazugod2a" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -683,7 +890,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/03/06/15158218121366/" data-id="cji3e6xol0009pknndjbsd3kz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2017/03/06/15158218121366/" data-id="cjibfryzh000dkenntl3p5m1p" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -817,7 +1024,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2016/10/06/14757432517519/" data-id="cji3e6xoa0004pknn5w1apa29" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2016/10/06/14757432517519/" data-id="cjibfryz70007kenn80e6kooh" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -950,7 +1157,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2016/07/28/15231176397746/" data-id="cji3e6xoo000dpknntjvbqith" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2016/07/28/15231176397746/" data-id="cjibfryzj000gkennnrxcf0x8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -1041,6 +1248,15 @@ var _hmt = _hmt || [];
                     <li>
                         
                         <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/06/08/iOS 最全面的功耗分析之——Power Log/" class="title"></a></p>
+                            <p class="item-date"><time datetime="2018-06-08T08:24:53.033Z" itemprop="datePublished">2018-06-08</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
                             <p class="item-title"><a href="/2018/06/07/条件变量（Condition Variables）/" class="title">条件变量（Condition Variables）</a></p>
                             <p class="item-date"><time datetime="2018-06-06T17:31:03.000Z" itemprop="datePublished">2018-06-07</time></p>
@@ -1074,15 +1290,6 @@ var _hmt = _hmt || [];
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
-                            <p class="item-title"><a href="/2016/10/06/14757432517519/" class="title">OSX/iOS 网络抓包工具 Charles 入门</a></p>
-                            <p class="item-date"><time datetime="2016-10-06T08:40:00.000Z" itemprop="datePublished">2016-10-06</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1101,7 +1308,7 @@ var _hmt = _hmt || [];
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li></ul>
         </div>
     </div>
 
