@@ -3,37 +3,24 @@
 <head>
     <meta charset="utf-8">
     
-    <title>OSX/iOS 网络抓包工具 Charles 入门 | Punmy</title>
+    <title>iOS 最全面的功耗分析之——Power Log | Punmy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Charles 是一款非常好用的网络调试工具。">
-<meta name="keywords" content="抓包,网络,iOS,HTTP">
+    <meta name="description" content="功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。苹果官方提供的诊断日志能够获取到极其详细的 App 功耗、电池温度、硬件状态等信息信息，以下是 Power Log 的详细介绍。">
+<meta name="keywords" content="iOS,电量,功耗,温度,电池,Power Log,Battery,Sysdiagnose">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OSX&#x2F;iOS 网络抓包工具 Charles 入门">
-<meta property="og:url" content="http://punmy.cn/2016/10/06/14757432517519/index.html">
+<meta property="og:title" content="iOS 最全面的功耗分析之——Power Log">
+<meta property="og:url" content="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log/index.html">
 <meta property="og:site_name" content="Punmy">
-<meta property="og:description" content="Charles 是一款非常好用的网络调试工具。">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/Charles.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/Charles%E7%AA%97%E5%8F%A3.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757643277589.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757646090593.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757642106306.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757655232099.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757660613993.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757676735559.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759352396110.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759362841562.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759368101329.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759370781229.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759386662038.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759391242777.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759409498353.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759406599047.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/ssl%E4%BB%A3%E7%90%86.jpg">
-<meta property="og:updated_time" content="2018-04-07T10:08:11.295Z">
+<meta property="og:description" content="功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。苹果官方提供的诊断日志能够获取到极其详细的 App 功耗、电池温度、硬件状态等信息信息，以下是 Power Log 的详细介绍。">
+<meta property="og:image" content="http://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log/media/15284462930320/15287021385503.jpg">
+<meta property="og:image" content="http://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log/media/15284462930320/15287660449685.jpg">
+<meta property="og:image" content="http://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log/media/15284462930320/15287863692382.jpg">
+<meta property="og:image" content="http://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log/media/15284462930320/15287872779775.jpg">
+<meta property="og:updated_time" content="2018-06-12T08:55:30.374Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OSX&#x2F;iOS 网络抓包工具 Charles 入门">
-<meta name="twitter:description" content="Charles 是一款非常好用的网络调试工具。">
-<meta name="twitter:image" content="http://punmy.cn/media/14757432517519/Charles.jpg">
+<meta name="twitter:title" content="iOS 最全面的功耗分析之——Power Log">
+<meta name="twitter:description" content="功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。苹果官方提供的诊断日志能够获取到极其详细的 App 功耗、电池温度、硬件状态等信息信息，以下是 Power Log 的详细介绍。">
+<meta name="twitter:image" content="http://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log/media/15284462930320/15287021385503.jpg">
     
 
     
@@ -248,7 +235,7 @@ var _hmt = _hmt || [];
 </aside>
 
             
-            <section id="main"><article id="post-14757432517519" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-iOS 最全面的功耗分析之——Power Log" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -256,7 +243,7 @@ var _hmt = _hmt || [];
                 
     
         <h1 class="article-title" itemprop="name">
-            OSX/iOS 网络抓包工具 Charles 入门
+            iOS 最全面的功耗分析之——Power Log
         </h1>
     
 
@@ -265,8 +252,8 @@ var _hmt = _hmt || [];
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/10/06/14757432517519/">
-            <time datetime="2016-10-06T08:40:00.000Z" itemprop="datePublished">2016-10-06</time>
+        <a href="/2018/06/12/iOS 最全面的功耗分析之——Power Log/">
+            <time datetime="2018-06-12T04:31:03.000Z" itemprop="datePublished">2018-06-12</time>
         </a>
     </div>
 
@@ -280,7 +267,7 @@ var _hmt = _hmt || [];
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/工具/">工具</a>, <a class="tag-link" href="/tags/网络/">网络</a>
+        <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/工具/">工具</a>
     </div>
 
                     </div>
@@ -291,85 +278,117 @@ var _hmt = _hmt || [];
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p><img src="/media/14757432517519/Charles.jpg" alt="Charles"></p>
-<p>在 iOS 开发中，我们常常要涉及到网络编程，而网络编程中的调试往往令人头痛。此外，我们也有时也会需要抓取一些 App 的网络包，以便了解它网络请求的API。本篇要介绍的 Charles 就是一款非常好用的网络调试工具，它可以轻松地满足我们的上述需求。</p>
-<a id="more"></a>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。但是在 iOS 设备上，由于苹果严格的限制，我们一直较难开展功耗分析的工作。在 iOS 10 以前，我们还可以通过 IOKit 中的 IOPMPowerSource 私有接口，获取较为详细的电量信息，如电量、电压、电池温度等一系列的信息，腾讯的 GT 就是通过该接口获取电池的信息。然而，在 iOS 10 以及更高的系统中，该接口也被封印了，现在读取该接口，只能获取到很鸡肋的信息，如下图所示。</p>
+<p><img src="media/15284462930320/15287021385503.jpg" alt="iOS 10 及之后的系统版本只能获取到零星的数据"></p>
+<p>因此，iOS 平台上急切地需要一个功耗分析的工具。</p>
+<h2 id="Power-Log（Sysdiagnose）"><a href="#Power-Log（Sysdiagnose）" class="headerlink" title="Power Log（Sysdiagnose）"></a>Power Log（Sysdiagnose）</h2><p>我们都知道，iOS 系统本身是有对电量的使用情况进行记录和分析的，所以我们才能在系统设置里看到过去一段时间里，各个 App 的前台工作时间和耗电情况。在进行了一整天的调研后，我震惊地发现，iOS 的耗电记录是可以导出的，并且它记录的详细程度简直令人发指！简单地说，它包括了过去几天里，系统整体的详细功耗情况、各个 App 在各个硬件上的耗电情况（包括第三方 App），等等一系列详细的数据。</p>
+<p>有的同学可能遇到过，在向苹果反馈 Bug 时，有时苹果的工程师会要求你附上设备的诊断日志，其中，在遇到电池续航相关的问题时，苹果的工程师会让你提供一下电池的诊断日志。在电池的诊断日志中，就包含了电池电量的使用记录。</p>
 <blockquote>
-<p>本篇博客中所使用的环境为：macOS Sierra 10.12，Charles 4.0.1，iPod Touch 5。</p>
+<p>这些诊断工具在之前被苹果称为 Sysdiagnose，现在，它们被苹果统一归类到 Bug Reporting 的主题中，电池续航相关的诊断日志被称为“Power Log”。</p>
 </blockquote>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="启动-Charles"><a href="#启动-Charles" class="headerlink" title="启动 Charles"></a>启动 Charles</h3><p>Charles 的下载安装这里就不再赘述。启动 Charles 后，我们可以看到 Charles 的主界面。</p>
-<p><img src="/media/14757432517519/Charles%E7%AA%97%E5%8F%A3.jpg" alt="Charles窗口"></p>
-<p>窗口的左侧是抓取到的网络包，通常 Charles 启动后我们就可以看到 Mac 上的一些网络包开始出现在这里。</p>
-<p>窗口右侧是选中的网络包的详细信息，如 URL、状态码等。</p>
-<p>窗口上方是一些常用的工具。鼠标经过时就会有相应的提示，后面再细说。</p>
-<p>右下角是 Charles 当前的状态。可以显示 Recording、BreakPoints、Rewrite 等功能是否启用。</p>
-<h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><p>要抓取 iOS 设备上的网络包，首先要将 iOS 设备和装有 Charles 的电脑连接到同一个局域网下，并将 Charles 设置为 iOS 的 HTTP 代理，这样 Charles 就可以捕捉到所有进出 iOS 的网络包。设置的步骤如下：</p>
-<ol>
-<li>确保装有 Charles 的 mac 和等待调试的 iOS 设备在同一局域网内；</li>
-<li><p>查找 mac 的 IP 地址（可以在 Charles 菜单栏的 Help -&gt; Local IP Address 直接查看）；<br><img src="/media/14757432517519/14757643277589.jpg" alt="快速查看本机 IP"></p>
-</li>
-<li><p>在 iOS 设备上的 设置 -&gt; Wi-Fi 中，点击已连接 WiFi 右侧的 详细按钮（蓝色），将 WiFi 详情页底部的 HTTP 代理 设为手动，并在 服务器 一栏填入上一步中 mac 的 IP 地址，在 端口 一栏填入 Charles 的默认代理端口 8888，然后退出设置；<br><img src="/media/14757432517519/14757646090593.jpg" alt="代理设置"></p>
-</li>
-<li><p>此时如果网络正常的话，Charles 会提示有设备企图连接，同意连接，便完成了代理的设置。</p>
-</li>
-</ol>
-<p><img src="/media/14757432517519/14757642106306.jpg" alt="连接请求"></p>
-<blockquote>
-<p>注意：许多公司的内部局域网会限制设备间的互相访问，这可能会导致 Charles 抓取不到网络包，这种情况下可以尝试自己创建一个热点。</p>
-</blockquote>
-<p>连接完成后，窗口左侧开始出现 Charles 抓到的包，说明进展顺利。</p>
-<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><h3 id="捕获"><a href="#捕获" class="headerlink" title="捕获"></a>捕获</h3><p>Charles 启动后，就处于 Recording 状态，会自动捕捉网络包，点击窗口上方工具栏的第二个按钮可以停止捕捉。</p>
-<p>在窗口左侧的选择上方的 Structure 或 Sequence 可以切换网络包的显示方式。</p>
+<p>我在苹果的 Bug Reporting 中发现了一份<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="external">电池诊断日志的导出指南</a>，其中仅仅简短地介绍了导出日志的几个步骤。我按照其中的步骤成功导出了电池续航日志，发现该日志其实是一个数据库，其中储存了几十张表。至于这几十张表中存储的内容是什么，各个字段的含义是什么，以及如何分析其中的数据，苹果的指南中则只字未提。好在经过一番查找后，我发现了腾讯的一篇<a href="https://cloud.tencent.com/developer/article/1006222" target="_blank" rel="external">博客</a> 中有提到其中几张表的内容，有了这个开头后，我便顺腾摸瓜，大致了解了其中的结构。</p>
+<p>下面，我简单地介绍一下，如何通过这个方法获取最全面的功耗信息，以及如何分析其中的数据。</p>
+<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h2><p>苹果在<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="external">电池诊断日志的导出指南</a>中详细说明了导出日志的步骤。我这里简要说明一下大概的步骤。</p>
 <ul>
-<li>Structure 是根据主机名以树状显示，便于查看同一主机名的网络包，每当有新的请求到达时，相应的主机名就会用黄色高亮闪烁。我们通常都是采用这个方式。</li>
-<li>Sequence 则是根据网络请求的时间顺序依次显示，在这个模式下，整个窗口的布局也会有所变化。</li>
+<li>首先在你的测试机上，安装电量分析的 <a href="https://developer.apple.com/services-account/download?path=/iOS/iOS_Logs/BatteryLife.mobileconfig" target="_blank" rel="external">profile</a>，安装完成后，iOS 才会记录最详细的功耗数据，并开放读取；（推荐下载后用 Airdrop 发送到手机上安装）</li>
+<li>第二步，连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的功耗的历史记录拷贝到电脑上；</li>
+<li>第三步，断开设备，运行你的 App，这时设备已经在记录功耗信息，记得留意你运行 App 时的时间，因为稍后要和数据库中的时间戳进行匹配；</li>
+<li>第四部，再次连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的详细功耗记录拷贝到电脑上；</li>
 </ul>
-<p>选中某个网络包后，右侧就会显示该网络包的详细信息。</p>
-<p><img src="/media/14757432517519/14757655232099.jpg" alt="微信朋友圈的网络请求"></p>
-<p>开始抓包之后，我们会发现，只有 HTTP 的包被成功解析了，HTTPS 的包都处于加密状态。要想查看 HTTPS 的包内容，可以查看本文中 SSL 代理的小节。</p>
-<h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>开始抓包后，随着时间的推移，抓取到的网络包越来越多，这是我们可以使用过滤功能，来过滤出我们想要的网络请求。</p>
-<p>在 Proxy -&gt; Recording Settings 中可以设置网络包的过滤选项。</p>
-<p><img src="/media/14757432517519/14757660613993.jpg" alt="过滤选项"></p>
-<p>过滤选项中有 Include 和 Exclude 两种选项。只有当 Include 为空时，Exclude 中的设置才会生效。过滤条件支持通配符。</p>
-<h2 id="修改网络包"><a href="#修改网络包" class="headerlink" title="修改网络包"></a>修改网络包</h2><h3 id="修改历史请求"><a href="#修改历史请求" class="headerlink" title="修改历史请求"></a>修改历史请求</h3><p>可以将历史的请求修改后，再次发送。</p>
-<p>只需选中某个请求，点击上方工具栏中的蓝色钢笔按钮（第四个），就可以进行修改。完成修改后，点击下方的 Execute 执行请求。</p>
-<p><img src="/media/14757432517519/14757676735559.jpg" alt="修改请求"></p>
-<h3 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h3><p>窗口上方的工具栏中，第四个按钮就是 Enable BreakPoints，用来启用或禁用断点。也可以在 Proxy -&gt; BreakPoints Setting 中设置更多具体内容。</p>
-<p>在 Charles 中可以像调试程序一样添加断点。方法是右键点击左侧窗口的某个请求，选择 BreakPoints 添加断点。这样当这个请求发出或者收到 response 的时候，就会先被 Charles 拦截下来，并触发断点。</p>
-<p><img src="/media/14757432517519/14759352396110.jpg" alt="某个 request 的断点"></p>
-<p>触发断点后，可以对断点的网络包进行各种编辑，然后再继续。点击 Execute 就可以继续。</p>
-<p>同时，也可以在 Proxy -&gt; BreakPoints Setting 设置断点的各种规则。例如，是在 request 的时候触发还是 response 的时候。</p>
-<p><img src="/media/14757432517519/14759362841562.jpg" alt="断点设置"></p>
-<p>由于设置断点时，Charles 是先拦截下整个网络包，再触发断点，当网络包比较大的时候，常常会导致应用超时，触发网络错误的警告，因此，自动地根据规则修改网络包有时显得尤为重要。这就是下面要说的<strong>篡改</strong>。</p>
-<h3 id="篡改（Rewrite）"><a href="#篡改（Rewrite）" class="headerlink" title="篡改（Rewrite）"></a>篡改（Rewrite）</h3><p>Rewrite 是按照一组事先设置的规则，篡改特定的网络包中的数据。</p>
-<p>在 Tools -&gt; Rewrite 中，选中 Enable Rewrite 来开启 Rewrite。</p>
-<p><img src="/media/14757432517519/14759368101329.jpg" alt="Rewrite"></p>
-<p>勾选 Debug in Error Log 选项，就能在 Charles 控制台中看到 Rewrite 的记录。</p>
-<p>首先要在右侧的规则列表中添加一个新规则。在新规则中添加要 Rewrite 的 Location，然后再下方添加具体的篡改规则。规则中可以使用通配符。</p>
-<p><img src="/media/14757432517519/14759370781229.jpg" alt="Rewrite Rule"></p>
-<p>这样稍后匹配条件的网络包到达的时候，Charles 就会自动将其中的内容按规则篡改。</p>
-<h3 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h3><p>Charles提供的映射功能可以将本地文件或者远程的服务器作为某个请求的 Response。可以方便地进行一些特殊的测试。</p>
-<h4 id="Map-Local"><a href="#Map-Local" class="headerlink" title="Map Local"></a>Map Local</h4><p>本地映射，在 Tools -&gt; Map Local。可以选择一个本地文件作为某个请求的 Response，并且 Charles 会帮你封装好 Response。<br><img src="/media/14757432517519/14759386662038.jpg" alt="Map Local"></p>
-<h4 id="Remote-Remote"><a href="#Remote-Remote" class="headerlink" title="Remote Remote"></a>Remote Remote</h4><p>远程映射和本地映射的功能类似，只是将数据源换成了远程服务器。相当于将请求交给另一个服务器处理</p>
-<h2 id="网络环境模拟"><a href="#网络环境模拟" class="headerlink" title="网络环境模拟"></a>网络环境模拟</h2><p>Charles 还可以模拟不同网速环境，可以很方便地测试应用在网络差的情况下的 bug。</p>
-<p>在 Proxy -&gt; Throttle Settings 中勾选 Enable Throttling，或者直接点击窗口上方的工具栏中的乌龟🐢按钮就可以启用，这个按钮十分形象。</p>
-<p>在 Proxy -&gt; Throttle Settings 中，添加要针对的 Locations，如果选中了 Only for selected hosts，并且Locations中有数据，则只有 Locations 列表中的请求会被限速，否则会对全局限速。在 Throttle Configuration 中可以对网络环境进行十分详细的配置，包括网络的稳定程度、网速、环境等。</p>
-<p><img src="/media/14757432517519/14759391242777.jpg" alt="Throttle Setting"></p>
-<h2 id="SSL-代理"><a href="#SSL-代理" class="headerlink" title="SSL 代理"></a>SSL 代理</h2><p>在使用 Charles 的过程中，我们会发现，只有未加密的 Http 请求才能被 Charles 正确的解析出数据，其余的 Https 请求都处于加锁的状态，但我们不可避免的需要抓取 Https 的包。SSL 代理就可以完美解决这个问题。</p>
-<p>要启用 SSL 代理，先要在 Proxy -&gt; SSL Proxying Settings 中勾选 Enable SSL Proxying，然后配置要代理的 Location，一般可以直接填星号，以匹配所有请求。</p>
-<p><img src="/media/14757432517519/14759409498353.jpg" alt="SSL设置"></p>
-<p><strong>接下来还要安装 Charles 的证书</strong>。</p>
-<p>Charles 中的 HTTPS 代理的原理是，Charles 充当一个中间人，针对目标服务器动态地生成一个使用 Charles 根证书（Charles CA Certificate）签名的证书；请求发生的时候， Charles 会接收 web 服务器的证书，而把自己生成的证书给客户端看。</p>
-<p>因此在在使用 Charles 作为 HTTPS 代理时，客户端在请求 HTTPS 接口的时候会弹出安全警告，提示 Charles 根证书不被信任。我们需要添加 Charles 根证书为信任证书中。</p>
-<p>方法如下：</p>
-<p>1、点击 Help -&gt; SSL Proxying，根据被抓包设备的类型，来选择对应的安装选项（如果是 OSX 就直接选择 Install Charles Root Certificate）；</p>
-<p>2、如果是iOS真机，则会弹出下面的提示，此时不用按上面的提示来配置代理，只要按照上文的步骤配置过代理了就可以了。然后在 Safari 中打开 chls.pro/ssl 安装 Charles 的证书，就 OK 了。<br><img src="/media/14757432517519/14759406599047.jpg" alt="提示"></p>
-<p>设置好 SSL 代理后，HTTPS 请求就统统解锁啦！</p>
-<p><img src="/media/14757432517519/ssl%E4%BB%A3%E7%90%86.jpg" alt="ssl代理"></p>
-<blockquote>
-<p>Charles 是一个强大的抓包调试工具，它的功能远不止这些，但本篇作为一篇入门的博客，就先介绍这么多啦，更多功能等待大家探索~</p>
-</blockquote>
-<h2 id="套餐"><a href="#套餐" class="headerlink" title="套餐"></a>套餐</h2><h3 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h3><p>Charles 搭配 Postman 更好用噢~<br>Postman 是 Chrome 浏览器中的一个小应用，可以在 Chrome 应用商城中找到。是居家旅行测试 Web API 的好帮手！</p>
+<h3 id="诊断日志的目录"><a href="#诊断日志的目录" class="headerlink" title="诊断日志的目录"></a>诊断日志的目录</h3><p>到 iTunes 的同步文件夹（<br><code>~/Library/Logs/CrashReporter/MobileDevice/你的手机名/</code>）下，找到以<code>Powerlog_</code>开头，后缀是<code>.PLSQL</code>或者<code>.PLSQL.gz</code>的几个文件，这些就是记录了所有功耗信息的数据库文件了，可以使用简单的数据库查看工具打开看看。</p>
+<p><img src="media/15284462930320/15287660449685.jpg" alt="诊断日志的目录"></p>
+<h2 id="分析数据"><a href="#分析数据" class="headerlink" title="分析数据"></a>分析数据</h2><p>打开数据库后，我们可以看到里面有数百张表。苹果没有解释这些表的具体作用，只介绍了如何导出，因为苹果实际上只打算用这份记录来诊断问题，目前并没有直接向开发者开放。但我们可以通过各个表中的字段名，来了解各个表的大概用途。此外，腾讯的文档中介绍了其中比较重要的七张表，这节省了我们不少时间。下面列举一下关键的几张表的作用。</p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLBatteryAgent_EventBackward_Battery</td>
+<td>整机的电量信息，包含电流、电压、温度等信息。（每20秒记录一条数据）</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventBackward_Battery_UI</td>
+<td>剩余电量百分比。（每20秒记录一条数据）</td>
+</tr>
+<tr>
+<td>PLIOReportAgent_EventBackward_EnergyModel</td>
+<td>整机不同硬件上的详细功耗数据。分别记录了 CPU、GPU、DRAM 等硬件的耗电量。</td>
+</tr>
+<tr>
+<td>PLAccountingOperator_Aggregate_RootNodeEnergy</td>
+<td>各个 App 的详细耗电数据。记录各个 App 在各个硬件上的耗电量。（每小时更新一次数据）</td>
+</tr>
+<tr>
+<td>PLAccountingOperator_EventNone_Nodes</td>
+<td>各个硬件对应的 Node ID，以及各个 App 的对应的 Node ID。</td>
+</tr>
+<tr>
+<td>PLAccountingOperator_EventNone_AllApps</td>
+<td>手机中安装的所有 App 的信息</td>
+</tr>
+<tr>
+<td>PLApplicationAgent_EventForward_Application</td>
+<td>App 运行状态记录。记录各个 App 在某个时间段以什么状态运行。</td>
+</tr>
+<tr>
+<td>PLAppTimeService_Aggregate_AppRunTime</td>
+<td>App 的运行时长统计。（每小时更新一次数据。</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventForward_LightningConnectorStatus</td>
+<td>Lighting 接口连接状态</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventNone_BatteryConfig</td>
+<td>电池的配置信息。包括电池容量、循环计数、电池寿命、电池温度等信息。</td>
+</tr>
+<tr>
+<td>PLBatteryAgent_EventNone_BatteryShutdown</td>
+<td>电池导致的意外关机记录。</td>
+</tr>
+<tr>
+<td>PLButtonAgent_EventPoint_Button</td>
+<td>疑似物理按键的点击记录。</td>
+</tr>
+<tr>
+<td>PLCameraAgent_EventForward_Camera</td>
+<td>相机使用记录。记录了相机类型和使用相机的 App</td>
+</tr>
+<tr>
+<td>PLConfigAgent_EventNone_Config</td>
+<td>本机的一些配置信息和一些系统设置。</td>
+</tr>
+<tr>
+<td>PLDisplayAgent_Aggregate_UserTouch</td>
+<td>屏幕点击计数。每 15 分钟记录一条数据。</td>
+</tr>
+<tr>
+<td>PLDisplayAgent_EventForward_Display</td>
+<td>屏幕亮度信息。包括流明、尼特、亮度滑竿值等信息。</td>
+</tr>
+<tr>
+<td>PLProcessNetworkAgent_EventPoint_Connection</td>
+<td>网络连接记录。记录了发起网络连接的 App、地址、端口等信息。</td>
+</tr>
+<tr>
+<td>PLXPCAgent_EventPoint_CacheDelete</td>
+<td>清除缓存的记录。包括申请的空间大小、清除缓存的耗时、清除的缓存大小、服务名称、紧急程度等信息。</td>
+</tr>
+</tbody>
+</table>
+<p>我们结合几张表就可以简单地分析出一些衡量耗电量的维度，例如：</p>
+<h3 id="1、绘制电量百分比变化曲线"><a href="#1、绘制电量百分比变化曲线" class="headerlink" title="1、绘制电量百分比变化曲线"></a>1、绘制电量百分比变化曲线</h3><p>直接读取 <code>PLBatteryAgent_EventBackward_Battery_UI</code> 表中的数据即可。</p>
+<h3 id="2、iPhone-整体耗电量和温度变化"><a href="#2、iPhone-整体耗电量和温度变化" class="headerlink" title="2、iPhone 整体耗电量和温度变化"></a>2、iPhone 整体耗电量和温度变化</h3><p>直接读取 <code>PLBatteryAgent_EventBackward_Battery</code> 表中的电量、温度数据，数据的记录间隔是 20 秒，基本上满足了各种各样的需求。</p>
+<h3 id="3、分析特定-App-的详细功耗数据"><a href="#3、分析特定-App-的详细功耗数据" class="headerlink" title="3、分析特定 App 的详细功耗数据"></a>3、分析特定 App 的详细功耗数据</h3><p>结合 <code>PLAccountingOperator_Aggregate_RootNodeEnergy</code> 和 <code>PLAccountingOperator_EventNone_Nodes</code> 两张表，可以得到某个 Bundle ID 对应的 App 在各个硬件上的耗电情况。</p>
+<p><img src="media/15284462930320/15287863692382.jpg" alt="存储了硬件节点 ID 的表"></p>
+<p>由于 <code>PLAccountingOperator_Aggregate_RootNodeEnergy</code> 中的每条数据，是记录该时间点之前一个小时内的耗电情况，所以我们可以知道在每个小时内，这个 App 在各个硬件上的耗电情况。例如，我们可以查到美拍在过去一个小时内的耗电情况，如下图所示，从中我们可以找出耗电较多的硬件，其中，耗电最多的是 RootNodeID 为 10 的硬件，也就是屏幕。</p>
+<p><img src="media/15284462930320/15287872779775.jpg" alt="美拍在一个小时内各个硬件的耗电情况"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Power Log 能够为我们提供十分详细和准确的功耗数据，从细节到整体都能够兼顾到。并且根据苹果官方的说法，记录详细的功耗数据并不会导致 iPhone 性能的下降，只是会占据一定的磁盘空间。不过，也因为它的数据量太大，导致它对我们不太友好。我们需要用 SQL 去读取、处理庞杂的原始数据，才能得到理想的信息。最好的方案是为此开发一个读取和分析的前端，这样才能够提高效率。此外，由于它的数据是离线获取的，这在某些情况下可能不是很方便。</p>
+<p>但总的来说，Power Log 是十分强大的，它记录的信息之丰富让人印象深刻，也为我们的功耗分析提供了更好更强大的手段。</p>
 
         
         </div>
@@ -380,7 +399,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2016/10/06/14757432517519/" data-id="cjibgbkz70002xrnn1v74zcmi" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log/" data-id="cjibgbkzi0008xrnnq0fvic1p" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -448,7 +467,7 @@ var _hmt = _hmt || [];
 
             
     
-        <a href="http://punmy.cn/2016/10/06/14757432517519/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2016/10/06/14757432517519/">Comments</a>
+        <a href="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log/">Comments</a>
     
 
         </footer>
@@ -457,19 +476,10 @@ var _hmt = _hmt || [];
         
 <nav id="article-nav">
     
-        <a href="/2017/03/06/15158218121366/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    iOS Search APIs
-                
-            </div>
-        </a>
     
-    
-        <a href="/2016/07/28/15231176397746/" id="article-nav-older" class="article-nav-link-wrap">
+        <a href="/2018/06/07/条件变量（Condition Variables）/" id="article-nav-older" class="article-nav-link-wrap">
             <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">心跳之旅—💗—iOS用手机摄像头检测心率(PPG)</div>
+            <div class="article-nav-title">条件变量（Condition Variables）</div>
         </a>
     
 </nav>
@@ -610,9 +620,9 @@ var _hmt = _hmt || [];
     <script>
     var disqus_config = function () {
         
-            this.page.url = 'http://punmy.cn/2016/10/06/14757432517519/';
+            this.page.url = 'http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log/';
         
-        this.page.identifier = '14757432517519';
+        this.page.identifier = 'iOS 最全面的功耗分析之——Power Log';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
