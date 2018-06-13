@@ -1,7 +1,1 @@
 http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html
-http://punmy.cn/2018/06/07/条件变量（Condition Variables）.html
-http://punmy.cn/2017/08/31/15041894895980.html
-http://punmy.cn/2017/08/04/15018607710939.html
-http://punmy.cn/2017/03/06/15158218121366.html
-http://punmy.cn/2016/10/06/14757432517519.html
-http://punmy.cn/2016/07/28/15231176397746.html
