@@ -58,9 +58,9 @@
       <category term="Code" scheme="http://punmy.cn/categories/Code/"/>
     
     
-      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
     
       <category term="并发编程" scheme="http://punmy.cn/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"/>
     
@@ -84,13 +84,13 @@
       <category term="Code" scheme="http://punmy.cn/categories/Code/"/>
     
     
-      <category term="HTTP2" scheme="http://punmy.cn/tags/HTTP2/"/>
-    
-      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="网络" scheme="http://punmy.cn/tags/%E7%BD%91%E7%BB%9C/"/>
     
       <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="HTTP2" scheme="http://punmy.cn/tags/HTTP2/"/>
+    
+      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -136,9 +136,9 @@
       <category term="Code" scheme="http://punmy.cn/categories/Code/"/>
     
     
-      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
     
       <category term="framework" scheme="http://punmy.cn/tags/framework/"/>
     
