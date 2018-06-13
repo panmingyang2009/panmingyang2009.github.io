@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html><html><head>
     <meta charset="utf-8">
     
     <title>iOS Search APIs | Punmy</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="iOS 9 之后，Apple 开放了三大 Search APIs，以便用户能在 Spotlight、Safari 等搜索入口，搜索到应用中的内容，这十分有助于提升应用的用户活跃度。">
 <meta name="keywords" content="NSUserActivity,Web Markup,Spotlight,iOS,Search APIs">
 <meta property="og:type" content="article">
@@ -25,26 +23,26 @@
     
 
     
-        <link rel="alternate" href="atom.xml" title="Punmy" type="application/atom+xml" />
+        <link rel="alternate" href="atom.xml" title="Punmy" type="application/atom+xml">
     
 
     
-        <link rel="icon" href="/css/images/avatar.jpg" />
+        <link rel="icon" href="/css/images/avatar.jpg">
     
 
-    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/libs/open-sans/styles.css">
-    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+    
+    
+    
 
-    <link rel="stylesheet" href="/css/style.css">
+    
 
-    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
     
     
-        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+        
     
     
-        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+        
     
     
         <script type="text/javascript">
@@ -73,7 +71,7 @@ var _hmt = _hmt || [];
     
 
 
-</head>
+<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');</script></head>
 
 <body>
     <div id="container">
@@ -102,7 +100,7 @@ var _hmt = _hmt || [];
                 <nav id="sub-nav">
                     <div class="profile" id="profile-nav">
                         <a id="profile-anchor" href="javascript:;">
-                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <img class="avatar" src="/css/images/avatar.jpg">
                             <i class="fa fa-caret-down"></i>
                         </a>
                     </div>
@@ -111,14 +109,14 @@ var _hmt = _hmt || [];
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar">
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <input type="text" class="ins-search-input" placeholder="Type something...">
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -126,30 +124,15 @@ var _hmt = _hmt || [];
         </div>
     </div>
 </div>
-<script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
-</script>
-<script src="/js/insight.js"></script>
+
+
 
 </div>
         </div>
     </div>
     <div id="main-nav-mobile" class="header-sub header-inner">
         <table class="menu outer">
-            <tr>
+            <tbody><tr>
                 
                     <td><a class="main-nav-link" href="/.">Home</a></td>
                 
@@ -164,12 +147,12 @@ var _hmt = _hmt || [];
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar">
     </div>
 
                 </td>
             </tr>
-        </table>
+        </tbody></table>
     </div>
 </header>
 
@@ -180,67 +163,67 @@ var _hmt = _hmt || [];
 <aside id="profile">
     <div class="inner profile-inner">
         <div class="base-info profile-block">
-            <img id="avatar" src="/css/images/avatar.jpg" />
+            <img id="avatar" src="/css/images/avatar.jpg">
             <h2 id="name">Punmy</h2>
             <h3 id="title">Codes, thoughts and stories.</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Xiamen, China</span>
-            <a id="follow" target="_blank" href="https://github.com/panmingyang2009">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/panmingyang2009">SEGUIR</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
                 7
-                <span>posts</span>
+                <span>Entradas</span>
             </div>
             <div class="article-info-block">
                 11
-                <span>tags</span>
+                <span>Etiquetas</span>
             </div>
         </div>
         
         <div class="profile-block social-links">
             <table>
-                <tr>
+                <tbody><tr>
                     
                     
                     <td>
-                        <a href="https://github.com/panmingyang2009" target="_blank" title="github" class=tooltip>
+                        <a href="https://github.com/panmingyang2009" target="_blank" title="github" class="tooltip">
                             <i class="fa fa-github"></i>
                         </a>
                     </td>
                     
                     <td>
-                        <a href="https://twitter.com/imEric_Young" target="_blank" title="twitter" class=tooltip>
+                        <a href="https://twitter.com/imEric_Young" target="_blank" title="twitter" class="tooltip">
                             <i class="fa fa-twitter"></i>
                         </a>
                     </td>
                     
                     <td>
-                        <a href="https://www.facebook.com/myericyoung" target="_blank" title="facebook" class=tooltip>
+                        <a href="https://www.facebook.com/myericyoung" target="_blank" title="facebook" class="tooltip">
                             <i class="fa fa-facebook"></i>
                         </a>
                     </td>
                     
                     <td>
-                        <a href="http://weibo.com/imericyoung" target="_blank" title="dribbble" class=tooltip>
+                        <a href="http://weibo.com/imericyoung" target="_blank" title="dribbble" class="tooltip">
                             <i class="fa fa-dribbble"></i>
                         </a>
                     </td>
                     
                     <td>
-                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                        <a href="/atom.xml" target="_blank" title="rss" class="tooltip">
                             <i class="fa fa-rss"></i>
                         </a>
                     </td>
                     
                 </tr>
-            </table>
+            </tbody></table>
         </div>
         
     </div>
 </aside>
 
             
-            <section id="main"><article id="post-15158218121366" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-15158218121366" class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -306,7 +289,7 @@ var _hmt = _hmt || [];
 <p><code>CSSearchableItemAttributeSet</code>中包含了大量的属性，包括音视频信息、文件信息、出版信息、联系人信息等等。实例化属性集时，就要指定属性集的类型，如<code>kUTTypeImage</code>，这会影响到索引的显示样式。这些常量声明于<code>MobileCoreServices.UTCoreTypes</code>中，因此需要 <strong>import</strong> 这个头文件。属性集中比较常用的属性为 title、contentDescription 和 keywords，title 就是索引显示的标题，contentDescription 是对内容的描述，keywords 则是索引的关键词数组，官方建议关键词为 5 个左右。需要注意的是，title 默认就能被搜索到，不需要加入 keywords。</p>
 <p>设置完索引的属性集之后，就可以通过<code>CSSearchableItem</code>的<code>init(uniqueIdentifier: domainIdentifier: attributeSet:)</code>来实例化一个索引。其中，参数<code>uniqueIdentifier</code>是该索引的唯一标识符，可以通过这个标识符来删除这条索引；<code>domainIdentifier</code>是索引所在的域名标识，域名标识可以用于将索引分类存放，可以根据它来删除同一个<code>domainIdentifier</code>下的所有索引。</p>
 <p>接下来便是建立索引。建立索引需要调用<code>CSSearchableIndex</code>实例的<code>indexSearchableItems()</code>方法。它能够批量建立索引，并提供一个回调。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">createSearchIndex</span><span class="params">(with followers: [User])</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) &#123;</div><div class="line">        <span class="keyword">var</span> searchableItems = [<span class="type">CSSearchableItem</span>]()</div><div class="line">        users.forEach &#123; (follower) <span class="keyword">in</span></div><div class="line">            <span class="comment">// 索引的属性集（只用于控制索引在被搜索时的属性，不能存储数据）</span></div><div class="line">            <span class="keyword">let</span> attributeSet = <span class="type">CSSearchableItemAttributeSet</span>(itemContentType: kUTTypeImage <span class="keyword">as</span> <span class="type">String</span>)</div><div class="line">            <span class="comment">// 索引的标题（标题也能被搜索到）</span></div><div class="line">            attributeSet.title = follower.name</div><div class="line">            <span class="comment">// 索引的描述</span></div><div class="line">            attributeSet.contentDescription = <span class="string">"我的爱豆"</span></div><div class="line">            <span class="comment">// 用于建立索引的关键词</span></div><div class="line">            attributeSet.keywords = [<span class="string">"punmy"</span>, <span class="string">"爱豆"</span>, follower.identifier]</div><div class="line">            <span class="comment">// Spotlight 索引的类</span></div><div class="line">            <span class="keyword">let</span> searchableItem = <span class="type">CSSearchableItem</span>(uniqueIdentifier: <span class="string">"punmy://user?id=<span class="subst">\(follower.identifier)</span>"</span>, domainIdentifier: <span class="string">"com.meitu.yy.followers"</span>, attributeSet: attributeSet)</div><div class="line">            searchableItems.append(searchableItem)</div><div class="line">        &#125;</div><div class="line">        <span class="type">CSSearchableIndex</span>.<span class="keyword">default</span>().indexSearchableItems(searchableItems, completionHandler: &#123; (error) <span class="keyword">in</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> error = error &#123;</div><div class="line">                <span class="type">DDLogError</span>(<span class="string">"Create searchable index failed, error: <span class="subst">\(error.localizedDescription)</span>"</span>)</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">cleanSearchIndex</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) &#123;</div><div class="line">    <span class="comment">// 删除整个域名标识下的索引</span></div><div class="line">        <span class="type">CSSearchableIndex</span>.<span class="keyword">default</span>().deleteSearchableItems(withDomainIdentifiers: [<span class="string">"com.punmy.followers"</span>]) &#123; (error) <span class="keyword">in</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="number">_</span> = error &#123;</div><div class="line">                <span class="type">DDLogError</span>(<span class="string">"delete searchable items failed, error: <span class="subst">\(error?.localizedDescription)</span>"</span>)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">createSearchIndex</span><span class="params">(with followers: [User])</span></span> {</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) {</div><div class="line">        <span class="keyword">var</span> searchableItems = [<span class="type">CSSearchableItem</span>]()</div><div class="line">        users.forEach { (follower) <span class="keyword">in</span></div><div class="line">            <span class="comment">// 索引的属性集（只用于控制索引在被搜索时的属性，不能存储数据）</span></div><div class="line">            <span class="keyword">let</span> attributeSet = <span class="type">CSSearchableItemAttributeSet</span>(itemContentType: kUTTypeImage <span class="keyword">as</span> <span class="type">String</span>)</div><div class="line">            <span class="comment">// 索引的标题（标题也能被搜索到）</span></div><div class="line">            attributeSet.title = follower.name</div><div class="line">            <span class="comment">// 索引的描述</span></div><div class="line">            attributeSet.contentDescription = <span class="string">"我的爱豆"</span></div><div class="line">            <span class="comment">// 用于建立索引的关键词</span></div><div class="line">            attributeSet.keywords = [<span class="string">"punmy"</span>, <span class="string">"爱豆"</span>, follower.identifier]</div><div class="line">            <span class="comment">// Spotlight 索引的类</span></div><div class="line">            <span class="keyword">let</span> searchableItem = <span class="type">CSSearchableItem</span>(uniqueIdentifier: <span class="string">"punmy://user?id=<span class="subst">\(follower.identifier)</span>"</span>, domainIdentifier: <span class="string">"com.meitu.yy.followers"</span>, attributeSet: attributeSet)</div><div class="line">            searchableItems.append(searchableItem)</div><div class="line">        }</div><div class="line">        <span class="type">CSSearchableIndex</span>.<span class="keyword">default</span>().indexSearchableItems(searchableItems, completionHandler: { (error) <span class="keyword">in</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> error = error {</div><div class="line">                <span class="type">DDLogError</span>(<span class="string">"Create searchable index failed, error: <span class="subst">\(error.localizedDescription)</span>"</span>)</div><div class="line">            }</div><div class="line">        })</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">cleanSearchIndex</span><span class="params">()</span></span> {</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) {</div><div class="line">    <span class="comment">// 删除整个域名标识下的索引</span></div><div class="line">        <span class="type">CSSearchableIndex</span>.<span class="keyword">default</span>().deleteSearchableItems(withDomainIdentifiers: [<span class="string">"com.punmy.followers"</span>]) { (error) <span class="keyword">in</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> <span class="number">_</span> = error {</div><div class="line">                <span class="type">DDLogError</span>(<span class="string">"delete searchable items failed, error: <span class="subst">\(error?.localizedDescription)</span>"</span>)</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
 <p>调用<code>indexSearchableItems()</code>方法成功后，就能立即在 Spotlight 中搜索到刚刚添加的索引了。</p>
 <p><img src="/media/15158218121366/QQ20170314-162924@2x.png" alt="Spotlight 搜索"></p>
 <p>通过 <code>CSSearchableIndex</code> 实例的几个删除方法，就能部分，或者全部删除索引。</p>
@@ -315,7 +298,7 @@ var _hmt = _hmt || [];
 <p><strong>Note</strong>：值得注意的是，之前我们为<code>userActivity</code>所设置的属性集，在这里都不存在了。只有保存在 <code>userInfo</code> 中的数据，才能在这个回调中获取到。</p>
 </blockquote>
 <p>之前创建<code>CSSearchableItem</code>时传入的<code>uniqueIdentifier</code>参数，在此处可以通过 <code>userInfo</code> 中的 <code>CSSearchableItemActivityIdentifier</code> key值读取到，可以参考一下代码。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, <span class="keyword">continue</span> userActivity: NSUserActivity, restorationHandler: @escaping <span class="params">([Any]?)</span></span></span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) &#123;</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> identifier = userActivity.userInfo?[<span class="type">CSSearchableItemActivityIdentifier</span>] <span class="keyword">as</span>? <span class="type">String</span> &#123;</div><div class="line">            <span class="comment">// 跳转到对应页面</span></div><div class="line">            restoreActivity(scheme: identifier)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, <span class="keyword">continue</span> userActivity: NSUserActivity, restorationHandler: @escaping <span class="params">([Any]?)</span></span></span> -&gt; <span class="type">Void</span>) -&gt; <span class="type">Bool</span> {</div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) {</div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> identifier = userActivity.userInfo?[<span class="type">CSSearchableItemActivityIdentifier</span>] <span class="keyword">as</span>? <span class="type">String</span> {</div><div class="line">            <span class="comment">// 跳转到对应页面</span></div><div class="line">            restoreActivity(scheme: identifier)</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">}</div></pre></td></tr></tbody></table></figure>
 <p>上文我们已经提到过，有许多功能的回调入口都是这个方法，那么如何区分不同入口呢？<br>一种办法是像上方代码一样，判断<code>userInfo</code>中是否存在 key 为<code>CSSearchableItemActivityIdentifier</code>的值；另一种办法可以判断<code>userActivity</code>的 <code>activityType</code>属性的值，是否为<code>CSSearchableItemActionType</code>。</p>
 <p>在某些功能中，userActivity 的 <code>activityType</code> 是设置为自定义域名的，如下面将会讲到 <strong>NSUserActivity</strong> 部分。但在 Core Spotlight 中，所有的索引的类型都被系统设置为<code>CSSearchableItemActionType</code>。</p>
 <h2 id="NSUserActivity"><a href="#NSUserActivity" class="headerlink" title="NSUserActivity"></a>NSUserActivity</h2><blockquote>
@@ -325,7 +308,7 @@ var _hmt = _hmt || [];
 <p><img src="/media/15158218121366/movie_2x.png" alt="历史活动"></p>
 <p>我们可以在用户使用 App 的时候，将他浏览过的一些关键节点，或是重要的内容页面，在系统中建立一个索引，保存必要的数据。日后用户在 Spotlight 等地方搜索相关内容时，就能在搜索结果中显示该活动记录（UserActivity）。当用户点击该搜索结果时，系统会调起 App，并传入之前保存的数据，应用就能以此来恢复现场。</p>
 <h3 id="1、建立索引-1"><a href="#1、建立索引-1" class="headerlink" title="1、建立索引"></a>1、建立索引</h3><p>首先，我们需要在用户浏览到某些页面的时候，将该页面加入系统索引。例如在 <code>viewDidLoad（）</code>的时候：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MARK: - Indexing activity</span></div><div class="line">    </div><div class="line"><span class="keyword">let</span> user</div><div class="line"><span class="keyword">var</span> activity? <span class="comment">// 务必对 Activity 进行强引用</span></div><div class="line">    </div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">super</span>.viewDidLoad()</div><div class="line">    </div><div class="line">    <span class="keyword">let</span> activity = <span class="type">NSUserActivity</span>(activityType: <span class="string">"com.meitu.punmy.user"</span>)</div><div class="line">    <span class="comment">// 索引的标题</span></div><div class="line">    activity.title = user.name </div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) &#123;</div><div class="line">        <span class="comment">// 索引的属性集（只影响搜索结果的显示样式，不能用于存储数据）</span></div><div class="line">        <span class="keyword">let</span> attributeSet = <span class="type">CSSearchableItemAttributeSet</span>(itemContentType: kUTTypeContact <span class="keyword">as</span> <span class="type">String</span>) </div><div class="line">        <span class="comment">// 索引的描述</span></div><div class="line">        attributeSet.contentDescription = user.desc</div><div class="line">        <span class="comment">// 能被搜索到的关键词（索引的标题也能被搜索到）</span></div><div class="line">        attributeSet.keywords = [user.identifier, <span class="string">"punmy"</span>]</div><div class="line">        <span class="comment">// 与项目本身的 scheme 搭配使用，便于跳转 </span></div><div class="line">        <span class="keyword">let</span> scheme = <span class="string">"punmy://user?id=<span class="subst">\(user.identifier)</span>"</span></div><div class="line">        <span class="comment">// 关联已有的 SpotLight Item</span></div><div class="line">        attributeSet.relatedUniqueIdentifier = scheme </div><div class="line">        </div><div class="line">        activity.contentAttributeSet = attributeSet</div><div class="line">        </div><div class="line">        <span class="comment">// 只有 userInfo 中能够保存数据</span></div><div class="line">        activity.userInfo = [<span class="string">"scheme"</span>: scheme] </div><div class="line">        <span class="comment">// 是否建立索引</span></div><div class="line">        activity.isEligibleForSearch = <span class="literal">true</span></div><div class="line">        <span class="comment">// 是否支持 Handoff 功能</span></div><div class="line">        activity.isEligibleForHandoff = <span class="literal">false</span></div><div class="line">        <span class="comment">// 索引的过期时间，默认一个月</span></div><div class="line">        activity.expirationDate = <span class="type">Date</span>(timeIntervalSinceNow: <span class="number">7</span> * <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 激活 Activity</span></div><div class="line">    activity.becomeCurrent() </div><div class="line">    <span class="comment">// 必须对 Activity 进行强引用，否则 Activity 很可能不会被加入索引</span></div><div class="line">    <span class="keyword">self</span>.activity = activity</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// MARK: - Indexing activity</span></div><div class="line">    </div><div class="line"><span class="keyword">let</span> user</div><div class="line"><span class="keyword">var</span> activity? <span class="comment">// 务必对 Activity 进行强引用</span></div><div class="line">    </div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> {</div><div class="line">    <span class="keyword">super</span>.viewDidLoad()</div><div class="line">    </div><div class="line">    <span class="keyword">let</span> activity = <span class="type">NSUserActivity</span>(activityType: <span class="string">"com.meitu.punmy.user"</span>)</div><div class="line">    <span class="comment">// 索引的标题</span></div><div class="line">    activity.title = user.name </div><div class="line">    <span class="keyword">if</span> #available(iOS <span class="number">9.0</span>, *) {</div><div class="line">        <span class="comment">// 索引的属性集（只影响搜索结果的显示样式，不能用于存储数据）</span></div><div class="line">        <span class="keyword">let</span> attributeSet = <span class="type">CSSearchableItemAttributeSet</span>(itemContentType: kUTTypeContact <span class="keyword">as</span> <span class="type">String</span>) </div><div class="line">        <span class="comment">// 索引的描述</span></div><div class="line">        attributeSet.contentDescription = user.desc</div><div class="line">        <span class="comment">// 能被搜索到的关键词（索引的标题也能被搜索到）</span></div><div class="line">        attributeSet.keywords = [user.identifier, <span class="string">"punmy"</span>]</div><div class="line">        <span class="comment">// 与项目本身的 scheme 搭配使用，便于跳转 </span></div><div class="line">        <span class="keyword">let</span> scheme = <span class="string">"punmy://user?id=<span class="subst">\(user.identifier)</span>"</span></div><div class="line">        <span class="comment">// 关联已有的 SpotLight Item</span></div><div class="line">        attributeSet.relatedUniqueIdentifier = scheme </div><div class="line">        </div><div class="line">        activity.contentAttributeSet = attributeSet</div><div class="line">        </div><div class="line">        <span class="comment">// 只有 userInfo 中能够保存数据</span></div><div class="line">        activity.userInfo = [<span class="string">"scheme"</span>: scheme] </div><div class="line">        <span class="comment">// 是否建立索引</span></div><div class="line">        activity.isEligibleForSearch = <span class="literal">true</span></div><div class="line">        <span class="comment">// 是否支持 Handoff 功能</span></div><div class="line">        activity.isEligibleForHandoff = <span class="literal">false</span></div><div class="line">        <span class="comment">// 索引的过期时间，默认一个月</span></div><div class="line">        activity.expirationDate = <span class="type">Date</span>(timeIntervalSinceNow: <span class="number">7</span> * <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span>)</div><div class="line">    }</div><div class="line">    <span class="comment">// 激活 Activity</span></div><div class="line">    activity.becomeCurrent() </div><div class="line">    <span class="comment">// 必须对 Activity 进行强引用，否则 Activity 很可能不会被加入索引</span></div><div class="line">    <span class="keyword">self</span>.activity = activity</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
 <p>要完成这个任务，我们先要创建一个 <strong>NSUserActivity</strong>对象，用于保存当前页面的一些必要信息，以及要建立的索引的一些属性。</p>
 <p>创建 NSUserActivity 对象时，需要传入一个初始化参数<code>activityType</code>，这个<code>activityType</code>类似于 Core Spotlight 中的域名标识，只是作用上有些区别。在 Spotlight 等入口，搜索结果被点击时，系统会根据这个标识，去区分由哪个应用来恢复这个活动。在进入应用后，我们也能够在回调中，利用这个属性来区分活动。</p>
 <p>为了让系统知道我们的应用能处理哪些 activityType，我们也需要在 Info.plist 中，创建一个名为<code>NSUserActivityTypes</code>的 String 数组，标识出所有我们的应用能够处理的 activityType。</p>
@@ -334,7 +317,7 @@ var _hmt = _hmt || [];
 <p><strong>Note</strong>：Activity 在调用了 <code>becomeCurrent()</code> 方法激活后，必须对 Activity 进行强引用，防止它 dealloc 了，否则 Activity 很可能不会被加入索引。相关讨论见 Apple 论坛：<a href="https://forums.developer.apple.com/message/13640#13640" target="_blank" rel="external">Search APIs are working</a></p>
 </blockquote>
 <h3 id="2、实现回调-1"><a href="#2、实现回调-1" class="headerlink" title="2、实现回调"></a>2、实现回调</h3><p><strong>NSUserActivity</strong> 的回调入口与 <strong>Core Spotlight</strong> 的很相似。同样在<code>AppDelegate</code>中实现<code>application:continueUserActivity:restorationHandler:</code>方法，像上面说到的，我们可以通过 <code>userActivity</code> 的 <code>activityType</code> 属性来区分活动类型。此时<code>userActivity</code>的属性集也已经为空，只能访问到 <code>userInfo</code> 中的数据。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: [AnyObject]? -&gt; Void)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">if</span> userActivity.activityType == <span class="string">"com.meitu.punmy.user"</span> &#123;</div><div class="line">        <span class="comment">// Restore app state for this userActivity and associated userInfo value.</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: [AnyObject]? -&gt; Void)</span></span> -&gt; <span class="type">Bool</span> {</div><div class="line">    <span class="keyword">if</span> userActivity.activityType == <span class="string">"com.meitu.punmy.user"</span> {</div><div class="line">        <span class="comment">// Restore app state for this userActivity and associated userInfo value.</span></div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">}</div></pre></td></tr></tbody></table></figure>
 <h2 id="Web-markup"><a href="#Web-markup" class="headerlink" title="Web markup"></a>Web markup</h2><blockquote>
 <p>Engage Web Content</p>
 </blockquote>
@@ -372,9 +355,213 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/03/06/15158218121366.html" data-id="cjicwrh3d0009f6nnize0m7p4" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
+    <a data-url="http://punmy.cn/2017/03/06/15158218121366.html" data-id="cjicwsp750008gonn55m9fvqd" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+
+
+            
+    
+        <a href="http://punmy.cn/2017/03/06/15158218121366.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2017/03/06/15158218121366.html">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/08/04/15018607710939.html" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    五分钟重拾正则表达式
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/10/06/14757432517519.html" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">OSX/iOS 网络抓包工具 Charles 入门</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" class="title">iOS 最全面的功耗分析之——Power Log</a></p>
+                            <p class="item-date"><time datetime="2018-06-12T04:31:03.000Z" itemprop="datePublished">2018-06-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2018/06/07/条件变量（Condition Variables）.html" class="title">条件变量（Condition Variables）</a></p>
+                            <p class="item-date"><time datetime="2018-06-06T17:31:03.000Z" itemprop="datePublished">2018-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2017/08/31/15041894895980.html" class="title">HTTP/2 初探</a></p>
+                            <p class="item-date"><time datetime="2017-08-31T14:24:00.000Z" itemprop="datePublished">2017-08-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2017/08/04/15018607710939.html" class="title">五分钟重拾正则表达式</a></p>
+                            <p class="item-date"><time datetime="2017-08-04T15:01:00.000Z" itemprop="datePublished">2017-08-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2017/03/06/15158218121366.html" class="title">iOS Search APIs</a></p>
+                            <p class="item-date"><time datetime="2017-03-06T08:40:00.000Z" itemprop="datePublished">2017-03-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Categorias</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Article/" style="font-size: 10px;">Article</a> <a href="/tags/Camera/" style="font-size: 10px;">Camera</a> <a href="/tags/HTTP2/" style="font-size: 10px;">HTTP2</a> <a href="/tags/framework/" style="font-size: 10px;">framework</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/基础/" style="font-size: 16.67px;">基础</a> <a href="/tags/工具/" style="font-size: 13.33px;">工具</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/技能/" style="font-size: 10px;">技能</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            © 2018 Nico<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    
+
+
+
+
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+        
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+
+    </div>
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);;(function ($) {
         // Prevent duplicate binding
         if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
             __SHARE_BUTTON_BINDED__ = true;
@@ -435,172 +622,7 @@ var _hmt = _hmt || [];
 
             window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
         });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="http://punmy.cn/2017/03/06/15158218121366.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2017/03/06/15158218121366.html">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2017/08/04/15018607710939.html" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Newer</strong>
-            <div class="article-nav-title">
-                
-                    五分钟重拾正则表达式
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/10/06/14757432517519.html" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Older</strong>
-            <div class="article-nav-title">OSX/iOS 网络抓包工具 Charles 入门</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    
-        <section id="comments">
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-</section>
-    
-
-</section>
-            
-                
-<aside id="sidebar">
-   
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
-        <div class="widget">
-            <ul id="recent-post" class="no-thumbnail">
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
-                            <p class="item-title"><a href="/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" class="title">iOS 最全面的功耗分析之——Power Log</a></p>
-                            <p class="item-date"><time datetime="2018-06-12T04:31:03.000Z" itemprop="datePublished">2018-06-12</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
-                            <p class="item-title"><a href="/2018/06/07/条件变量（Condition Variables）.html" class="title">条件变量（Condition Variables）</a></p>
-                            <p class="item-date"><time datetime="2018-06-06T17:31:03.000Z" itemprop="datePublished">2018-06-07</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
-                            <p class="item-title"><a href="/2017/08/31/15041894895980.html" class="title">HTTP/2 初探</a></p>
-                            <p class="item-date"><time datetime="2017-08-31T14:24:00.000Z" itemprop="datePublished">2017-08-31</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
-                            <p class="item-title"><a href="/2017/08/04/15018607710939.html" class="title">五分钟重拾正则表达式</a></p>
-                            <p class="item-date"><time datetime="2017-08-04T15:01:00.000Z" itemprop="datePublished">2017-08-04</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
-                            <p class="item-title"><a href="/2017/03/06/15158218121366.html" class="title">iOS Search APIs</a></p>
-                            <p class="item-date"><time datetime="2017-03-06T08:40:00.000Z" itemprop="datePublished">2017-03-06</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">categories</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">2</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">archives</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li></ul>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap">
-        <h3 class="widget-title">tag cloud</h3>
-        <div class="widget tagcloud">
-            <a href="/tags/Article/" style="font-size: 10px;">Article</a> <a href="/tags/Camera/" style="font-size: 10px;">Camera</a> <a href="/tags/HTTP2/" style="font-size: 10px;">HTTP2</a> <a href="/tags/framework/" style="font-size: 10px;">framework</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/基础/" style="font-size: 16.67px;">基础</a> <a href="/tags/工具/" style="font-size: 13.33px;">工具</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/技能/" style="font-size: 10px;">技能</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
-        </div>
-    </div>
-
-    
-        
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="http://hexo.io">Hexo</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
-
-
-    
-    <div id="toTop" class="fa fa-angle-up"></div>
-</aside>
-
-            
-        </div>
-        <footer id="footer">
-    <div class="outer">
-        <div id="footer-info" class="inner">
-            &copy; 2018 Nico<br>
-            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
-        </div>
-    </div>
-</footer>
-        
-    
-    <script>
-    var disqus_config = function () {
+    })(jQuery);;var disqus_config = function () {
         
             this.page.url = 'http://punmy.cn/2017/03/06/15158218121366.html';
         
@@ -611,34 +633,4 @@ var _hmt = _hmt || [];
         s.src = '//' + 'punmy' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
-    })();
-</script>
-
-
-
-
-    
-        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
-    
-    
-        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-    
-    
-
-
-
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
-
-    </div>
-    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-</body>
-</html>
+    })();</script></body></html>
