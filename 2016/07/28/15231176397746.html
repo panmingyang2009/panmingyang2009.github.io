@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>心跳之旅—💗—iOS用手机摄像头检测心率(PPG) | Punmy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这是一个基于iOS的心率检测Demo，只要稳定地用指尖按住手机摄像头，它就能采集你的心率数据。Demo完成后，我对心率检测组件进行了封装，并提供了默认动画和音效，能够非常方便导入到其他项目中。在这篇博客里，我将向大家分享一下我完成心率检测的过程，以及，期间我遇到的种种困难。">
+<meta name="keywords" content="心率检测,摄像头,iOS,Camera,heart rate,心跳之旅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="心跳之旅—💗—iOS用手机摄像头检测心率(PPG)">
+<meta property="og:url" content="http://punmy.cn/2016/07/28/15231176397746.html">
+<meta property="og:site_name" content="Punmy">
+<meta property="og:description" content="这是一个基于iOS的心率检测Demo，只要稳定地用指尖按住手机摄像头，它就能采集你的心率数据。Demo完成后，我对心率检测组件进行了封装，并提供了默认动画和音效，能够非常方便导入到其他项目中。在这篇博客里，我将向大家分享一下我完成心率检测的过程，以及，期间我遇到的种种困难。">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/a.jpeg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/b.jpeg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/c.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/d.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/e.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/f.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/g.png">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/h.png">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/i.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/j.png">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/k.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/l.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/m.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/n.gif">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/o.png">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/p.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15231176397746/q.jpg">
+<meta property="og:updated_time" content="2018-04-07T17:04:26.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="心跳之旅—💗—iOS用手机摄像头检测心率(PPG)">
+<meta name="twitter:description" content="这是一个基于iOS的心率检测Demo，只要稳定地用指尖按住手机摄像头，它就能采集你的心率数据。Demo完成后，我对心率检测组件进行了封装，并提供了默认动画和音效，能够非常方便导入到其他项目中。在这篇博客里，我将向大家分享一下我完成心率检测的过程，以及，期间我遇到的种种困难。">
+<meta name="twitter:image" content="http://punmy.cn/media/15231176397746/a.jpeg">
+    
+
+    
+        <link rel="alternate" href="atom.xml" title="Punmy" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/css/images/avatar.jpg" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-82197397-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?feda8e6966219ebc3f2c8caf07bcb17b";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Punmy</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg" />
+            <h2 id="name">Punmy</h2>
+            <h3 id="title">Codes, thoughts and stories.</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Xiamen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/panmingyang2009">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                7
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                11
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/panmingyang2009" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://twitter.com/imEric_Young" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://www.facebook.com/myericyoung" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://weibo.com/imericyoung" target="_blank" title="dribbble" class=tooltip>
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class=tooltip>
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-15231176397746" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            心跳之旅—💗—iOS用手机摄像头检测心率(PPG)
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/07/28/15231176397746.html">
+            <time datetime="2016-07-28T12:56:00.000Z" itemprop="datePublished">2016-07-28</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Code/">Code</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Article/">Article</a>, <a class="tag-link" href="/tags/Camera/">Camera</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>[前情提要] 光阴似箭，日月如梭，最近几年，支持心率检测的设备愈发常见了，大家都在各种测空气测雪碧的，如火如荼，于是我也来凑一凑热闹。<strong>[0]</strong><br>这段时间，我完成了一个基于iOS的心率检测Demo，只要稳定地用指尖按住手机摄像头，它就能采集你的心率数据。Demo完成后，我对心率检测组件进行了封装，并提供了默认动画和音效，能够非常方便导入到其他项目中。在这篇博客里，我将向大家分享一下我完成心率检测的过程，以及，期间我遇到的种种困难。</p>
+<a id="more"></a>
+<h4 id="本文中涉及到的要点主要有："><a href="#本文中涉及到的要点主要有：" class="headerlink" title="本文中涉及到的要点主要有："></a>本文中涉及到的要点主要有：</h4><ul>
+<li>AVCapture</li>
+<li>Core Graphics</li>
+<li>Delegate &amp; Block</li>
+<li>RGB -&gt; HSV</li>
+<li>带通滤波</li>
+<li>基音标注算法（TP-Psola）</li>
+<li>光电容积脉搏波描记法（PhotoPlethysmoGraphy, PPG）</li>
+</ul>
+<p>在开始之前，我先为大家展示一下最后成品的效果：</p>
+<p><img src="/media/15231176397746/a.jpeg" alt="心率检测的ViewController"></p>
+<p>上图展示的是心率检测过程中的主要界面。<br>在检测的过程中，应用能够实时捕捉心跳的波峰，计算相应的心率，并以Delegate或Block的形式回调，在界面上显示相应的动画和音效。</p>
+<hr>
+<p>##〇、剧情概览</p>
+<p>好吧，😂其实上面的前情提要都是我瞎掰的，这个Demo是我来到公司的第一天接到的任务。刚接到任务的时候其实是有点懵逼的，原本以为刚入职两天可能都是要看看文档，或者拖拖控件，写写界面什么的，结果Xcode都还没装好，突然接到一个心率检测的任务，顿时压力就大起来了😨，赶紧拍拍屁股起来找资料。</p>
+<p>心率检测的APP在我高三左右就有了，我清楚地记得当时，年少无知的我还误以为，大概又是哪个刁民闲着无聊恶搞的流氓应用，特地下载下来试了一下，没想到居然真的能测。。。<br><img src="/media/15231176397746/b.jpeg" alt="总有刁民想害朕"><br>当时就震惊地打开了某度查了这类应用的原理。所以现在找起资料来还是比较有方向性的。</p>
+<p>花了一天的时间找资料，发现在手机心率检测方面，网上相关的东西还是比较少。不过各种资料参考下来，基本的实现思路已经有了。</p>
+<blockquote>
+<p><strong>任务清单</strong></p>
+<ul>
+<li>实现心率检测</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="一、整体思路"><a href="#一、整体思路" class="headerlink" title="一、整体思路"></a>一、整体思路</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>首先说一说用手机摄像头实现心率检测所用到的原理。<br>我们知道，现在市面上有非常多具备心率检测功能的可穿戴设备，比如各种手环以及各种Watch，其实从本质上讲，我们这次要用到的原理跟这些可穿戴设备所用到的原理并无二致，它们都是基于<strong>光电容积脉搏波描记法（PhotoPlethysmoGraphy, PPG）</strong>。</p>
+<p><img src="/media/15231176397746/c.jpg" alt="iWatch的心率传感器发出的绿光"></p>
+<p>PPG是追踪可见光（通常为绿光）在人体组织中的反射。它具备一个可见光<strong>光源</strong>来照射皮肤，再使用<strong>光电传感器</strong>采集被皮肤反射回来的光线。PPG有两种模式，透射式和<strong>反射式</strong>，像一般的手环手表这样，光源和传感器在同一侧的，就是反射式；而医院中常见的夹在指尖上的通常是透射式的，即光源和传感器在不同侧。<br>皮肤本身对光线的反射能力是相对稳定的，但是心脏泵血使得血管容积周期性地变化，导致反射光也呈现出<strong>周期性的波动值</strong>，特别是在指尖这种毛细血管非常丰富的部位，这种周期性的波动很容易被观察到。</p>
+<blockquote>
+<p>使用iPhone的系统相机就可以轻易地用肉眼观察到这种波动——在录像中打开闪光灯，然后用手指轻轻覆盖住摄像头，就能观察到满屏的红色图像会随着心跳产生一阵一阵的明暗变化，如下图（请忽略满屏的摩尔纹）。</p>
+</blockquote>
+<p><img src="/media/15231176397746/d.jpg" alt="直接用肉眼就能观察到相机图像的明暗变化"></p>
+<p>至于，为什么可穿戴设备上用的光源大多数都是绿光，我们用手机闪光灯的白光会不会有问题。这主要是因为绿光在心率检测中产生的信噪比比较大，有利于心率的检测，用白光也是完全没问题的。详情可以移步知乎：<a href="https://www.zhihu.com/question/27391584" target="_blank" rel="external">各种智能穿戴的心率检测功能</a> 。我在这里就不细说了。</p>
+<h3 id="我的思路"><a href="#我的思路" class="headerlink" title="我的思路"></a>我的思路</h3><p>我们已经知道我们需要用闪光灯和摄像头来充当PPG的光源和传感器，那么下面就来分析一下后续整体的方案。下面是我搜集完数据之后大致画出的一个流程图。</p>
+<p><img src="/media/15231176397746/e.jpg" alt="整体思路"></p>
+<ol>
+<li>首先我们需要采集相机的数据，这一步可以使用AVCapture；</li>
+<li>然后按照某种算法，对每一帧图像计算出一个相应的<strong>特征值</strong>并保存到数组中，算法可以考虑取<strong>红色分量</strong>或者转换为<strong><a href="https://zh.wikipedia.org/wiki/HSL和HSV色彩空间" target="_blank" rel="external">HSV</a></strong>再计算；</li>
+<li>在得到一定量的数据后，我们对这个时间段内的数据进行<strong>预处理</strong>，譬如进行滤波，过滤掉一些噪声，可以参考一篇博客：<a href="http://blog.csdn.net/shengzhadon/article/details/46803401" target="_blank" rel="external">巴特沃斯滤波器</a>；</li>
+<li>接下来，就可以进行心率计算，这一步可能涉及到一些数字信号处理的内容，例如<strong>波峰检测</strong>，信号<strong>频率</strong>计算，可以使用Accelerate.Framework的vDSP处理框架，Accelerate框架的用法可以参考：<a href="http://stackoverflow.com/questions/3398753/using-the-apple-fft-and-accelerate-framework" target="_blank" rel="external">StackOverFlow的一个回答</a>（最终我并没有使用，原因后面会提到）；</li>
+<li>最终就可以得到心率。</li>
+</ol>
+<hr>
+<h2 id="二、初步实现"><a href="#二、初步实现" class="headerlink" title="二、初步实现"></a>二、初步实现</h2><p>有了大概的方案之后，我决定着手进行实现了。</p>
+<h4 id="1）视频流采集"><a href="#1）视频流采集" class="headerlink" title="1）视频流采集"></a>1）视频流采集</h4><p>我们前面已经提到，我们要用AVCapture进行视频流的采集。在使用AVCapture的时候，需要先建立AVCaptureSession，相当于是一个传输流，用来连接数据的输入输出，然后分别建立输入和输出的连接。因此，为了更加直观，我先做了一个类似于相机的Demo，把AVCapture采集到的相机图像直接传输到一个Layer上。</p>
+<ol>
+<li><p><strong>创建AVCaptureSession</strong><br>AVCaptureSession的配置过程类似于一次数据库事务的提交。开始配置前必须调用<code>[_session beginConfiguration];</code>来开始配置；完成所有的配置工作后，再调用<code>[_session commitConfiguration];</code>来提交此次配置。<br>因此，整个配置过程大致是这样的：</p>
+<pre><code>/** 建立输入输出流 */
+_session = [AVCaptureSession new];
+/** 开始配置AVCaptureSession */
+[_session beginConfiguration];
+/*
+ * 配置session
+ * （建立输入输出流）
+ * ...
+ */
+/** 提交配置，建立流 */
+[_session commitConfiguration];
+/** 开始传输数据流 */
+[_session startRunning];       
+</code></pre></li>
+<li><p><strong>建立输入流From Camera</strong><br>要从相机建立输入流，就得先获取到照相机设备，并且对它进行相应的配置。这里对照相机的配置最关键的是要打开闪光灯常亮。此外，再设置一下白平衡、对焦等参数的锁定，来保证后续的检测过程中，不会因为相机的自动调整而导致特征值不稳定。</p>
+<pre><code>/** 获取照相机设备并进行配置 */
+AVCaptureDevice *device = [self getCameraDeviceWithPosition:AVCaptureDevicePositionBack];
+if ([device isTorchModeSupported:AVCaptureTorchModeOn]) {
+    NSError *error = nil;
+    /** 锁定设备以配置参数 */
+    [device lockForConfiguration:&amp;error];
+    if (error) {
+        return;
+    }
+    [device setTorchMode:AVCaptureTorchModeOn];
+    [device unlockForConfiguration];//解锁
+}
+</code></pre><p>需要注意的是，照相机Device的配置过程中，需要事先<strong>锁定</strong>它，锁定成功后才能进行配置。并且，在配置闪光灯等参数前，必须事先判断当前设备是否支持相应的闪光灯模式或其他功能，确保当前设备支持才能够进行设置。<br>此外，对于相机的配置，还有一点非常重要：<strong>记得调低闪光灯亮度！！</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>长期打开闪光灯会使得电池发热，这对电池是一种伤害。在我调试的过程中，曾经无数次调着调着忘了闪光灯还没关，最后整只手机发热到烫手的程度才发现，直接进化成小米~ 所以，尽量将闪光灯的亮度降低，经过我的测试，即使闪关灯亮度开到最小也能够测得清晰的心率。</p>
+</blockquote>
+<p>  接下来就是利用配置好的device<strong>创建输入流：</strong></p>
+<pre><code>/** 建立输入流 */
+NSError *error = nil;
+AVCaptureDeviceInput *deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:device
+                                                                          error:&amp;error];
+if (error) {
+    NSLog(@&quot;DeviceInput error:%@&quot;, error.localizedDescription);
+    return;
+}
+</code></pre><ol>
+<li><p><strong>建立输出流 To AVCaptureVideoDataOutput</strong><br>建立输出流需要用到<code>AVCaptureVideoDataOutput</code>类。我们需要创建一个<code>AVCaptureVideoDataOutput</code>类并设置它的像素输出格式为32位的<strong>BGRA</strong>格式，这似乎是iPhone相机的默认格式<em>（经@熊皮皮提出，除了这种格式，还有两种YUV的格式）</em>。后续我们读取图像Buffer中的像素时，也是按照这个顺序（BGRA）去读取像素点的数据。设置中需要用一个<code>NSDictionary</code>来作为参数。<br>我们还要设置<code>AVCaptureVideoDataOutput</code>的代理，并创建一个新的线程（FIFO）来给输出流运行。</p>
+<pre><code>/** 建立输出流 */
+AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];
+NSNumber *BGRA32PixelFormat = [NSNumber numberWithInt:kCVPixelFormatType_32BGRA];
+NSDictionary *rgbOutputSetting;
+rgbOutputSetting = [NSDictionary dictionaryWithObject:BGRA32PixelFormat
+                                               forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+[videoDataOutput setVideoSettings:rgbOutputSetting];    // 设置像素输出格式
+[videoDataOutput setAlwaysDiscardsLateVideoFrames:YES]; // 抛弃延迟的帧
+dispatch_queue_t videoDataOutputQueue = dispatch_queue_create(&quot;VideoDataOutputQueue&quot;, DISPATCH_QUEUE_SERIAL);
+[videoDataOutput setSampleBufferDelegate:self queue:videoDataOutputQueue];
+</code></pre></li>
+<li><p><strong>连接到AVCaptureSession</strong><br>建立完输入输出流，就要将它们和<code>AVCaptureSession</code>连接起来啦！<br>这里需要注意的是，必须先判断是否能够添加，再进行添加操作，如下所示。</p>
+<pre><code>if ([_session canAddInput:deviceInput])
+    [_session addInput:deviceInput];
+if ([_session canAddOutput:videoDataOutput])
+    [_session addOutput:videoDataOutput];
+</code></pre></li>
+<li><p><strong>实现代理协议的方法，获取视频帧</strong><br>上面的步骤中，我们将<code>self</code>设为<code>AVCaptureVideoDataOutput</code>的<code>delegate</code>，那么现在我们就要在self中实现<code>AVCaptureVideoDataOutputSampleBufferDelegate</code>的方法<code>xxx didOutputSampleBuffer xxx</code>，这样在视频帧到达的时候我们就能够在这个方法中获取到它。</p>
+<pre><code>#pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate &amp; Algorithm
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+    didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+    fromConnection:(AVCaptureConnection *)connection {
+    /** 读取图像Buffer */
+    CVPixelBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    //
+    // 我们可以在这里
+    // 计算这一帧的
+    // 特征值。。。
+    //
+    /** 转成位图以便绘制到Layer上 */
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    /** 绘图到Layer上 */
+    id renderedImage = CFBridgingRelease(quartzImage);
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [CATransaction setDisableActions:YES];
+        [CATransaction begin];
+        _imageLayer.contents = renderedImage;
+        [CATransaction commit];
+    });
+}
+</code></pre></li>
+</ol>
+<p>做到这里，我们已经获得了一个类似于相机的Demo，在屏幕上可以输出摄像头采集的画面了，接下来，我们就要在这个代理方法中对每一帧图像进行特征值的计算。</p>
+<h4 id="2）采样（计算特征值）"><a href="#2）采样（计算特征值）" class="headerlink" title="2）采样（计算特征值）"></a>2）采样（计算特征值）</h4><p>采样过程中，最关键的就是如何将一幅图像转换为一个对应的特征值。<br>我先将所有像素点转换为一个像素点（RGB）：</p>
+<p><img src="/media/15231176397746/f.jpg" alt="累加合成一个像素点"></p>
+<p>转换成一个像素点之后，我们只剩下RGB三个数值，事情就变简单得多。在设计采样的算法的过程中，我进行了许多种尝试。<br>我先试着简单地使用R、G、B分量中的其中一个直接作为信号输入，结果都不理想。</p>
+<p><strong>- HSV色彩空间</strong><br>想到之前图形学的课上有介绍过<strong><a href="https://zh.wikipedia.org/wiki/HSL和HSV色彩空间" target="_blank" rel="external">HSV色彩空间</a></strong>，是将颜色表示为色相、饱和度、明度（Hue, Saturation, Value）三个数值。</p>
+<p>  <img src="/media/15231176397746/g.png" alt="HSV色彩空间\[5\]"><br>我想，既然肉眼都能观察到图像颜色的变化，而RGB又没有明显的反映，那HSV的三个维度中应该有某个维度是能够反映出它的变化的。我便试着转换为HSV，结果发现<strong>色相H</strong>随脉搏的变化很明显！于是，我就先确定用H值来作为特征值。</p>
+<p>我简单地用Core Graphics直接在图像的Layer上画出H数值的折线：</p>
+<p><img src="/media/15231176397746/h.png" alt="色相H随脉搏的变化"></p>
+<h4 id="3）心率计算"><a href="#3）心率计算" class="headerlink" title="3）心率计算"></a>3）心率计算</h4><p>为了使得曲线更加直观，我对特征值稍做处理，又改变了一下横坐标的比例，得到如下截图。现在心率信号稳定以后，波峰已经比较明显了，我们开始进行心率的计算。</p>
+<p><img src="/media/15231176397746/i.jpg" alt="缩放后，稳定的时候的心率信号"></p>
+<p>最初，我想到的是利用<a href="http://stackoverflow.com/questions/3398753/using-the-apple-fft-and-accelerate-framework" target="_blank" rel="external">快速傅里叶变换（FFT）</a>对信号数组进行处理。FFT可以将时域的信号转换成<strong>频域</strong>的信号，也就得到了一段信号在各个频率上的分布，这样，我们就能通过判断占比最大的频率，就差不多能确定心率了。<br>但是可能由于我缺乏信号处理的相关知识，经过将近两天的研究，我还是看不懂跟高数课本一样的文档。。。<br>于是我决定先用<strong>暴力</strong>的方法算出心率，等能用的Demo出来之后，看看效果如何，再考虑研究算法的优化。</p>
+<blockquote>
+<p>通过上面的曲线，我们可以看出，在信号稳定的时候，波峰还是比较清晰的。因此我想，我可以设置一个<strong>阈值</strong>，进行<strong>波峰的检测</strong>，只要信号超过阈值，就判定该帧处于一个波峰。然后再设置一个<strong>状态机</strong>，完成波峰波谷之间的状态转换，就能检测出波峰了。<br>因为从AVCapture得到的图像帧数为<strong>30帧</strong>，也就是说，每一帧代表1/30s的时间。那么我只需要数一数从第一个波峰到最后一个波峰之间，经过了多少帧，检测到了多少波峰，那么，就能算出每个波峰间的周期，也就能算出<strong>心率</strong>了。</p>
+</blockquote>
+<p>这个想法非常简单，但是存在一个问题，那就是，<strong>阈值的设置</strong>。波峰的凸起程度并不是恒定的，有时明显，有时微弱。因此，一个固定的阈值肯定不能满足实际检测的需求。于是我想到我们可以根据心跳曲线波动的上下范围，来<strong>实时确定</strong>一个合适的阈值。我做了如下修改：</p>
+<blockquote>
+<p>每次进行心率计算的时候，先找出整个数组的极大和极小值，确定数据上下波动的范围。<br>然后，根据这个范围的一个百分比，来确定阈值。</p>
+</blockquote>
+<p>也就是说，一个特征值只有超过了整组数据的百分之多少，它才会被判定为波峰。<br>根据这个方法，我每隔一段时间对数据进行一遍检测，在Demo中实现了心率的计算，又对界面进行了简单的实现，大致的效果如下。</p>
+<p><img src="/media/15231176397746/j.png" alt="缩放后，稳定的时候的心率信号"></p>
+<p>使用的过程中还存在一定程度的误检率，不过总算是实现了心率检测~ 🎉🎉🎉</p>
+<hr>
+<h2 id="三、性能优化"><a href="#三、性能优化" class="headerlink" title="三、性能优化"></a>三、性能优化</h2><p>在我粗略实现了心率检测的功能后，Leader提出了对性能进行优化的要求，顺便向我普及了一波Instruments的用法（以前我一直没有用过🙊）。</p>
+<p><strong>任务清单</strong></p>
+<ul>
+<li>性能优化</li>
+<li>封装组件（delegate或block的形式）；</li>
+<li>提供两种默认动画；</li>
+</ul>
+<p>我用Instrument分析了心率检测过程中的CPU占用，发现占用率很高，维持在50%~60%左右。不过这在我的预料中，因为我的算法确实很暴力😂——每帧的图像是1920x1080尺寸的，在1/30秒内，要对这200多万个像素点进行遍历计算，还要转换成位图显示在layer上，隔一段时间还要计算一次心率。。。</p>
+<p>我分析了CPU占用比较多的部分，归纳了几个可以考虑优化的方向</p>
+<ul>
+<li>降低采样范围</li>
+<li>降低采样率</li>
+<li>取消AV输出</li>
+<li>降低分辨率</li>
+<li>改进算法，去除冗余计算</li>
+</ul>
+<ol>
+<li>降低采样范围<br>现在的采样算法是对所有的像素点进行一次采样，我想着是否能够缩小采样的范围，例如只对中间某块区域采样，但试验后我发现，只对某块区域采样会使得检测到的波峰变得模糊，说明个别区域的采样并不具有代表性。<br>接着我又想到了一个新的办法。我发现图像中，临近像素点的颜色差异很小，那么我可以跳跃着采样，每隔几列、每隔几行采样一次，这样一方面可以减少工作量，一方面对采样的效果的影响也可以减少。</li>
+</ol>
+<p><img src="/media/15231176397746/k.jpg" alt="跳跃着采样"></p>
+<p> 采样的方式就像上图展示的一样，再设置一个常量用来调节每次跳跃的间距。这样一来，理论上，每次占用的时间就可以降低为原来的1/n^2，大大减少。经过几次尝试后，可以看到，采样算法所在的函数的CPU占用比例由原来的31%降低到了14%了。</p>
+<blockquote>
+<p>在分析CPU占用时，我发现在循环中对RGB分别累加时，第一个R的运算占用100倍以上的时间。开始时以为可能是Red分量数值较大，计算难度大，Leader建议我使用位运算，但是我改成位运算后，瓶颈依旧存在，弄得我十分困惑。后来我试着把RGB的计算顺序换一下，结果发现，瓶颈和R无关，不论RGB，只要谁在第一位，谁就会成为瓶颈。后来我想到，这应该是CPU和内存之间的数据传输造成的瓶颈，因为像素点都存在一块很大的内存块里，在取第一个数据的时候可能速度比较慢，然后后面取临近数据的时候可能就有Cache了，所以速度回提高两个数量级。</p>
+</blockquote>
+<ol>
+<li>降低采样率<br>降低采样率就是将视频的帧数降低，我记得，不知道是香农还是谁，有一个定理，大概的意思就是说，采样率只要达到频率的两倍以上，就能检测出信号的频率。<br>（<strong>经<a href="http://www.jianshu.com/users/d67ddecd40fe/" target="_blank" rel="external">coderMoe</a>童鞋指出，此处正式名称为“奈奎斯特–香农采样定理”</strong>）<br>人的心跳上限一般是160/分钟，也就是不到3Hz，那理论上，我们的采样率只要达到6帧/秒以上，就能够计算出频率。<br>不过，由于我之前使用的算法还不是特别稳定，所以，当时我没有对采样率进行改变。</li>
+</ol>
+<ul>
+<li><p>取消AV输出<br>之前我为了方便看效果，将采集到的视频图像输出到了界面上的一层Layer上，其实这个画面完全没必要显示出来。因此我去除了这部分的功能，这样一来，整体的CPU占用就降低到了33%以下。</p>
+</li>
+<li><p>降低分辨率<br>目前我们采集视频的大小是1920x1080，其实我们并不需要分辨率这么高。降低分辨率一方面可以减少需要计算的像素点，另一方面可以减少IO的时间。<br>在我将分辨率降低到640x480：</p>
+<pre><code>if ([_session canSetSessionPreset:AVCaptureSessionPreset640x480]) {
+    /** 降低图像采集的分辨率 */
+    [_session setSessionPreset:AVCaptureSessionPreset640x480];
+}
+</code></pre></li>
+</ul>
+<p>结果非常惊人，整体的CPU占用率直接降低到了<strong>5%</strong>左右！</p>
+<ul>
+<li>改进算法，去除冗余计算<br>最后，我对算法中一些冗余的计算进行了优化，不过，由于CPU占用已经降低到了5%左右，真正的瓶颈已经消除，所以这里的改进并没有很明显的变化。</li>
+</ul>
+<hr>
+<h2 id="四、封装"><a href="#四、封装" class="headerlink" title="四、封装"></a>四、封装</h2><p>此前，我们已经完成了一个大致可用的心率监测Demo，但在此之前，我着重考虑的都是如何尽快实现心率检测的功能，对整体的结构和对象的封装都没有太多的考虑，简直把OC的面向对象用成了面向过程。<br>那么我们接下来的一个重要任务，就是对我们的心率检测进行<strong>封装</strong>，使它成为一个可复用的组件。</p>
+<p><strong>任务清单</strong></p>
+<ul>
+<li>封装组件并提供合理接口（delegate或block的形式）；</li>
+<li>提供两种默认动画；</li>
+</ul>
+<h4 id="封装ViewController"><a href="#封装ViewController" class="headerlink" title="封装ViewController"></a>封装ViewController</h4><p>最开始的时候，我想到的是对ViewController进行封装，这样别人有需要心率检测的时候，就可以弹出一个心率监测的ViewController，上面带有一些检测过程中的动画效果，检测完成后自动dismiss，并且返回检测到的心率。<br>我在protocol中声明了三个接口：</p>
+<pre><code>/**
+ * 心率检测ViewController的代理协议
+ */
+@protocol MTHeartBeatsCaptureViewControllerDelegate &lt;NSObject&gt;
+@optional
+- (void)heartBeatsCaptureViewController:(MTHeartBeatsCaptureViewController *)captureVC
+              didFinishCaptureHeartRate:(int)rate;
+- (void)heartBeatsCaptureViewControllerDidCancel:(MTHeartBeatsCaptureViewController *)captureVC;
+- (void)heartBeatsCaptureViewController:(MTHeartBeatsCaptureViewController *)captureVC
+                       DidFailWithError:(NSError *)error;
+@end
+</code></pre><p>我将三个方法都设为了optional的，因为我还在ViewController中设置了三个相应的Block供外部使用，分别对应三个方法。</p>
+<pre><code>@property (nonatomic, copy)void(^didFinishCaptureHeartRateHandle)(int rate);
+@property (nonatomic, copy)void(^didCancelCaptureHeartRateHandle)();
+@property (nonatomic, copy)void(^didFailCaptureHeartRateHandle)(NSError *error);
+</code></pre><h4 id="封装心率检测类"><a href="#封装心率检测类" class="headerlink" title="封装心率检测类"></a>封装心率检测类</h4><p>对ViewController进行封装之后，我们可以看到，还是比较<strong>不合理</strong>的。这意味着别人只能使用我们封装起来的界面进行心率检测，如果使用组件的人有更好的交互方案，或者有特殊的逻辑需求，那他使用起来就会很不方便。因此，我们很有必要进行<strong>更深层次的封装</strong>。<br>接下来，我将会剥离出心率检测的类，进行封装。</p>
+<p>首先，我一点点剥离出心率检测的关键代码，放进新的<code>MTHeartBeatsCapture</code>类中。剥离的差不多之后，就发现满屏的代码都是红色的Error😲，花了一个下午，才把项目恢复到能运行的状态。</p>
+<p>我在心率检测类中设置了两个方法：<strong>启动和停止</strong>。使用起来很方便。</p>
+<pre><code>/** 开始检测心率 */
+- (NSError *)start;
+/** 停止检测心率 */
+- (void)stop;
+</code></pre><p>然后，我重新设计了一个心率检测器的<strong>回调接口</strong>，依旧是delegate和block并存的。新的接口如下：</p>
+<pre><code>/**
+ * 心率检测器的代理协议;
+ * 可以选择Delegate或者block来获得通知,
+ * 因此protocol中所有方法均为可选方法
+ */
+@protocol MTHeartBeatsCaptureDelegate &lt;NSObject&gt;
+@optional
+/** 检测到一次波峰（跳动）,可通过返回值选择是否停止检测 */
+- (BOOL)heartBeatsCapture:(MTHeartBeatsCapture *)capture heartBeatingWithRate:(int)rate;
+/** 失去稳定信号 */
+- (void)heartBeatsCaptureDidLost:(MTHeartBeatsCapture *)capture;
+/** 得到新的特征值（30帧/秒） */
+- (void)heartBeatsCaptureDataDidUpdata:(MTHeartBeatsCapture *)capture
+@end
+</code></pre><p>我在新的接口中加入了<code>heartBeatsCaptureDidLost:</code>，方便在特征值波动剧烈的时候进行回调，这样外部就能提醒用户姿势不对。而第三个方法，则是为了之后外部的动画view能够做出类似于心电图一样的动画效果，而对外传出数据。<br>我还移除了检测成功的回调<code>didFinishCaptureHeartRate:</code>，换成了<code>heartBeatingWithRate:</code>，把成功时机的判断交给了外部，当外部的开发人员认为检测的心率足够稳定了，就可以返回YES来停止检测。<br>此外，我还移除了遇到错误的回调<code>DidFailWithError:</code>，因为我发现，几乎所有可能遇到的错误，都是发生在开始前的准备阶段，因此，我改成了在<code>start</code>方法中返回<strong>错误信息</strong>，并且枚举出错误类型作为code，封装成<strong>NSError</strong>。</p>
+<pre><code>typedef NS_OPTIONS(NSInteger, CaptureError) {
+    CaptureErrorNoError             = 0,        /**&lt; 没有错误 */
+    CaptureErrorNoAuthorization     = 1 &lt;&lt; 0,   /**&lt; 没有照相机权限 */
+    CaptureErrorNoCamera            = 1 &lt;&lt; 1,   /**&lt; 不支持照相机设备，很可能处于模拟器上 */
+    CaptureErrorCameraConnectFailed = 1 &lt;&lt; 2,   /**&lt; 相机出错，无法连接到照相机 */
+    CaptureErrorCameraConfigFailed  = 1 &lt;&lt; 3,   /**&lt; 照相机配置失败，照相机可能被其他程序锁定 */
+    CaptureErrorTimeOut             = 1 &lt;&lt; 4,   /**&lt; 检测超时，此时应提醒用户正确放置手指 */
+    CaptureErrorSetupSessionFailed  = 1 &lt;&lt; 5,   /**&lt; 视频数据流建立失败 */
+};
+</code></pre><p>主要的工作完成后，Leader给我提了不少意见，主要还是封装上存在的一些问题，很多地方没有必要对外公开，应该尽可能地<strong>对外隐藏</strong>，接口也应该尽量地精简，没必要的功能要尽可能的去掉。特别是对外公开的一个特征值数组（NSMutableArray），对外应该不可变，这一点我一直没有考虑到。</p>
+<h4 id="封装动画-amp-改进动画"><a href="#封装动画-amp-改进动画" class="headerlink" title="封装动画&amp;改进动画"></a>封装动画&amp;改进动画</h4><p>心率检测类封装完成后，我又剥离出显示心跳波形的部分，封装成一个<code>MTHeartBeatsWaveView</code>，使用的时候只要将动画View赋给<code>MTHeartBeatsCapture</code>作为delegate，该view上就能获取到特征值数据并进行显示。</p>
+<p><strong>动画改进：</strong>在测试的过程中，我发现波形动画显示的<strong>波形</strong>不太理想，View的大小是初始化的时候就确定的，但是心跳波动的<strong>幅度变化</strong>是比较大的，有时候一马平川，堪比飞机场，有时候波澜壮阔，直接超出View的范围。<br>因此我对动画的显示做了一个改进：能够根据当前波形的<strong>范围</strong>，计算出合适的缩放比，对心跳曲线的Y坐标进行动态的<strong>缩放</strong>，使它的上下幅度适合当前的View。<br>这个改进大大提高了用户体验。</p>
+<hr>
+<h2 id="五、优化"><a href="#五、优化" class="headerlink" title="五、优化"></a>五、优化</h2><p>我们可以看到，先前得到的曲线已经能较好地反映出心脏的搏动，但是现在进行心率的计算还是存在一定的<strong>误检率</strong>。上图中展示的清晰的心跳曲线，实际上是比较<strong>理想的时候</strong>，测试中会发现，采样得到的数据经常存在较大的<strong>噪声和扰动</strong>，导致心率计算中经常会有波峰的误判。因此，我在以下两方面做了优化，来提高心率检测的准确度。</p>
+<h4 id="1、在预处理环节进行滤波"><a href="#1、在预处理环节进行滤波" class="headerlink" title="1、在预处理环节进行滤波"></a>1、在预处理环节进行滤波</h4><p><img src="/media/15231176397746/l.jpg" alt="得到的曲线有时含有比较多的噪声"></p>
+<p> 分析一下心率曲线里的噪声，我们会发现，噪声中含有一些<strong>高频噪声</strong>，这部分噪声可能是手指的细微抖动造成的，也可能是相机产生的一些噪点。因此，我找到了一个简易的实时的<strong>带通滤波器</strong>，对之前我们采样获得到的H值进行处理，滤除了一部分高频和低频的噪声。</p>
+<p><img src="/media/15231176397746/m.jpg" alt="加入滤波器处理后的心率信号"></p>
+<p>在经过滤波器的处理之后，我们得到的曲线就更加平滑啦。</p>
+<h4 id="2、参考TP-Psola算法，排除伪波峰"><a href="#2、参考TP-Psola算法，排除伪波峰" class="headerlink" title="2、参考TP-Psola算法，排除伪波峰"></a>2、参考TP-Psola算法，排除伪波峰</h4><p>经过滤波器的处理之后，我们会发现，在每个心跳周期中，总会有一个小波峰，因为它不是真正的波峰，因此我称它为“<strong>伪波峰</strong>”，这个伪波峰非常明显，有时也会干扰到我们心率的检测，被算法误判为心跳波峰，导致心率直接<strong>翻倍</strong>。</p>
+<p>这个伪波峰出现是因为，除了外部的噪声之外，心脏本身的跳动周期中也会出现许多的“<strong>杂波</strong>”。我们来看一次心跳的完整过程。</p>
+<p><img src="/media/15231176397746/n.gif" alt="心电图波形产生过程的动画 \[1\]"></p>
+<p>上图是一次心跳周期中，心脏的状态变化以及对应产生的波段。可以看到，在心脏收缩前后，人体也会有电信号刺激心脏舒张，这在心电图上会表现出若干次的波动。而血压也会有相应的变化，我们检测到的数据的波动就是这样形成的。</p>
+<p><img src="/media/15231176397746/o.png" alt="正常心电周期 \[2\]"></p>
+<p>因此，这个伪波峰的形成是无法避免的，现有的通过阈值来判断波峰的方法很容易被欺骗，还是要考虑算法的改进，因此我又想到了快速傅里叶变换。</p>
+<p>由于我对信号处理知之甚少，我看了两天的快速傅里叶，还是没有进展。于是我请教了部门里的前辈们，大家非常热情，推荐了不少方案和资料。其中一位实验室音频处理的博伟学长，碰巧在新人入职培训时和我分到了同一组，我就趁着闲暇的时候请教了他一些相关的问题。他觉得心率的波形比较简单，没必要用快速傅里叶变换，并且向我推荐了<strong>基音检测</strong>算法。</p>
+<p><img src="/media/15231176397746/p.jpg" alt="基音标注"></p>
+<p>简单地说，这个算法会标注出可能的波峰，然后通过动态规划排除掉伪波峰，就能得到真正的波峰啦。我根据这个算法的思路，实现了一个简化版的伪波峰排除算法。经过改进后的心率检测，经测试准确度达到了和Apple watch差不多的程度。（自我感觉良好😂，求轻喷~~）</p>
+<h4 id="实时波峰检测"><a href="#实时波峰检测" class="headerlink" title="实时波峰检测"></a>实时波峰检测</h4><p>我还希望提供一个实时的心跳动画，因此我还实现了一个实时的波峰检测。这样每次检测到一个波峰之后，就可以立刻通知delegate或者block，在界面上做出动画。</p>
+<p><img src="/media/15231176397746/q.jpg" alt="心率检测的ViewController"></p>
+<hr>
+<h2 id="歇-后-语"><a href="#歇-后-语" class="headerlink" title="歇-后-语"></a>歇-后-语</h2><blockquote>
+<p>由于这一章节是<strong>歇</strong>了一阵子之后才写的，因此我把它叫做——<strong>歇后语</strong>。</p>
+</blockquote>
+<p>这个心率检测的项目前后一共做了三个礼拜左右，虽然第一个Demo用了三四天就完成，但是后续的封装和优化却用了两个星期的时间，嗯，感触颇深。。。</p>
+<p>从最开始的incredible，到最后的好意思说堪比Apple Watch，真的是一个很有成就感的过程。虽然期间遇到了不少困难，甚至有那么一两次觉得自己真的无解了，但到最后总能熬过去，山重水复疑无路，柳暗花明又一村。真的忍不住要念诗了，感觉很充实，很开心。</p>
+<p>在做这个项目的过程中，我也得到了许多人的帮助。部门里的各位前辈、同事，在看到我的提问之后，非常热情地向我提供意见和资料。希望这篇博客会对大家有所帮助。谢谢大家~</p>
+<hr>
+<p>【更新于2016/8/10】</p>
+<blockquote>
+<p>经<a href="http://www.jianshu.com/users/d67ddecd40fe/" target="_blank" rel="external">coderMoe</a>童鞋指出，文中 [三、2.降低采样率] 提到的 “定理” 正式的名称为“<a href="http://www.bing.com/knows/search?q=采样定理&amp;mkt=zh-cn" target="_blank" rel="external">奈奎斯特采样定理</a>”。</p>
+</blockquote>
+<p>感谢这段时间以来，大家的鼓励和支持，前阵子我写这篇文章的时候，是万万没有想到会得到这么多人的关注的，实在是受宠若惊。有很多人详细地阅读了这篇博客，并且提出了重要的<strong>意见</strong>，甚至还有几位客官打赏了我（但是简书取现要满100RMB才行，所以目前我还无法享用这笔增肥基金🙊哈哈），真的很感谢你们。</p>
+<p>我当时写这篇博客也花了不少时间，只怪我语文没学好，在言辞表达上、逻辑结构上，没能做得更好，大家如果有什么意见建议、或者不同的见解，希望能<strong>不吝赐教</strong>~~大家的关注和交流会让我更有动力分享博客，要知道，写作对我这种工科生而言，真的是，<strong>“体力活”</strong>。😂</p>
+<p>有想要进一步关注我的朋友，可以收藏一下我正在搭建的<strong>博客</strong>，域名正在备案中，不过博客系统是已经搭起来了，有兴趣的朋友请移步：<a href="http://www.punmy.cn/" target="_blank" rel="external">punmy.cn</a>😋</p>
+<p>另外，关于许多朋友非常关心的<strong>开源</strong>的问题，这两天上班比较忙，但是我会在近期确定是否开源，届时会通过简书更新，<strong>感谢关注</strong>！</p>
+<hr>
+<p>【更新于2016/8/18】<br>感谢大家的厚爱，收到Leader的回复，这个项目暂时不开源，不好意思。</p>
+<p>但是大家如果有什么问题，欢迎继续和我探讨！😊</p>
+<hr>
+<p>【更新于2016/8/19】</p>
+<p>另外，有朋友指出，iPhone相机支持的原始数据格式有三种，一种是文中提到的BGRA，另两种似乎是YUV的格式，我对这方面不太了解，感谢提出，详情请看文档。</p>
+<hr>
+<p>【更新于2018/4/8】<br>前段时间重新在 Github 上搭建了自己的博客，最近才有空把之前简书上的博客搬了过来，想开始维护自己的博客了。</p>
+<hr>
+<h2 id="The-End"><a href="#The-End" class="headerlink" title="The End."></a>The End.</h2><hr>
+<h2 id="延伸阅读"><a href="#延伸阅读" class="headerlink" title="延伸阅读"></a>延伸阅读</h2><ul>
+<li>光电容积脉搏波描记法”<br><a href="https://en.wikipedia.org/wiki/Photoplethysmogram" target="_blank" rel="external">https://en.wikipedia.org/wiki/Photoplethysmogram</a></li>
+<li>滤波：<a href="http://blog.csdn.net/shengzhadon/article/details/46803401" target="_blank" rel="external">http://blog.csdn.net/shengzhadon/article/details/46803401</a> </li>
+<li>Accelerate.framework：DSP处理框架（vDSP）：<br><a href="http://stackoverflow.com/questions/3398753/using-the-apple-fft-and-accelerate-framework" target="_blank" rel="external">http://stackoverflow.com/questions/3398753/using-the-apple-fft-and-accelerate-framework</a> </li>
+<li>core Graphics画图：<a href="http://www.mamicode.com/info-detail-841887.html" target="_blank" rel="external">http://www.mamicode.com/info-detail-841887.html</a> </li>
+<li>心率检测论文：<a href="http://www.doc88.com/p-0307201762779.html" target="_blank" rel="external">http://www.doc88.com/p-0307201762779.html</a></li>
+<li>通过脸部识别心率：<a href="http://people.csail.mit.edu/mrub/vidmag/" target="_blank" rel="external">http://people.csail.mit.edu/mrub/vidmag/</a> </li>
+</ul>
+<h2 id="外部引用"><a href="#外部引用" class="headerlink" title="外部引用"></a>外部引用</h2><blockquote>
+<p><em>[0]: 写出“前情提要”的时候，脑子里蹦出的是：previously on marvel agents of shield😂</em></p>
+<p><em>[1]: 引用自维基百科，由Kalumet - selbst erstellt = 自己的作品，<a href="http://creativecommons.org/licenses/by-sa/3.0/" title="Creative Commons Attribution-Share Alike 3.0" target="_blank" rel="external">CC BY-SA 3.0</a>，<a href="https://commons.wiki/media.org/w/index.php?curid=438152" target="_blank" rel="external">https://commons.wiki/media.org/w/index.php?curid=438152</a></em></p>
+<p><em>[2]: 引用自维基百科，由Derivative: Hazmat2Original: Hank van Helvete - 此档案源起于以下档案或由以下档案加以编辑而成:  EKG Complex en.svg，<a href="http://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0" target="_blank" rel="external">CC BY-SA 3.0</a>，<a href="https://commons.wiki/media.org/w/index.php?curid=31447770" target="_blank" rel="external">https://commons.wiki/media.org/w/index.php?curid=31447770</a></em></p>
+<p><em>[5]:引用自维基百科，由(3ucky(3all - Uploaded to en:File:HSV cone.png first (see associated log) by (3ucky(3all; then transfered to Commons by Moongateclimber.，<a href="http://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0" target="_blank" rel="external">CC BY-SA 3.0</a>，<a href="https://commons.wiki/media.org/w/index.php?curid=943857" target="_blank" rel="external">https://commons.wiki/media.org/w/index.php?curid=943857</a></em></p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://punmy.cn/2016/07/28/15231176397746.html" data-id="cjicvmjpc0006ksnnhel8q0e0" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="http://punmy.cn/2016/07/28/15231176397746.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2016/07/28/15231176397746.html">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/10/06/14757432517519.html" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    OSX/iOS 网络抓包工具 Charles 入门
+                
+            </div>
+        </a>
+    
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" class="title">iOS 最全面的功耗分析之——Power Log</a></p>
+                            <p class="item-date"><time datetime="2018-06-12T04:31:03.000Z" itemprop="datePublished">2018-06-12</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2018/06/07/条件变量（Condition Variables）.html" class="title">条件变量（Condition Variables）</a></p>
+                            <p class="item-date"><time datetime="2018-06-06T17:31:03.000Z" itemprop="datePublished">2018-06-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2017/08/31/15041894895980.html" class="title">HTTP/2 初探</a></p>
+                            <p class="item-date"><time datetime="2017-08-31T14:24:00.000Z" itemprop="datePublished">2017-08-31</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2017/08/04/15018607710939.html" class="title">五分钟重拾正则表达式</a></p>
+                            <p class="item-date"><time datetime="2017-08-04T15:01:00.000Z" itemprop="datePublished">2017-08-04</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2017/03/06/15158218121366.html" class="title">iOS Search APIs</a></p>
+                            <p class="item-date"><time datetime="2017-03-06T08:40:00.000Z" itemprop="datePublished">2017-03-06</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Categorias</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Article/" style="font-size: 10px;">Article</a> <a href="/tags/Camera/" style="font-size: 10px;">Camera</a> <a href="/tags/HTTP2/" style="font-size: 10px;">HTTP2</a> <a href="/tags/framework/" style="font-size: 10px;">framework</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/基础/" style="font-size: 16.67px;">基础</a> <a href="/tags/工具/" style="font-size: 13.33px;">工具</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/技能/" style="font-size: 10px;">技能</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/网络/" style="font-size: 13.33px;">网络</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Nico<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'http://punmy.cn/2016/07/28/15231176397746.html';
+        
+        this.page.identifier = '15231176397746';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'punmy' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</body>
+</html>
