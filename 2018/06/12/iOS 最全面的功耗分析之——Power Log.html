@@ -10,15 +10,15 @@
 <meta property="og:url" content="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html">
 <meta property="og:site_name" content="Punmy">
 <meta property="og:description" content="功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。苹果官方提供的诊断日志能够获取到极其详细的 App 功耗、电池温度、硬件状态等信息信息，以下是 Power Log 的详细介绍。">
-<meta property="og:image" content="http://punmy.cn/2018/06/12/media/15284462930320/15287021385503.jpg">
-<meta property="og:image" content="http://punmy.cn/2018/06/12/media/15284462930320/15287660449685.jpg">
-<meta property="og:image" content="http://punmy.cn/2018/06/12/media/15284462930320/15287863692382.jpg">
-<meta property="og:image" content="http://punmy.cn/2018/06/12/media/15284462930320/15287872779775.jpg">
-<meta property="og:updated_time" content="2018-06-12T08:57:31.427Z">
+<meta property="og:image" content="http://punmy.cn/media/15284462930320/15287021385503.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15284462930320/15287660449685.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15284462930320/15287863692382.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15284462930320/15287872779775.jpg">
+<meta property="og:updated_time" content="2018-06-14T02:40:46.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 最全面的功耗分析之——Power Log">
 <meta name="twitter:description" content="功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。苹果官方提供的诊断日志能够获取到极其详细的 App 功耗、电池温度、硬件状态等信息信息，以下是 Power Log 的详细介绍。">
-<meta name="twitter:image" content="http://punmy.cn/2018/06/12/media/15284462930320/15287021385503.jpg">
+<meta name="twitter:image" content="http://punmy.cn/media/15284462930320/15287021385503.jpg">
     
 
     
@@ -268,7 +268,7 @@ var _hmt = _hmt || [];
             <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。但是在 iOS 设备上，由于苹果严格的限制，我们一直较难开展功耗分析的工作。</p>
 <a id="more"></a>
 <p>在 iOS 10 以前，我们还可以通过 IOKit 中的 IOPMPowerSource 私有接口，获取较为详细的电量信息，如电量、电压、电池温度等一系列的信息，腾讯的 GT 就是通过该接口获取电池的信息。然而，在 iOS 10 以及更高的系统中，该接口也被封印了，现在读取该接口，只能获取到很鸡肋的信息，如下图所示。</p>
-<p><img src="media/15284462930320/15287021385503.jpg" alt="iOS 10 及之后的系统版本只能获取到零星的数据"></p>
+<p><img src="/media/15284462930320/15287021385503.jpg" alt="iOS 10 及之后的系统版本只能获取到零星的数据"></p>
 <p>因此，iOS 平台上急切地需要一个功耗分析的工具。</p>
 <h2 id="Power-Log（Sysdiagnose）"><a href="#Power-Log（Sysdiagnose）" class="headerlink" title="Power Log（Sysdiagnose）"></a>Power Log（Sysdiagnose）</h2><p>我们都知道，iOS 系统本身是有对电量的使用情况进行记录和分析的，所以我们才能在系统设置里看到过去一段时间里，各个 App 的前台工作时间和耗电情况。在进行了一整天的调研后，我震惊地发现，iOS 的耗电记录是可以导出的，并且它记录的详细程度简直令人发指！简单地说，它包括了过去几天里，系统整体的详细功耗情况、各个 App 在各个硬件上的耗电情况（包括第三方 App），等等一系列详细的数据。</p>
 <p>有的同学可能遇到过，在向苹果反馈 Bug 时，有时苹果的工程师会要求你附上设备的诊断日志，其中，在遇到电池续航相关的问题时，苹果的工程师会让你提供一下电池的诊断日志。在电池的诊断日志中，就包含了电池电量的使用记录。</p>
@@ -285,7 +285,7 @@ var _hmt = _hmt || [];
 <li>第四部，再次连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的详细功耗记录拷贝到电脑上；</li>
 </ul>
 <h3 id="诊断日志的目录"><a href="#诊断日志的目录" class="headerlink" title="诊断日志的目录"></a>诊断日志的目录</h3><p>到 iTunes 的同步文件夹（<br><code>~/Library/Logs/CrashReporter/MobileDevice/你的手机名/</code>）下，找到以<code>Powerlog_</code>开头，后缀是<code>.PLSQL</code>或者<code>.PLSQL.gz</code>的几个文件，这些就是记录了所有功耗信息的数据库文件了，可以使用简单的数据库查看工具打开看看。</p>
-<p><img src="media/15284462930320/15287660449685.jpg" alt="诊断日志的目录"></p>
+<p><img src="/media/15284462930320/15287660449685.jpg" alt="诊断日志的目录"></p>
 <h2 id="分析数据"><a href="#分析数据" class="headerlink" title="分析数据"></a>分析数据</h2><p>打开数据库后，我们可以看到里面有数百张表。苹果没有解释这些表的具体作用，只介绍了如何导出，因为苹果实际上只打算用这份记录来诊断问题，目前并没有直接向开发者开放。但我们可以通过各个表中的字段名，来了解各个表的大概用途。此外，腾讯的文档中介绍了其中比较重要的七张表，这节省了我们不少时间。下面列举一下关键的几张表的作用。</p>
 <table>
 <thead>
@@ -373,9 +373,9 @@ var _hmt = _hmt || [];
 <h3 id="1、绘制电量百分比变化曲线"><a href="#1、绘制电量百分比变化曲线" class="headerlink" title="1、绘制电量百分比变化曲线"></a>1、绘制电量百分比变化曲线</h3><p>直接读取 <code>PLBatteryAgent_EventBackward_Battery_UI</code> 表中的数据即可。</p>
 <h3 id="2、iPhone-整体耗电量和温度变化"><a href="#2、iPhone-整体耗电量和温度变化" class="headerlink" title="2、iPhone 整体耗电量和温度变化"></a>2、iPhone 整体耗电量和温度变化</h3><p>直接读取 <code>PLBatteryAgent_EventBackward_Battery</code> 表中的电量、温度数据，数据的记录间隔是 20 秒，基本上满足了各种各样的需求。</p>
 <h3 id="3、分析特定-App-的详细功耗数据"><a href="#3、分析特定-App-的详细功耗数据" class="headerlink" title="3、分析特定 App 的详细功耗数据"></a>3、分析特定 App 的详细功耗数据</h3><p>结合 <code>PLAccountingOperator_Aggregate_RootNodeEnergy</code> 和 <code>PLAccountingOperator_EventNone_Nodes</code> 两张表，可以得到某个 Bundle ID 对应的 App 在各个硬件上的耗电情况。</p>
-<p><img src="media/15284462930320/15287863692382.jpg" alt="存储了硬件节点 ID 的表"></p>
+<p><img src="/media/15284462930320/15287863692382.jpg" alt="存储了硬件节点 ID 的表"></p>
 <p>由于 <code>PLAccountingOperator_Aggregate_RootNodeEnergy</code> 中的每条数据，是记录该时间点之前一个小时内的耗电情况，所以我们可以知道在每个小时内，这个 App 在各个硬件上的耗电情况。例如，我们可以查到美拍在过去一个小时内的耗电情况，如下图所示，从中我们可以找出耗电较多的硬件，其中，耗电最多的是 RootNodeID 为 10 的硬件，也就是屏幕。</p>
-<p><img src="media/15284462930320/15287872779775.jpg" alt="美拍在一个小时内各个硬件的耗电情况"></p>
+<p><img src="/media/15284462930320/15287872779775.jpg" alt="美拍在一个小时内各个硬件的耗电情况"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Power Log 能够为我们提供十分详细和准确的功耗数据，从细节到整体都能够兼顾到。并且根据苹果官方的说法，记录详细的功耗数据并不会导致 iPhone 性能的下降，只是会占据一定的磁盘空间。不过，也因为它的数据量太大，导致它对我们不太友好。我们需要用 SQL 去读取、处理庞杂的原始数据，才能得到理想的信息。最好的方案是为此开发一个读取和分析的前端，这样才能够提高效率。此外，由于它的数据是离线获取的，这在某些情况下可能不是很方便。</p>
 <p>但总的来说，Power Log 是十分强大的，它记录的信息之丰富让人印象深刻，也为我们的功耗分析提供了更好更强大的手段。</p>
 
@@ -388,7 +388,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" data-id="cjidxp014000c0innwhjr96ga" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" data-id="cjidxtkuq00094knn7363oqqt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
