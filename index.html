@@ -258,58 +258,10 @@ var _hmt = _hmt || [];
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <h2 id="什么是端序"><a href="#什么是端序" class="headerlink" title="什么是端序"></a>什么是端序</h2><p>端序，也叫字节序，是指计算机上多字节数据类型的存储规则。在日常的编码中可能不太需要关心端序，但当涉及到一些比较底层的任务，例如 socket 编程时，就绕不开它。</p>
-<p>端序（Endian）有两种规则，一种是大端序，一种是小端序。大端序是指将高位字节存放在低位地址，而小端序则是将低位字节存放在低位地址。<br>以<code>0x01234567</code>为例。</p>
-<p>大端序：</p>
-<table>
-<thead>
-<tr>
-<th>低地址</th>
-<th></th>
-<th></th>
-<th>高地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0x01</td>
-<td>0x23</td>
-<td>0x45</td>
-<td>0x67</td>
-</tr>
-</tbody>
-</table>
-<p>小端序：</p>
-<table>
-<thead>
-<tr>
-<th>低地址</th>
-<th></th>
-<th></th>
-<th>高地址</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0x67</td>
-<td>0x45</td>
-<td>0x23</td>
-<td>0x01</td>
-</tr>
-</tbody>
-</table>
-<h2 id="iOS上的端序"><a href="#iOS上的端序" class="headerlink" title="iOS上的端序"></a>iOS上的端序</h2><p>目前为止，iOS 上采用的端序是小端序。在 NSByteOrder.h 和 OSByteOrder.h 中有许多和端序相关的定义，其中当前系统的端序可以通过 <code>NSHostByteOrder()</code> 获取到：</p>
-<figure class="highlight objc"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">NSHostByteOrder</span>() == <span class="built_in">NS_BigEndian</span>) {</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"BigEndian"</span>);</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
-<h2 id="端序的转换"><a href="#端序的转换" class="headerlink" title="端序的转换"></a>端序的转换</h2><p>不同的设备或协议可能采用不同的端序，例如，iPhone 和 x86 架构的 PC 都采用小端序，USB协议也采用小端序；而许多网络协议，如 TCP/IP 协议，以及部分 PC 则采用大端序。此外，ARM 等平台的端序则是可以配置的。因此，当涉及到 socket、信号处理等比较底层的操作时，我们需要注意不同场合下所需的端序，按需进行转换。</p>
-<p>不同的语言中通常都有对应的 <code>ntoh*</code> 和 <code>hton*</code> 方法，来进行端序的转换。TCP/IP 协议中规定了数据采用大端序，因此大端序也常常被称作网络端序。相反地，小端则被称作主机端序。这也是我们常常见到的端序转换方法名 <code>ntoh*</code>（network-to-host）、<code>hton*</code>(host-to-network) 的由来。</p>
-<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 转换端口号的端序</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></div><div class="line">addr.sin_port = htons(port);</div><div class="line">addr.sin_family = AF_INET;</div><div class="line">addr.sin_addr.s_addr = inet_addr(kLocalhost);</div></pre></td></tr></tbody></table></figure>
-<p>根据数据的字节数的不同，Darwin 为我们提供了一系列常用的宏来转换端序：<code>ntohs</code>(16bits)、<code>ntohl</code>(32bits)、<code>ntohll</code>(64bits)、<code>htons</code>(16bits)、<code>htonl</code>(32bits)、<code>htonll</code>(64bits).如果需要进行更长字节数的端序转换，则需要我们自己实现。</p>
-<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Int16 的端序转换宏</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ntohs(x)	__DARWIN_OSSwapInt16(x)</span></div><div class="line"></div><div class="line"><span class="comment">// 判断是否常量，使用不同的转换方式</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __DARWIN_OSSwapInt16(x) \</span></div><div class="line">    ((<span class="keyword">__uint16_t</span>)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)))</div></pre></td></tr></tbody></table></figure>
-<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 常量的端序转换方法，在预处理阶段完成（uint16）</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __DARWIN_OSSwapConstInt16(x) \</span></div><div class="line">    ((<span class="keyword">__uint16_t</span>)((((<span class="keyword">__uint16_t</span>)(x) &amp; <span class="number">0xff00</span>) &gt;&gt; <span class="number">8</span>) | \</div><div class="line">                (((<span class="keyword">__uint16_t</span>)(x) &amp; <span class="number">0x00ff</span>) &lt;&lt; <span class="number">8</span>)))</div></pre></td></tr></tbody></table></figure>
-<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 运行时的端序转换方法（uint16）</span></div><div class="line">__DARWIN_OS_INLINE</div><div class="line"><span class="keyword">__uint16_t</span></div><div class="line">_OSSwapInt16(</div><div class="line">    <span class="keyword">__uint16_t</span>        _data</div><div class="line">)</div><div class="line">{</div><div class="line">    <span class="keyword">return</span> ((<span class="keyword">__uint16_t</span>)((_data &lt;&lt; <span class="number">8</span>) | (_data &gt;&gt; <span class="number">8</span>)));</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
-<p>查看这些宏的定义可以发现，Darwin 会先判断待转换的数据是否常量，如果是常量，则直接进行移位运算，在编译前的预处理阶段就完成转换；如果是变量，则替换为相应的内联方法，在运行时进行转换。</p>
-
+            <p></p><h2 id="什么是端序"><a href="#什么是端序" class="headerlink" title="什么是端序"></a>什么是端序</h2><p>端序，也叫字节序，是指计算机上多字节数据类型的存储规则。在日常的编码中可能不太需要关心端序，但当涉及到一些比较底层的任务，例如 socket 编程时，就绕不开它。</p><p></p>
+            <p class="article-more-link">
+                <a href="/2018/12/08/Endianness In iOS.html#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -319,7 +271,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/12/08/Endianness In iOS.html" data-id="cjpfdya4j0007t3nnvgyy7mcv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/12/08/Endianness In iOS.html" data-id="cjpfe4v5p000eptnn30o77ulc" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -389,7 +341,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/18/15278496835424.html" data-id="cjpfdya4m000at3nn52gzrvjk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/18/15278496835424.html" data-id="cjpfe4v5k000cptnncvpcc6ox" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -459,7 +411,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" data-id="cjpfdya4t000jt3nnegdd2es8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" data-id="cjpfe4v64000hptnn8g2diw4h" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -529,7 +481,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/07/条件变量（Condition Variables）.html" data-id="cjpfdya4s000gt3nnfno8fy5t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/07/条件变量（Condition Variables）.html" data-id="cjpfe4v66000jptnn4fjk12bo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -599,7 +551,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/08/31/15041894895980.html" data-id="cjpfdya4b0002t3nn8hu41yf2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2017/08/31/15041894895980.html" data-id="cjpfe4v570007ptnnjln2oy61" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -669,7 +621,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/08/04/15018607710939.html" data-id="cjpfdya480001t3nn3awbncoq" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2017/08/04/15018607710939.html" data-id="cjpfe4v4y0004ptnngwzp6ook" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -739,7 +691,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2017/03/06/15158218121366.html" data-id="cjpfdya4g0005t3nn5n276mqm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2017/03/06/15158218121366.html" data-id="cjpfe4v5b0008ptnn7aqyn1ak" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -810,7 +762,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2016/10/06/14757432517519.html" data-id="cjpfdya4h0006t3nnuo7c7zh7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2016/10/06/14757432517519.html" data-id="cjpfe4v4s0002ptnndvwulyu5" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
@@ -880,7 +832,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2016/07/28/15231176397746.html" data-id="cjpfdya4p000ct3nn74yl58q0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2016/07/28/15231176397746.html" data-id="cjpfe4v5g0009ptnnqbrdbhxv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
