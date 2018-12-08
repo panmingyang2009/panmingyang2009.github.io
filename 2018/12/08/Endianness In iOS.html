@@ -1,17 +1,19 @@
 <!DOCTYPE html><html><head>
     <meta charset="utf-8">
     
-    <title>Tag: framework | Punmy</title>
+    <title>iOS上的端序 | Punmy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="潘名扬的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Punmy">
-<meta property="og:url" content="http://punmy.cn/tags/framework/index.html">
+    <meta name="description" content="端序，也叫字节序，是指计算机上多字节数据类型的存储规则。在日常的编码中可能不太需要关心端序，但当涉及到一些比较底层的任务，例如 socket 编程时，就绕不开它。">
+<meta name="keywords" content="字节序,大端,小端,Endianness,Btyes Order,宏,Darwin,ntoh,hton">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS上的端序">
+<meta property="og:url" content="http://punmy.cn/2018/12/08/Endianness In iOS.html">
 <meta property="og:site_name" content="Punmy">
-<meta property="og:description" content="潘名扬的博客">
+<meta property="og:description" content="端序，也叫字节序，是指计算机上多字节数据类型的存储规则。在日常的编码中可能不太需要关心端序，但当涉及到一些比较底层的任务，例如 socket 编程时，就绕不开它。">
+<meta property="og:updated_time" content="2018-12-08T11:37:08.340Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Punmy">
-<meta name="twitter:description" content="潘名扬的博客">
+<meta name="twitter:title" content="iOS上的端序">
+<meta name="twitter:description" content="端序，也叫字节序，是指计算机上多字节数据类型的存储规则。在日常的编码中可能不太需要关心端序，但当涉及到一些比较底层的任务，例如 socket 编程时，就绕不开它。">
     
 
     
@@ -215,50 +217,145 @@ var _hmt = _hmt || [];
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-tag"></i></span>
-        <h1 class="title">#framework</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-Endianness In iOS" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2017/03/06/15158218121366.html">iOS Search APIs</a>
+        <h1 class="article-title" itemprop="name">
+            iOS上的端序
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/03/06/15158218121366.html">
-            <time datetime="2017-03-06T08:40:00.000Z" itemprop="datePublished">2017-03-06</time>
+        <a href="/2018/12/08/Endianness In iOS.html">
+            <time datetime="2018-12-08T11:31:03.000Z" itemprop="datePublished">2018-12-08</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
         <a class="article-category-link" href="/categories/Code/">Code</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/framework/">framework</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/基础/">基础</a>
+        <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/基础/">基础</a>
     </div>
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="什么是端序"><a href="#什么是端序" class="headerlink" title="什么是端序"></a>什么是端序</h2><p>端序，也叫字节序，是指计算机上多字节数据类型的存储规则。在日常的编码中可能不太需要关心端序，但当涉及到一些比较底层的任务，例如 socket 编程时，就绕不开它。</p>
+<p>端序（Endian）有两种规则，一种是大端序，一种是小端序。大端序是指将高位字节存放在低位地址，而小端序则是将低位字节存放在低位地址。<br>以<code>0x01234567</code>为例。</p>
+<p>大端序：</p>
+<table>
+<thead>
+<tr>
+<th>低地址</th>
+<th></th>
+<th></th>
+<th>高地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x01</td>
+<td>0x23</td>
+<td>0x45</td>
+<td>0x67</td>
+</tr>
+</tbody>
+</table>
+<p>小端序：</p>
+<table>
+<thead>
+<tr>
+<th>低地址</th>
+<th></th>
+<th></th>
+<th>高地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0x67</td>
+<td>0x45</td>
+<td>0x23</td>
+<td>0x01</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iOS上的端序"><a href="#iOS上的端序" class="headerlink" title="iOS上的端序"></a>iOS上的端序</h2><p>目前为止，iOS 上采用的端序是小端序。在 NSByteOrder.h 和 OSByteOrder.h 中有许多和端序相关的定义，其中当前系统的端序可以通过 <code>NSHostByteOrder()</code> 获取到：</p>
+<figure class="highlight objc"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">NSHostByteOrder</span>() == <span class="built_in">NS_BigEndian</span>) {</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"BigEndian"</span>);</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
+<h2 id="端序的转换"><a href="#端序的转换" class="headerlink" title="端序的转换"></a>端序的转换</h2><p>不同的设备或协议可能采用不同的端序，例如，iPhone 和 x86 架构的 PC 都采用小端序，USB协议也采用小端序；而许多网络协议，如 TCP/IP 协议，以及部分 PC 则采用大端序。此外，ARM 等平台的端序则是可以配置的。因此，当涉及到 socket、信号处理等比较底层的操作时，我们需要注意不同场合下所需的端序，按需进行转换。</p>
+<p>不同的语言中通常都有对应的 <code>ntoh*</code> 和 <code>hton*</code> 方法，来进行端序的转换。TCP/IP 协议中规定了数据采用大端序，因此大端序也常常被称作网络端序。相反地，小端则被称作主机端序。这也是我们常常见到的端序转换方法名 <code>ntoh*</code>（network-to-host）、<code>hton*</code>(host-to-network) 的由来。</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 转换端口号的端序</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></div><div class="line">addr.sin_port = htons(port);</div><div class="line">addr.sin_family = AF_INET;</div><div class="line">addr.sin_addr.s_addr = inet_addr(kLocalhost);</div></pre></td></tr></tbody></table></figure>
+<p>根据数据的字节数的不同，Darwin 为我们提供了一系列常用的宏来转换端序：<code>ntohs</code>(16bits)、<code>ntohl</code>(32bits)、<code>ntohll</code>(64bits)、<code>htons</code>(16bits)、<code>htonl</code>(32bits)、<code>htonll</code>(64bits).如果需要进行更长字节数的端序转换，则需要我们自己实现。</p>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Int16 的端序转换宏</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> ntohs(x)	__DARWIN_OSSwapInt16(x)</span></div><div class="line"></div><div class="line"><span class="comment">// 判断是否常量，使用不同的转换方式</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __DARWIN_OSSwapInt16(x) \</span></div><div class="line">    ((<span class="keyword">__uint16_t</span>)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)))</div></pre></td></tr></tbody></table></figure>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 常量的端序转换方法，在预处理阶段完成（uint16）</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> __DARWIN_OSSwapConstInt16(x) \</span></div><div class="line">    ((<span class="keyword">__uint16_t</span>)((((<span class="keyword">__uint16_t</span>)(x) &amp; <span class="number">0xff00</span>) &gt;&gt; <span class="number">8</span>) | \</div><div class="line">                (((<span class="keyword">__uint16_t</span>)(x) &amp; <span class="number">0x00ff</span>) &lt;&lt; <span class="number">8</span>)))</div></pre></td></tr></tbody></table></figure>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 运行时的端序转换方法（uint16）</span></div><div class="line">__DARWIN_OS_INLINE</div><div class="line"><span class="keyword">__uint16_t</span></div><div class="line">_OSSwapInt16(</div><div class="line">    <span class="keyword">__uint16_t</span>        _data</div><div class="line">)</div><div class="line">{</div><div class="line">    <span class="keyword">return</span> ((<span class="keyword">__uint16_t</span>)((_data &lt;&lt; <span class="number">8</span>) | (_data &gt;&gt; <span class="number">8</span>)));</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
+<p>查看这些宏的定义可以发现，Darwin 会先判断待转换的数据是否常量，如果是常量，则直接进行移位运算，在编译前的预处理阶段就完成转换；如果是变量，则替换为相应的内联方法，在运行时进行转换。</p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
+
+    <a data-url="http://punmy.cn/2018/12/08/Endianness In iOS.html" data-id="cjpfdya4j0007t3nnvgyy7mcv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+
+
+            
+    
+        <a href="http://punmy.cn/2018/12/08/Endianness In iOS.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2018/12/08/Endianness In iOS.html">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/06/18/15278496835424.html" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">巧妙利用KVO实现精准的VC耗时检测</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
 </section>
             
                 
@@ -420,13 +517,76 @@ var _hmt = _hmt || [];
         CONTENT_URL: '/content.json',
     };
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);;var disqus_config = function () {
+})(window);;(function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);;var disqus_config = function () {
         
-        this.page.identifier = '';
+            this.page.url = 'http://punmy.cn/2018/12/08/Endianness In iOS.html';
+        
+        this.page.identifier = 'Endianness In iOS';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'punmy' + '.disqus.com/count.js';
+        s.src = '//' + 'punmy' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();</script></body></html>
