@@ -10,16 +10,16 @@
 <meta property="og:url" content="http://punmy.cn/2019/02/28/效率神器 Kaleidoscope.html">
 <meta property="og:site_name" content="Punmy">
 <meta property="og:description" content="Kaleidoscope是一个非常强大的比对工具，可以十分方便地比对文本、图片、文件夹等内容。搭配上SourceTree，能够大大提升Git的效率。特别是在Code Review和解决冲突时，可以有效提高体验。">
-<meta property="og:image" content="http://punmy.cn/2019/02/28/media/15514477375753/15514507029604.jpg">
-<meta property="og:image" content="http://punmy.cn/2019/02/28/media/15514477375753/15514479975302.jpg">
-<meta property="og:image" content="http://punmy.cn/2019/02/28/media/15514477375753/15514483067659.jpg">
-<meta property="og:image" content="http://punmy.cn/2019/02/28/media/15514477375753/15514488614668.jpg">
-<meta property="og:image" content="http://punmy.cn/2019/02/28/media/15514477375753/15514499170907.jpg">
-<meta property="og:updated_time" content="2019-03-03T14:08:03.405Z">
+<meta property="og:image" content="http://punmy.cn/media/15514477375753/15514507029604.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15514477375753/15514479975302.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15514477375753/15514483067659.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15514477375753/15514488614668.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15514477375753/15514499170907.jpg">
+<meta property="og:updated_time" content="2019-03-03T14:13:10.447Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="代码比对神器 Kaleidoscope">
 <meta name="twitter:description" content="Kaleidoscope是一个非常强大的比对工具，可以十分方便地比对文本、图片、文件夹等内容。搭配上SourceTree，能够大大提升Git的效率。特别是在Code Review和解决冲突时，可以有效提高体验。">
-<meta name="twitter:image" content="http://punmy.cn/2019/02/28/media/15514477375753/15514507029604.jpg">
+<meta name="twitter:image" content="http://punmy.cn/media/15514477375753/15514507029604.jpg">
     
 
     
@@ -275,10 +275,10 @@ var _hmt = _hmt || [];
 <li>Code Review 利器，可以比对 Git 中不同 commit、不同分支上的代码</li>
 <li>快速解决 Git 合并冲突</li>
 </ul>
-<p><img src="media/15514477375753/15514507029604.jpg" alt=""></p>
+<p><img src="/media/15514477375753/15514507029604.jpg" alt=""></p>
 <h2 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h2><p>1、安装好 SourceTree 和 <a href="https://xclient.info/s/kaleidoscope.html" target="_blank" rel="external">Kaleidoscope</a> </p>
 <p>2、进入 Kaleidoscope 菜单 &gt; Intergration… 安装命令行工具</p>
-<p>如下图所示，遵循指示，把<code>Kaleidoscope</code>和<code>Git</code>两个 Tab 中的命令行工具都安装好。安装完成后，左侧会出现✅标志。<br><img src="media/15514477375753/15514479975302.jpg" alt=""></p>
+<p>如下图所示，遵循指示，把<code>Kaleidoscope</code>和<code>Git</code>两个 Tab 中的命令行工具都安装好。安装完成后，左侧会出现✅标志。<br><img src="/media/15514477375753/15514479975302.jpg" alt=""></p>
 <p>3、打开 SourceTree &gt; Preference &gt; Diff 配置 External Diff / Merge 选项</p>
 <p>Diff 和 Merge 的工具都选择 Custom，然后填入如下配置：</p>
 <p>Diff Command： <code>/usr/local/bin/ksdiff</code><br>Arguments： <code>--partial-changeset --relative-path "$MERGED" -- "$LOCAL" "$REMOTE"</code></p>
@@ -286,16 +286,16 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>使用 Custom 配置是因为 SourceTree 对 Kaleidoscope 的原生支持有 Bug</p>
 </blockquote>
-<p><img src="media/15514477375753/15514483067659.jpg" alt=""></p>
+<p><img src="/media/15514477375753/15514483067659.jpg" alt=""></p>
 <p>4、配置 Custom Actions 以便快速唤起对比工具</p>
 <p>在 Custom Actions 中增加一个配置，配上你希望唤醒对比工具的快捷键，这里我使用 ⇧+⌘+D。<br>然后在 Script 中填入：<code>git</code>，在 Parameters 中填入：<code>difftool -y -t sourcetree $SHA</code>。然后就配置完成了。</p>
-<p><img src="media/15514477375753/15514488614668.jpg" alt=""></p>
+<p><img src="/media/15514477375753/15514488614668.jpg" alt=""></p>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><ul>
 <li><strong>比对任意两个 commit 之间的改动</strong>： 按住⌘，选择两个commit，点击刚刚配置的快捷键，即可唤起 Kaleidoscope</li>
 <li><strong>查看某个文件的改动</strong>：直接右键单击文件，选择 External Diff（也可以对照上面的方法加个快捷键）</li>
 <li><strong>解决冲突</strong>：右键单击冲突的文件，使用外部工具解决冲突(如下图)</li>
 </ul>
-<p><img src="media/15514477375753/15514499170907.jpg" alt=""></p>
+<p><img src="/media/15514477375753/15514499170907.jpg" alt=""></p>
 
         
         </div>
@@ -306,7 +306,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2019/02/28/效率神器 Kaleidoscope.html" data-id="cjsszv9s9000fwhnn1u99vt5c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2019/02/28/效率神器 Kaleidoscope.html" data-id="cjsszxun5000nfnnnio7hqw9t" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
