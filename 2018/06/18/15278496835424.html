@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
     <title>巧妙利用KVO实现精准的VC耗时检测 | Punmy</title>
@@ -10,6 +10,7 @@
 <meta property="og:url" content="http://punmy.cn/2018/06/18/15278496835424.html">
 <meta property="og:site_name" content="Punmy">
 <meta property="og:description" content="本文主要想分享一下我在根据这篇博客《一种基于KVO的页面加载，渲染耗时监控方法》实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：VCProfiler">
+<meta property="og:locale" content="default">
 <meta property="og:updated_time" content="2018-06-18T08:50:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="巧妙利用KVO实现精准的VC耗时检测">
@@ -66,8 +67,8 @@ var _hmt = _hmt || [];
 
 
 </head>
-
 <body>
+
     <div id="container">
         <header id="header">
     <div id="header-main" class="header-inner">
@@ -260,17 +261,17 @@ var _hmt = _hmt || [];
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>本文主要想分享一下我在根据这篇博客 <a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="external">《一种基于KVO的页面加载，渲染耗时监控方法》</a> 实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="external">VCProfiler</a>。</p>
+            <p>本文主要想分享一下我在根据这篇博客 <a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="noopener">《一种基于KVO的页面加载，渲染耗时监控方法》</a> 实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="noopener">VCProfiler</a>。</p>
 <a id="more"></a>
 <blockquote>
-<p>本文的实现基于 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="external">@盗版五子棋</a> 的<a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="external">博客</a>，并在其基础之上进行了一点改进。最终的源代码发布在 Github 上：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="external">VCProfiler</a>。</p>
+<p>本文的实现基于 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 的<a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="noopener">博客</a>，并在其基础之上进行了一点改进。最终的源代码发布在 Github 上：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="noopener">VCProfiler</a>。</p>
 </blockquote>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>View Controller 的加载耗时优化是 App 性能优化中的一个重要环节，也是用户对于 App 流畅度的一个直观感知。</p>
 <p>公司内部的性能监测工具中，也一直有对 VC 的加载耗时进行检测，但是之前的方法是在 <code>load</code> 方法中，用 Method Swizzle 的方式替换 <code>UIViewController</code> 的 <code>init</code>、<code>loadView</code>、<code>ViewDidLoad</code> 等方法，并在其中记录对应的时间戳，以此来计算 VC 加载过程中各个阶段的耗时。</p>
 <p>这样的检测方式不是很精准，因为我们 hook 的是 <code>UIViewController</code> 的方法，如果我们在自己的 VC 中重写了对应的方法，并执行了一些耗时的操作，那么这些操作的时间就没有被计算进去。因此我们需要改进现有的检测方式，以便更加精准地测量 VC 加载过程中的耗时。</p>
-<h2 id="发现新大陆"><a href="#发现新大陆" class="headerlink" title="发现新大陆"></a>发现新大陆</h2><p>在研究新方法的过程中，我发现了<a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="external">@盗版五子棋</a> 写的一篇博客<a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="external">《一种基于KVO的页面加载，渲染耗时监控方法》</a>，这篇博客中描述了一种很巧妙的检测 VC 耗时的思路。</p>
+<h2 id="发现新大陆"><a href="#发现新大陆" class="headerlink" title="发现新大陆"></a>发现新大陆</h2><p>在研究新方法的过程中，我发现了<a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 写的一篇博客<a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="noopener">《一种基于KVO的页面加载，渲染耗时监控方法》</a>，这篇博客中描述了一种很巧妙的检测 VC 耗时的思路。</p>
 <p>这个思路利用了 KVO 在实现上的一些特性，简单来说，就是在 VC 创建的时候，故意触发 KVO，让 runtime 在我们自定义的 VC 对象上，再动态地包装一层 KVO 的子类，然后像之前一样 hook 这个子类 VC 的各个关键的方法，在其中进行时间的记录。这样一来，我们不再仅仅是检测父类的耗时，而是直接能够测量出我们自己 VC 本身的方法耗时。</p>
-<h2 id="我的疑惑"><a href="#我的疑惑" class="headerlink" title="我的疑惑"></a>我的疑惑</h2><p>具体的一些原理和实现方式 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="external">@盗版五子棋</a> 的博客中已经写的非常详细，我在此就不再赘述。但在读那篇博客的过程中，我心里一直有个疑问：</p>
+<h2 id="我的疑惑"><a href="#我的疑惑" class="headerlink" title="我的疑惑"></a>我的疑惑</h2><p>具体的一些原理和实现方式 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 的博客中已经写的非常详细，我在此就不再赘述。但在读那篇博客的过程中，我心里一直有个疑问：</p>
 <p><strong>既然 hook 了父类，也就是 <code>UIViewController</code> 的 <code>init</code> 方法，那为什么不直接在父类的 <code>init</code> 方法中，获取子类 VC 的类型，然后替换子类 VC 的各个关键方法？</strong></p>
 <p>底下的评论中也有类似的疑问，但当时没有看到作者的明确回复，因此我就分别按照两种方法实现了一下 VC 的耗时检测，在实现的过程中，突然意识到了使用 KVO 的优势。</p>
 <h2 id="为何选择-KVO"><a href="#为何选择-KVO" class="headerlink" title="为何选择 KVO"></a>为何选择 KVO</h2><p>直接 hook 各个 VC 类的方法，在一般的情况下也是能实现相应的耗时检测的，但是在各个 VC 之间存在继承关系的时候，会导致<strong>子类和父类重复 hook</strong>，甚至一不小心就会在 Method Swizzle 的时候把 IMP 换错掉。</p>
@@ -292,10 +293,10 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>然后我们构建一个移除器，这个移除器<strong>弱引用</strong>保存了vc的实例和对应的keypath……<br>……<br>而在对应的移除器的dealloc方法里，我们把kvo监听给移除就可以了。</p>
 </blockquote>
-<figure class="highlight objc"><table><tbody><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)dealloc</div><div class="line">{</div><div class="line"><span class="meta">#ifdef DEBUG</span></div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"WZQKVORemover called"</span>);</div><div class="line"><span class="meta">#endif</span></div><div class="line">    <span class="keyword">if</span> (_obj) {</div><div class="line">        [_obj removeObserver:[WZQKVOObserverStub stub] forKeyPath:_keyPath];</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></tbody></table></figure>
+<figure class="highlight objc"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)dealloc</span><br><span class="line">{</span><br><span class="line"><span class="meta">#ifdef DEBUG</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"WZQKVORemover called"</span>);</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line">    <span class="keyword">if</span> (_obj) {</span><br><span class="line">        [_obj removeObserver:[WZQKVOObserverStub stub] forKeyPath:_keyPath];</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <p>实际实现中，使用 <code>associate object</code> 来移除 KVO 的正确性确实是有保障的，但是，如果 remover 保存的 VC 实例，也就是<code>obj</code>属性，使用了 <code>weak</code> 来修饰，那么在 remover 进入 <code>-dealloc</code> 方法的时候，上述代码中的 <code>if (_obj)</code> 判断将永远为 false。因为在 dealloc 的时候，weak 修饰的属性已经被置为 nil（但是在此处断点的话，Xcode 中仍然看得到 obj 原先的值），也就无法正常移除 KVO。</p>
 <p>因此 remover 中引用的 VC 实例需要使用 <code>unsafe_unretained</code> 来修饰。 </p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>利用 KVO 动态创建子类的方式来 hook VC，并计算耗时，这确实是一个很有意思的想法，同时也非常的简单有效。此外，由于所有的工作都可以在 <code>UIViewController</code> 的 Category 中实现，也使得这种方式基本没有侵入性。鉴于 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="external">@盗版五子棋</a> 文章中的 Github 链接是无效的，我已经将实现好的代码发布在了 Github 上，有需要的同学可以自取：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="external">VCProfiler</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>利用 KVO 动态创建子类的方式来 hook VC，并计算耗时，这确实是一个很有意思的想法，同时也非常的简单有效。此外，由于所有的工作都可以在 <code>UIViewController</code> 的 Category 中实现，也使得这种方式基本没有侵入性。鉴于 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 文章中的 Github 链接是无效的，我已经将实现好的代码发布在了 Github 上，有需要的同学可以自取：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="noopener">VCProfiler</a>。</p>
 
         
         </div>
@@ -306,7 +307,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/18/15278496835424.html" data-id="cjst1669y0009cwnnpnffjjtr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/18/15278496835424.html" data-id="cjst1jv3m0008wrnnfh3xye4r" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             

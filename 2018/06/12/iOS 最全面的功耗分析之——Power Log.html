@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head>
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
     <title>iOS 最全面的功耗分析之——Power Log | Punmy</title>
@@ -10,6 +10,7 @@
 <meta property="og:url" content="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html">
 <meta property="og:site_name" content="Punmy">
 <meta property="og:description" content="功耗分析是移动应用开发中一个非常重要的课题，也是衡量应用性能表现的一个重要指标。苹果官方提供的诊断日志能够获取到极其详细的 App 功耗、电池温度、硬件状态等信息信息，以下是 Power Log 的详细介绍。">
+<meta property="og:locale" content="default">
 <meta property="og:image" content="http://punmy.cn/media/15284462930320/15287021385503.jpg">
 <meta property="og:image" content="http://punmy.cn/media/15284462930320/15287660449685.jpg">
 <meta property="og:image" content="http://punmy.cn/media/15284462930320/15287863692382.jpg">
@@ -71,8 +72,8 @@ var _hmt = _hmt || [];
 
 
 </head>
-
 <body>
+
     <div id="container">
         <header id="header">
     <div id="header-main" class="header-inner">
@@ -275,11 +276,11 @@ var _hmt = _hmt || [];
 <blockquote>
 <p>这些诊断工具在之前被苹果称为 Sysdiagnose，现在，它们被苹果统一归类到 Bug Reporting 的主题中，电池续航相关的诊断日志被称为“Power Log”。</p>
 </blockquote>
-<p>我在苹果的 Bug Reporting 中发现了一份<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="external">电池诊断日志的导出指南</a>，其中仅仅简短地介绍了导出日志的几个步骤。我按照其中的步骤成功导出了电池续航日志，发现该日志其实是一个数据库，其中储存了几十张表。至于这几十张表中存储的内容是什么，各个字段的含义是什么，以及如何分析其中的数据，苹果的指南中则只字未提。好在经过一番查找后，我发现了腾讯的一篇<a href="https://cloud.tencent.com/developer/article/1006222" target="_blank" rel="external">博客</a> 中有提到其中几张表的内容，有了这个开头后，我便顺腾摸瓜，大致了解了其中的结构。</p>
+<p>我在苹果的 Bug Reporting 中发现了一份<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="noopener">电池诊断日志的导出指南</a>，其中仅仅简短地介绍了导出日志的几个步骤。我按照其中的步骤成功导出了电池续航日志，发现该日志其实是一个数据库，其中储存了几十张表。至于这几十张表中存储的内容是什么，各个字段的含义是什么，以及如何分析其中的数据，苹果的指南中则只字未提。好在经过一番查找后，我发现了腾讯的一篇<a href="https://cloud.tencent.com/developer/article/1006222" target="_blank" rel="noopener">博客</a> 中有提到其中几张表的内容，有了这个开头后，我便顺腾摸瓜，大致了解了其中的结构。</p>
 <p>下面，我简单地介绍一下，如何通过这个方法获取最全面的功耗信息，以及如何分析其中的数据。</p>
-<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h2><p>苹果在<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="external">电池诊断日志的导出指南</a>中详细说明了导出日志的步骤。我这里简要说明一下大概的步骤。</p>
+<h2 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h2><p>苹果在<a href="https://download.developer.apple.com/iOS/iOS_Logs/Battery_Life_Logging_Instructions.pdf" target="_blank" rel="noopener">电池诊断日志的导出指南</a>中详细说明了导出日志的步骤。我这里简要说明一下大概的步骤。</p>
 <ul>
-<li>首先在你的测试机上，安装电量分析的 <a href="https://developer.apple.com/services-account/download?path=/iOS/iOS_Logs/BatteryLife.mobileconfig" target="_blank" rel="external">profile</a>，安装完成后，iOS 才会记录最详细的功耗数据，并开放读取；（推荐下载后用 Airdrop 发送到手机上安装）</li>
+<li>首先在你的测试机上，安装电量分析的 <a href="https://developer.apple.com/services-account/download?path=/iOS/iOS_Logs/BatteryLife.mobileconfig" target="_blank" rel="noopener">profile</a>，安装完成后，iOS 才会记录最详细的功耗数据，并开放读取；（推荐下载后用 Airdrop 发送到手机上安装）</li>
 <li>第二步，连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的功耗的历史记录拷贝到电脑上；</li>
 <li>第三步，断开设备，运行你的 App，这时设备已经在记录功耗信息，记得留意你运行 App 时的时间，因为稍后要和数据库中的时间戳进行匹配；</li>
 <li>第四部，再次连接上 iTunes 并同步，这时 iTunes 就会自动把手机上的详细功耗记录拷贝到电脑上；</li>
@@ -388,7 +389,7 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" data-id="cjst166ad000icwnn50r42aar" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="http://punmy.cn/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" data-id="cjst1jv3t000gwrnnt06bap9d" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 
 
             
