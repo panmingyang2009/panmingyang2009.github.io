@@ -1,38 +1,18 @@
 <!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
-    <title>OSX/iOS 网络抓包工具 Charles 入门 | Punmy</title>
+    <title>Punmy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Charles 是一款非常好用的网络调试工具。">
-<meta name="keywords" content="抓包,网络,iOS,HTTP">
-<meta property="og:type" content="article">
-<meta property="og:title" content="OSX/iOS 网络抓包工具 Charles 入门">
-<meta property="og:url" content="http://punmy.cn/2016/10/06/14757432517519.html">
+    <meta name="description" content="潘名扬的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Punmy">
+<meta property="og:url" content="http://punmy.cn/page/2/index.html">
 <meta property="og:site_name" content="Punmy">
-<meta property="og:description" content="Charles 是一款非常好用的网络调试工具。">
+<meta property="og:description" content="潘名扬的博客">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/Charles.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/Charles%E7%AA%97%E5%8F%A3.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757643277589.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757646090593.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757642106306.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757655232099.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757660613993.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14757676735559.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759352396110.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759362841562.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759368101329.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759370781229.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759386662038.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759391242777.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759409498353.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/14759406599047.jpg">
-<meta property="og:image" content="http://punmy.cn/media/14757432517519/ssl%E4%BB%A3%E7%90%86.jpg">
-<meta property="og:updated_time" content="2018-04-07T10:08:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OSX/iOS 网络抓包工具 Charles 入门">
-<meta name="twitter:description" content="Charles 是一款非常好用的网络调试工具。">
-<meta name="twitter:image" content="http://punmy.cn/media/14757432517519/Charles.jpg">
+<meta name="twitter:title" content="Punmy">
+<meta name="twitter:description" content="潘名扬的博客">
     
 
     
@@ -236,15 +216,16 @@ var _hmt = _hmt || [];
 </aside>
 
             
-            <section id="main"><article id="post-14757432517519" class="article article-type-post" itemscope="" itemprop="blogPost">
+            <section id="main">
+    <article id="post-15231176397746" class="article article-type-post" itemscope="" itemprop="blogPost">
     <div class="article-inner">
         
         
             <header class="article-header">
                 
     
-        <h1 class="article-title" itemprop="name">
-            OSX/iOS 网络抓包工具 Charles 入门
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/07/28/15231176397746.html">心跳之旅—💗—iOS用手机摄像头检测心率(PPG)</a>
         </h1>
     
 
@@ -253,8 +234,8 @@ var _hmt = _hmt || [];
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/10/06/14757432517519.html">
-            <time datetime="2016-10-06T08:40:00.000Z" itemprop="datePublished">2016-10-06</time>
+        <a href="/2016/07/28/15231176397746.html">
+            <time datetime="2016-07-28T12:56:00.000Z" itemprop="datePublished">2016-07-28</time>
         </a>
     </div>
 
@@ -262,13 +243,13 @@ var _hmt = _hmt || [];
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/工具/">工具</a>
+        <a class="article-category-link" href="/categories/Code/">Code</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/工具/">工具</a>, <a class="tag-link" href="/tags/网络/">网络</a>
+        <a class="tag-link" href="/tags/Article/">Article</a>, <a class="tag-link" href="/tags/Camera/">Camera</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>
     </div>
 
                     </div>
@@ -278,87 +259,10 @@ var _hmt = _hmt || [];
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <p><img src="/media/14757432517519/Charles.jpg" alt="Charles"></p>
-<p>在 iOS 开发中，我们常常要涉及到网络编程，而网络编程中的调试往往令人头痛。此外，我们也有时也会需要抓取一些 App 的网络包，以便了解它网络请求的API。本篇要介绍的 Charles 就是一款非常好用的网络调试工具，它可以轻松地满足我们的上述需求。</p>
-<a id="more"></a>
-<blockquote>
-<p>本篇博客中所使用的环境为：macOS Sierra 10.12，Charles 4.0.1，iPod Touch 5。</p>
-</blockquote>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="启动-Charles"><a href="#启动-Charles" class="headerlink" title="启动 Charles"></a>启动 Charles</h3><p>Charles 的下载安装这里就不再赘述。启动 Charles 后，我们可以看到 Charles 的主界面。</p>
-<p><img src="/media/14757432517519/Charles%E7%AA%97%E5%8F%A3.jpg" alt="Charles窗口"></p>
-<p>窗口的左侧是抓取到的网络包，通常 Charles 启动后我们就可以看到 Mac 上的一些网络包开始出现在这里。</p>
-<p>窗口右侧是选中的网络包的详细信息，如 URL、状态码等。</p>
-<p>窗口上方是一些常用的工具。鼠标经过时就会有相应的提示，后面再细说。</p>
-<p>右下角是 Charles 当前的状态。可以显示 Recording、BreakPoints、Rewrite 等功能是否启用。</p>
-<h3 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h3><p>要抓取 iOS 设备上的网络包，首先要将 iOS 设备和装有 Charles 的电脑连接到同一个局域网下，并将 Charles 设置为 iOS 的 HTTP 代理，这样 Charles 就可以捕捉到所有进出 iOS 的网络包。设置的步骤如下：</p>
-<ol>
-<li>确保装有 Charles 的 mac 和等待调试的 iOS 设备在同一局域网内；</li>
-<li><p>查找 mac 的 IP 地址（可以在 Charles 菜单栏的 Help -&gt; Local IP Address 直接查看）；<br><img src="/media/14757432517519/14757643277589.jpg" alt="快速查看本机 IP"></p>
-</li>
-<li><p>在 iOS 设备上的 设置 -&gt; Wi-Fi 中，点击已连接 WiFi 右侧的 详细按钮（蓝色），将 WiFi 详情页底部的 HTTP 代理 设为手动，并在 服务器 一栏填入上一步中 mac 的 IP 地址，在 端口 一栏填入 Charles 的默认代理端口 8888，然后退出设置；<br><img src="/media/14757432517519/14757646090593.jpg" alt="代理设置"></p>
-</li>
-<li><p>此时如果网络正常的话，Charles 会提示有设备企图连接，同意连接，便完成了代理的设置。</p>
-</li>
-</ol>
-<p><img src="/media/14757432517519/14757642106306.jpg" alt="连接请求"></p>
-<blockquote>
-<p>注意：许多公司的内部局域网会限制设备间的互相访问，这可能会导致 Charles 抓取不到网络包，这种情况下可以尝试自己创建一个热点。</p>
-</blockquote>
-<p>连接完成后，窗口左侧开始出现 Charles 抓到的包，说明进展顺利。</p>
-<h2 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h2><h3 id="捕获"><a href="#捕获" class="headerlink" title="捕获"></a>捕获</h3><p>Charles 启动后，就处于 Recording 状态，会自动捕捉网络包，点击窗口上方工具栏的第二个按钮可以停止捕捉。</p>
-<p>在窗口左侧的选择上方的 Structure 或 Sequence 可以切换网络包的显示方式。</p>
-<ul>
-<li>Structure 是根据主机名以树状显示，便于查看同一主机名的网络包，每当有新的请求到达时，相应的主机名就会用黄色高亮闪烁。我们通常都是采用这个方式。</li>
-<li>Sequence 则是根据网络请求的时间顺序依次显示，在这个模式下，整个窗口的布局也会有所变化。</li>
-</ul>
-<p>选中某个网络包后，右侧就会显示该网络包的详细信息。</p>
-<p><img src="/media/14757432517519/14757655232099.jpg" alt="微信朋友圈的网络请求"></p>
-<p>开始抓包之后，我们会发现，只有 HTTP 的包被成功解析了，HTTPS 的包都处于加密状态。要想查看 HTTPS 的包内容，可以查看本文中 SSL 代理的小节。</p>
-<h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>开始抓包后，随着时间的推移，抓取到的网络包越来越多，这是我们可以使用过滤功能，来过滤出我们想要的网络请求。</p>
-<p>在 Proxy -&gt; Recording Settings 中可以设置网络包的过滤选项。</p>
-<p><img src="/media/14757432517519/14757660613993.jpg" alt="过滤选项"></p>
-<p>过滤选项中有 Include 和 Exclude 两种选项。只有当 Include 为空时，Exclude 中的设置才会生效。过滤条件支持通配符。</p>
-<h2 id="修改网络包"><a href="#修改网络包" class="headerlink" title="修改网络包"></a>修改网络包</h2><h3 id="修改历史请求"><a href="#修改历史请求" class="headerlink" title="修改历史请求"></a>修改历史请求</h3><p>可以将历史的请求修改后，再次发送。</p>
-<p>只需选中某个请求，点击上方工具栏中的蓝色钢笔按钮（第四个），就可以进行修改。完成修改后，点击下方的 Execute 执行请求。</p>
-<p><img src="/media/14757432517519/14757676735559.jpg" alt="修改请求"></p>
-<h3 id="断点"><a href="#断点" class="headerlink" title="断点"></a>断点</h3><p>窗口上方的工具栏中，第四个按钮就是 Enable BreakPoints，用来启用或禁用断点。也可以在 Proxy -&gt; BreakPoints Setting 中设置更多具体内容。</p>
-<p>在 Charles 中可以像调试程序一样添加断点。方法是右键点击左侧窗口的某个请求，选择 BreakPoints 添加断点。这样当这个请求发出或者收到 response 的时候，就会先被 Charles 拦截下来，并触发断点。</p>
-<p><img src="/media/14757432517519/14759352396110.jpg" alt="某个 request 的断点"></p>
-<p>触发断点后，可以对断点的网络包进行各种编辑，然后再继续。点击 Execute 就可以继续。</p>
-<p>同时，也可以在 Proxy -&gt; BreakPoints Setting 设置断点的各种规则。例如，是在 request 的时候触发还是 response 的时候。</p>
-<p><img src="/media/14757432517519/14759362841562.jpg" alt="断点设置"></p>
-<p>由于设置断点时，Charles 是先拦截下整个网络包，再触发断点，当网络包比较大的时候，常常会导致应用超时，触发网络错误的警告，因此，自动地根据规则修改网络包有时显得尤为重要。这就是下面要说的<strong>篡改</strong>。</p>
-<h3 id="篡改（Rewrite）"><a href="#篡改（Rewrite）" class="headerlink" title="篡改（Rewrite）"></a>篡改（Rewrite）</h3><p>Rewrite 是按照一组事先设置的规则，篡改特定的网络包中的数据。</p>
-<p>在 Tools -&gt; Rewrite 中，选中 Enable Rewrite 来开启 Rewrite。</p>
-<p><img src="/media/14757432517519/14759368101329.jpg" alt="Rewrite"></p>
-<p>勾选 Debug in Error Log 选项，就能在 Charles 控制台中看到 Rewrite 的记录。</p>
-<p>首先要在右侧的规则列表中添加一个新规则。在新规则中添加要 Rewrite 的 Location，然后再下方添加具体的篡改规则。规则中可以使用通配符。</p>
-<p><img src="/media/14757432517519/14759370781229.jpg" alt="Rewrite Rule"></p>
-<p>这样稍后匹配条件的网络包到达的时候，Charles 就会自动将其中的内容按规则篡改。</p>
-<h3 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h3><p>Charles提供的映射功能可以将本地文件或者远程的服务器作为某个请求的 Response。可以方便地进行一些特殊的测试。</p>
-<h4 id="Map-Local"><a href="#Map-Local" class="headerlink" title="Map Local"></a>Map Local</h4><p>本地映射，在 Tools -&gt; Map Local。可以选择一个本地文件作为某个请求的 Response，并且 Charles 会帮你封装好 Response。<br><img src="/media/14757432517519/14759386662038.jpg" alt="Map Local"></p>
-<h4 id="Remote-Remote"><a href="#Remote-Remote" class="headerlink" title="Remote Remote"></a>Remote Remote</h4><p>远程映射和本地映射的功能类似，只是将数据源换成了远程服务器。相当于将请求交给另一个服务器处理</p>
-<h2 id="网络环境模拟"><a href="#网络环境模拟" class="headerlink" title="网络环境模拟"></a>网络环境模拟</h2><p>Charles 还可以模拟不同网速环境，可以很方便地测试应用在网络差的情况下的 bug。</p>
-<p>在 Proxy -&gt; Throttle Settings 中勾选 Enable Throttling，或者直接点击窗口上方的工具栏中的乌龟🐢按钮就可以启用，这个按钮十分形象。</p>
-<p>在 Proxy -&gt; Throttle Settings 中，添加要针对的 Locations，如果选中了 Only for selected hosts，并且Locations中有数据，则只有 Locations 列表中的请求会被限速，否则会对全局限速。在 Throttle Configuration 中可以对网络环境进行十分详细的配置，包括网络的稳定程度、网速、环境等。</p>
-<p><img src="/media/14757432517519/14759391242777.jpg" alt="Throttle Setting"></p>
-<h2 id="SSL-代理"><a href="#SSL-代理" class="headerlink" title="SSL 代理"></a>SSL 代理</h2><p>在使用 Charles 的过程中，我们会发现，只有未加密的 Http 请求才能被 Charles 正确的解析出数据，其余的 Https 请求都处于加锁的状态，但我们不可避免的需要抓取 Https 的包。SSL 代理就可以完美解决这个问题。</p>
-<p>要启用 SSL 代理，先要在 Proxy -&gt; SSL Proxying Settings 中勾选 Enable SSL Proxying，然后配置要代理的 Location，一般可以直接填星号，以匹配所有请求。</p>
-<p><img src="/media/14757432517519/14759409498353.jpg" alt="SSL设置"></p>
-<p><strong>接下来还要安装 Charles 的证书</strong>。</p>
-<p>Charles 中的 HTTPS 代理的原理是，Charles 充当一个中间人，针对目标服务器动态地生成一个使用 Charles 根证书（Charles CA Certificate）签名的证书；请求发生的时候， Charles 会接收 web 服务器的证书，而把自己生成的证书给客户端看。</p>
-<p>因此在在使用 Charles 作为 HTTPS 代理时，客户端在请求 HTTPS 接口的时候会弹出安全警告，提示 Charles 根证书不被信任。我们需要添加 Charles 根证书为信任证书中。</p>
-<p>方法如下：</p>
-<p>1、点击 Help -&gt; SSL Proxying，根据被抓包设备的类型，来选择对应的安装选项（如果是 OSX 就直接选择 Install Charles Root Certificate）；</p>
-<p>2、如果是iOS真机，则会弹出下面的提示，此时不用按上面的提示来配置代理，只要按照上文的步骤配置过代理了就可以了。然后在 Safari 中打开 chls.pro/ssl 安装 Charles 的证书，就 OK 了。<br><img src="/media/14757432517519/14759406599047.jpg" alt="提示"></p>
-<p>设置好 SSL 代理后，HTTPS 请求就统统解锁啦！</p>
-<p><img src="/media/14757432517519/ssl%E4%BB%A3%E7%90%86.jpg" alt="ssl代理"></p>
-<blockquote>
-<p>Charles 是一个强大的抓包调试工具，它的功能远不止这些，但本篇作为一篇入门的博客，就先介绍这么多啦，更多功能等待大家探索~</p>
-</blockquote>
-<h2 id="套餐"><a href="#套餐" class="headerlink" title="套餐"></a>套餐</h2><h3 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h3><p>Charles 搭配 Postman 更好用噢~<br>Postman 是 Chrome 浏览器中的一个小应用，可以在 Chrome 应用商城中找到。是居家旅行测试 Web API 的好帮手！</p>
-
+            <p></p><p>[前情提要] 光阴似箭，日月如梭，最近几年，支持心率检测的设备愈发常见了，大家都在各种测空气测雪碧的，如火如荼，于是我也来凑一凑热闹。<strong>[0]</strong><br>这段时间，我完成了一个基于iOS的心率检测Demo，只要稳定地用指尖按住手机摄像头，它就能采集你的心率数据。Demo完成后，我对心率检测组件进行了封装，并提供了默认动画和音效，能够非常方便导入到其他项目中。在这篇博客里，我将向大家分享一下我完成心率检测的过程，以及，期间我遇到的种种困难。</p><p></p>
+            <p class="article-more-link">
+                <a href="/2016/07/28/15231176397746.html#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -368,51 +272,24 @@ var _hmt = _hmt || [];
 
 </div>
 
-    <a data-url="http://punmy.cn/2016/10/06/14757432517519.html" data-id="cjw387h6g0002m9nnpu9vvjti" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="http://punmy.cn/2016/07/28/15231176397746.html" data-id="cjw387h6t000am9nnuvsupmbz" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
 
 
             
     
-        <a href="http://punmy.cn/2016/10/06/14757432517519.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2016/10/06/14757432517519.html">Comentarios</a>
+        <a href="http://punmy.cn/2016/07/28/15231176397746.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2016/07/28/15231176397746.html">Comentarios</a>
     
 
         </footer>
     </div>
     
-        
-<nav id="article-nav">
-    
-        <a href="/2017/03/06/15158218121366.html" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
-            <div class="article-nav-title">
-                
-                    iOS Search APIs
-                
-            </div>
-        </a>
-    
-    
-        <a href="/2016/07/28/15231176397746.html" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
-            <div class="article-nav-title">心跳之旅—💗—iOS用手机摄像头检测心率(PPG)</div>
-        </a>
-    
-</nav>
-
-
-    
 </article>
 
 
-    
-    
-        <section id="comments">
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-</section>
-    
 
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/">« Anterior</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
 </section>
             
                 
@@ -641,13 +518,11 @@ var _hmt = _hmt || [];
         });
     })(jQuery);;var disqus_config = function () {
         
-            this.page.url = 'http://punmy.cn/2016/10/06/14757432517519.html';
-        
-        this.page.identifier = '14757432517519';
+        this.page.identifier = '';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'punmy' + '.disqus.com/embed.js';
+        s.src = '//' + 'punmy' + '.disqus.com/count.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();</script></body></html>

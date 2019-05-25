@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://punmy.cn/"/>
-  <updated>2019-03-05T15:38:21.945Z</updated>
+  <updated>2019-05-25T07:44:05.086Z</updated>
   <id>http://punmy.cn/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用cocoapods-packager打包静态库</title>
+    <link href="http://punmy.cn/2019/05/25/%E4%BD%BF%E7%94%A8cocoapods-packager%E6%89%93%E5%8C%85%E9%9D%99%E6%80%81%E5%BA%93.html"/>
+    <id>http://punmy.cn/2019/05/25/使用cocoapods-packager打包静态库.html</id>
+    <published>2019-05-25T07:41:03.000Z</published>
+    <updated>2019-05-25T07:44:05.086Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="什么是-cocoapods-packager"><a href="#什么是-cocoapods-packager" class="headerlink" title="什么是 cocoapods-packager"></a>什么是 cocoapods-packager</h2><p>cocoapods-packager 是 CocoaPods 提供的一个打包工具，可以根据 podspec 的配置，方便地将源码打包为 framework。</p><a id="more"></a><h2 id="使用-Packager-打包"><a href="#使用-Packager-打包" class="headerlink" title="使用 Packager 打包"></a>使用 Packager 打包</h2><p>在原有仓库中，使用 pod package 命令，将原有的源码打包为静态库：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod package APodSpec.podspec --library</span><br></pre></td></tr></table></figure><p>其中，–library 指定 packager 打出静态库。</p><blockquote><p>PS. 如果需要排除源码中依赖的第三方库，可以在打包命令中添加 <code>--exclude-deps</code> 选项。</p></blockquote><p>如果仓库没有问题的话，会得到一个与当前 podspec 版本号对应的，名为 <code>APodSpec-x.x.x</code> 的文件夹。里面就会有已经打包好的 .a 文件和一些打包过程中的中间产物，以及一份自动生成的静态库版本的 .podspec 配置文件。</p><p>这里需要注意的是，不能直接使用它自动生成的这份 .podspec 配置文件，这份配置文件实际上是给 framework 用的，而不是给 .a 的。</p><h2 id="配置静态库的-podspec-文件"><a href="#配置静态库的-podspec-文件" class="headerlink" title="配置静态库的 podspec 文件"></a>配置静态库的 podspec 文件</h2><p>cocoapods-packager 打包静态库的功能存在 Bugs，让人感觉像是把打包 framework 的模块拿过来随便改改充数的。它有两个问题，首先，它在打包后不会将头文件拷贝出来和 .a 放到一起，.a 所在的目录只有光秃秃的一个静态库；其次，它自动生成的 .podspec 文件中配置的竟然是 <code>s.ios.vendored_framework   = &#39;ios/APodSpec.framework&#39;</code>，但我们生成的是 .a 静态库，根本就不存在 framework。</p><p>这些问题在 CocoaPods 中很早就被提了 <a href="https://github.com/CocoaPods/cocoapods-packager/issues/53" target="_blank" rel="noopener">issue</a>，但 CocoaPods 表示——虽然这是 Bugs，但是他们是不会修复的。因此，我们需要修正一下 podspec 文件。</p><p>最简单的方法就是把仓库中原有的 podspec 文件拷贝一份过来改一改。</p><p>首先我们需要指定静态库：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.vendored_libraries = &quot;Path/to/APodSpec.a&quot;</span><br></pre></td></tr></table></figure><p>然后，<strong>去掉</strong>原有的 <code>s.public_header_files</code> 字段，并按照以下方式指定静态库的头文件：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.source_files = &quot;APodSpec/**/*.h&quot;</span><br></pre></td></tr></table></figure><p>需要注意的是，这里不应该使用 <code>s.public_header_files</code>，而是用 <code>s.source_files</code> 去指定。</p><p>最后，去除一些没用的配置，比如 <code>s.resources</code> 等，就可以了。</p><h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>要测试配置是否有问题的话，可以直接拿新的 podspec 文件替换掉原有的试一试，在 Demo 中 pod install 后能编译成功的话基本就没问题了。</p><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>需要注意的是，使用 packager 打包的前提是，SDK 的 spec 足够规范。</p><p>因为 packager 在实际的打包时，并不是使用本地的工程代码进行打包，而是会去 podspec 文件中配置的 Git 仓库中拉取远端的代码。它会根据 podspec 中指定的版本号去远端仓库中拉取对应 tag 的代码到临时目录中，进行打包。</p><p>因此，如果你的 podspec 文件填写错误，或是忘记在仓库中打 tag，抑或是你的仓库没有 push 到 Spec 中，导致 CocoaPods 没办法索引到你指定的代码版本，就可能导致打包失败。</p>]]></content>
+    
+    <summary type="html">
+    
+      cocoapods-packager 是 CocoaPods 提供的一个打包工具，可以根据 podspec 的配置，方便地将源码打包为 framework。
+    
+    </summary>
+    
+      <category term="工具" scheme="http://punmy.cn/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="工具" scheme="http://punmy.cn/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>代码比对神器 Kaleidoscope</title>
