@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://punmy.cn/"/>
-  <updated>2019-05-25T07:44:05.086Z</updated>
+  <updated>2019-06-11T16:03:54.959Z</updated>
   <id>http://punmy.cn/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Xcode分布式编译调研distcc</title>
+    <link href="http://punmy.cn/2019/06/11/Xcode%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%96%E8%AF%91%E8%B0%83%E7%A0%94distcc.html"/>
+    <id>http://punmy.cn/2019/06/11/Xcode分布式编译调研distcc.html</id>
+    <published>2019-06-11T15:59:03.000Z</published>
+    <updated>2019-06-11T16:03:54.959Z</updated>
+    
+    <content type="html"><![CDATA[<p>这几天研究了下在 Xcode 上使用 <strong>distcc</strong> 进行分布式编译，无疾而终，在此记录下过程中遇到的一些<strong>主要问题</strong>，以备后续研究。</p><h2 id="distcc"><a href="#distcc" class="headerlink" title="distcc"></a>distcc</h2><p>distcc 是一个开源的分布式编译工具，它可以将 C 语言的编译任务分发到多台机器上进行编译，最终再发回主机进行链接，以此加快编译速度。</p><a id="more"></a><h2 id="使用-PSPDF-的方案，本地编译成功，远程编译失败"><a href="#使用-PSPDF-的方案，本地编译成功，远程编译失败" class="headerlink" title="使用 PSPDF 的方案，本地编译成功，远程编译失败"></a>使用 PSPDF 的方案，本地编译成功，远程编译失败</h2><p>最初 distcc 的分布式编译方案就是在 PSPDF 的 Blog 上看到的，之前配置 CCache 的时候也参考过他们的 Blog。原文地址在此：<a href="https://pspdfkit.com/blog/2017/crazy-fast-builds-using-distcc/" target="_blank" rel="noopener">Crazy Fast Builds Using Distcc</a></p><p>文中提到，目前 distcc 原生不支持 Xcode + clang，因为 Xcode 调用 clang 编译时，使用了许多特殊的选项，distcc 缺少了对这些选项的支持。因此，PSPDF 团队提供了一份打了补丁的 distcc。下面我快速总结下他们的方案，详细的讲解请看原文。</p><h3 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h3><ul><li>在配置好 CCache 的情况下（不是必要条件，只是为了方便配置）</li><li>先使用 brew 安装原生 distcc：命令行中 <code>brew install distcc</code></li><li>拉下 PSPDF 打补丁后的源代码：<a href="https://github.com/PSPDFKit-labs/distcc" target="_blank" rel="noopener">PSPDF distcc</a></li><li>编译源码：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./autogen.sh</span><br><span class="line">./configure --without-libiberty --disable-Werror</span><br><span class="line">make</span><br></pre></td></tr></table></figure><ul><li>在 <code>/usr/local/Cellar/distcc/</code> 目录下，找到刚刚用 brew 安装的 distcc 的所有二进制文件，用刚刚编译出来的几个二进制文件替换；</li><li>在 <code>~/.distcc/</code> 目录下创建 <code>hosts</code> 文件，写入远程的编译机器的地址，如<code>172.16.0.1</code>；</li><li>让 Xcode 调用 distcc：在配置了 CCache 的工程目录下，把 <code>ccache-clang</code> 脚本中原有的命令都注释掉，换成<code>exec distcc clang &quot;$@&quot;</code>；（这是一个偷懒办法，使用包含 CCache 的工程就是为了利用 <code>ccache-clang</code> 脚本拦截 <code>clang</code> 的调用。此外，还可以在这行命令前，加上<code>export DISTCC_VERBOSE=0</code>来输出 <code>distcc</code> 的日志）</li><li>本地配置好后，给远端的编译服务器也按上述步骤</li></ul><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul><li>在编译的机器上跑起 distcc 的后台编译线程：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">distccd --no-detach --daemon --allow 172.16.0.0/16 --allow 127.0.0.1 --log-stderr --verbose</span><br></pre></td></tr></table></figure><ul><li>在本机 <code>brew install watch</code>，然后新开一个终端窗口执行 <code>watch distccmon-text</code>，用来监控本机任务分发的情况；</li><li>Xcode 开始编译；</li></ul><h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ul><li>如果只把 <code>localhost</code> 作为编译服务器，则编译没问题，输出 COMPILE_OK；</li><li>如果不在本地编译，把任务分发到远端的编译服务器，则远端全部编译失败 <code>COMPILE_ERROR exit code 1</code>，然后 distcc 回滚到本地编译；</li></ul><h2 id="使用-distcc-with-pump-mode"><a href="#使用-distcc-with-pump-mode" class="headerlink" title="使用 distcc with pump mode"></a>使用 distcc with pump mode</h2><p>看到网上有一个类似的错误，声称开启 <code>pump mode</code>后可以解决上述问题，于是尝试 <code>distcc with pump mode</code>。</p><blockquote><p><code>pump mode</code>是指不仅将编译任务分发到远端，而且还将预处理的任务分发到远端，这使得传输的数据量变得非常大，但是当远端服务器数量够多，且带宽超过100M 的情况下，它可能会极大提升编译速度。</p></blockquote><h3 id="开启方法"><a href="#开启方法" class="headerlink" title="开启方法"></a>开启方法</h3><ul><li>在之前提到的 <code>hosts</code> 文件中的所有 IP 后面都加上<code>,lzo,cpp</code>，如<code>172.16.0.1,lzo,cpp</code>;</li><li>在<code>ccache-clang</code>的那句脚本上，加上 <code>pump</code>，变成<code>exec pump distcc clang &quot;$@&quot;</code>;</li></ul><h3 id="遇到的问题-1"><a href="#遇到的问题-1" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><ul><li>直接编译，发现报错，缺少某些<code>.so .sh .py</code>文件，尝试将本地编译生成的一些对应的文件拷贝到 <code>/usr/local/Cellar/distcc/</code> 目录下，最终不再报类似错误；</li><li>解决上述编译错误的问题后，Xcode 显示编译成功，但远端的控制台发现编译失败。检查后发现，似乎是本地分析代码依赖的时候，发生了错误，导致无法分发预处理的任务，在本地完成了预处理，而本地预处理后，分发编译任务给远端时，就又出现了最初的本地编译成功，远端而编译失败的情况。错误信息如下：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">__________Using distcc-pump from /usr/local/Cellar/distcc/3.2rc1/bin</span><br><span class="line">__________Using        1 distcc server in pump mode</span><br><span class="line">WARNING include server: Preprocessing locally. Include server not covering: Could not locate name of translation unit: [&apos;/Users/zj-db0524/Library/Developer/Xcode/DerivedData/MTHawkeye-bgzsavpygorewzcnobhqjehindcn/Index/DataStore&apos;, &apos;/Users/zj-db0524/Library/Developer/Xcode/DerivedData/MTHawkeye-bgzsavpygorewzcnobhqjehindcn/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/AFNetworking.build/Objects-normal/x86_64/AFImageDownloader.dia&apos;, &apos;/Users/zj-db0524/Documents/Code/MTHawkeye/MTHawkeyeDemo/Pods/AFNetworking/UIKit+AFNetworking/AFImageDownloader.m&apos;]. for translation unit &apos;unknown translation unit&apos; </span><br><span class="line">distcc[74951] (dcc_talk_to_include_server) Warning: include server gave up analyzing</span><br><span class="line">distcc[74951] (dcc_build_somewhere) Warning: failed to get includes from include server, preprocessing locally</span><br><span class="line">distcc[74951] ERROR: compile /Users/zj-db0524/Documents/Code/MTHawkeye/MTHawkeyeDemo/Pods/AFNetworking/UIKit+AFNetworking/AFImageDownloader.m on 172.16.3.77,lzo,cpp failed</span><br><span class="line">distcc[74951] (dcc_build_somewhere) Warning: remote compilation of &apos;/Users/zj-db0524/Documents/Code/MTHawkeye/MTHawkeyeDemo/Pods/AFNetworking/UIKit+AFNetworking/AFImageDownloader.m&apos; failed, retrying locally</span><br><span class="line">distcc[74951] Warning: failed to distribute /Users/zj-db0524/Documents/Code/MTHawkeye/MTHawkeyeDemo/Pods/AFNetworking/UIKit+AFNetworking/AFImageDownloader.m to 172.16.3.77,lzo,cpp, running locally instead</span><br><span class="line">distcc[74951] (dcc_please_send_email_after_investigation) Warning: remote compilation of &apos;/Users/zj-db0524/Documents/Code/MTHawkeye/MTHawkeyeDemo/Pods/AFNetworking/UIKit+AFNetworking/AFImageDownloader.m&apos; failed, retried locally and got a different result.</span><br><span class="line">distcc[74951] (dcc_note_discrepancy) Warning: now using plain distcc, possibly due to inconsistent file system changes during build</span><br><span class="line">__________Warning:        1 pump-mode compilation(s) failed on server, but succeeded locally.</span><br><span class="line">__________Distcc-pump was demoted to plain mode.</span><br><span class="line">See the Distcc Discrepancy Symptoms section in the include_server(1) man page.</span><br><span class="line">__________Shutting down distcc-pump include server</span><br></pre></td></tr></table></figure><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>分布式编译十分美好，在 Xcode 上理论上是可行的，Xcode 4 之前甚至内嵌了 distcc。但是目前 distcc 目前原生不支持 Xcode，且其社区不是很活跃，特别是 Xcode 上的应用成功的案例更是少之又少，几乎为零，提及它的内容大多是几年前发布的。以此初步判断，目前除非投入较多精力寻找变通手段，进行适配，否则较难实现分布式编译。欢迎成功实践了 distcc 或其他分布式编译方式的朋友和我</p>]]></content>
+    
+    <summary type="html">
+    
+      distcc 是一个开源的分布式编译工具，它可以将 C 语言的编译任务分发到多台机器上进行编译，最终再发回主机进行链接，以此加快编译速度
+    
+    </summary>
+    
+      <category term="工具" scheme="http://punmy.cn/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="工具" scheme="http://punmy.cn/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>使用cocoapods-packager打包静态库</title>
@@ -182,9 +206,9 @@
     
       <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
     
-      <category term="HTTP2" scheme="http://punmy.cn/tags/HTTP2/"/>
-    
       <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="HTTP2" scheme="http://punmy.cn/tags/HTTP2/"/>
     
   </entry>
   
