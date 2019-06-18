@@ -1,0 +1,745 @@
+<!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    
+    <title>iOS耗电量和性能优化的全新框架 | Punmy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="App 的耗电量和性能表现是用户体验的一个重要部分，耗电量过大或是性能很差的 App 会导致糟糕的用户体验。为了改善用户体验以及延长电池寿命，在 Session 417 中，苹果推出了三项新的电量和性能监测工具，分别用于开发阶段、内测阶段、以及线上阶段。相信通过本文，你会对你的 App 接下去的耗电量和性能优化的方向，有更好的计划。">
+<meta name="keywords" content="iOS,MetricsKit,Performance,性能,电池,Battery,Xcode Metrics,MXSignpost,Organizer,数据上报,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS耗电量和性能优化的全新框架">
+<meta property="og:url" content="http://punmy.cn/2019/06/16/wwdc_417_metrics.html">
+<meta property="og:site_name" content="Punmy">
+<meta property="og:description" content="App 的耗电量和性能表现是用户体验的一个重要部分，耗电量过大或是性能很差的 App 会导致糟糕的用户体验。为了改善用户体验以及延长电池寿命，在 Session 417 中，苹果推出了三项新的电量和性能监测工具，分别用于开发阶段、内测阶段、以及线上阶段。相信通过本文，你会对你的 App 接下去的耗电量和性能优化的方向，有更好的计划。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15606648571132.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15606650268386.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/battery.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/performance.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/xctestbefore.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608420618102.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608420813847.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608468771088.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608499923330.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/metric.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608429145157.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608555531297.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608527327680.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/mxSignpost.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/organizer.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608386396337.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608387012575.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/15608388613361.jpg">
+<meta property="og:image" content="http://punmy.cn/media/15606640304676/summary.jpg">
+<meta property="og:updated_time" content="2019-06-18T15:56:47.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS耗电量和性能优化的全新框架">
+<meta name="twitter:description" content="App 的耗电量和性能表现是用户体验的一个重要部分，耗电量过大或是性能很差的 App 会导致糟糕的用户体验。为了改善用户体验以及延长电池寿命，在 Session 417 中，苹果推出了三项新的电量和性能监测工具，分别用于开发阶段、内测阶段、以及线上阶段。相信通过本文，你会对你的 App 接下去的耗电量和性能优化的方向，有更好的计划。">
+<meta name="twitter:image" content="http://punmy.cn/media/15606640304676/15606648571132.jpg">
+    
+
+    
+        <link rel="alternate" href="atom.xml" title="Punmy" type="application/atom+xml">
+    
+
+    
+        <link rel="icon" href="/css/images/logo.png">
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-82197397-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?feda8e6966219ebc3f2c8caf07bcb17b";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+
+</head>
+<body>
+
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Punmy</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="/css/images/avatar.jpg">
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something...">
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tbody><tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search">
+    </div>
+
+                </td>
+            </tr>
+        </tbody></table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="/css/images/avatar.jpg">
+            <h2 id="name">Punmy</h2>
+            <h3 id="title">Codes, thoughts and stories.</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Shenzhen, China</span>
+            <a id="follow" target="_blank" href="https://github.com/panmingyang2009">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                13
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                12
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tbody><tr>
+                    
+                    
+                    <td>
+                        <a href="https://github.com/panmingyang2009" target="_blank" title="github" class="tooltip">
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://twitter.com/imEric_Young" target="_blank" title="twitter" class="tooltip">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="https://www.facebook.com/myericyoung" target="_blank" title="facebook" class="tooltip">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="http://weibo.com/imericyoung" target="_blank" title="dribbble" class="tooltip">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/atom.xml" target="_blank" title="rss" class="tooltip">
+                            <i class="fa fa-rss"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </tbody></table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-wwdc_417_metrics" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            iOS耗电量和性能优化的全新框架
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2019/06/16/wwdc_417_metrics.html">
+            <time datetime="2019-06-16T15:50:03.000Z" itemprop="datePublished">2019-06-16</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Code/">Code</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/framework/">framework</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/工具/">工具</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p><a href="https://developer.apple.com/videos/play/wwdc2019/417/" target="_blank" rel="noopener">Session 417, Improving Battery Life and Performance</a> （MetricsKit）</p>
+</blockquote>
+<p>App 的耗电量和性能表现是用户体验的一个重要部分，耗电量过大或是性能很差的 App 会导致糟糕的用户体验。为了改善用户体验以及延长电池寿命，在 Session 417 中，苹果推出了三项新的电量和性能监测工具，分别用于开发阶段、内测阶段、以及线上阶段。相信通过本文，你会对你的 App 接下去的耗电量和性能优化的方向，有更好的计划。</p>
+<a id="more"></a>
+<p>本次苹果推出的三项工具分别是：</p>
+<ul>
+<li>XCTest Metrics (开发和测试阶段)</li>
+<li>MetricsKit (内测阶段和线上阶段)</li>
+<li>Xcode Metrics Organizer (线上阶段)</li>
+</ul>
+<p><img src="/media/15606640304676/15606648571132.jpg" alt=""></p>
+<p>Session 417 中，苹果的工程师首先为我们介绍了 Metrics 能够监测的指标，以及各项指标的意义。然后，由三项新工具的负责人，依次为我们介绍了这三项新工具。下面我们进入正文。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>今年，苹果推出的性能指标监测工具可以分为两大类，分别是耗电量统计和性能监测。之所以要把耗电量统计单独作为一大类，是因为电量对于 iOS 而言真的十分重要。iOS 以其普遍落后的电池容量，做到超越大部分安卓设备的续航表现，很大一部分原因都归功于 iOS 优秀的电池管理和严格的后台任务管理，。</p>
+<p>下面我们从这两大类分别介绍下它们的主要监测指标。</p>
+<p><img src="/media/15606640304676/15606650268386.jpg" alt=""></p>
+<h3 id="1-Battery-Metrics"><a href="#1-Battery-Metrics" class="headerlink" title="1.Battery Metrics"></a>1.Battery Metrics</h3><p><img src="/media/15606640304676/battery.jpg" alt="battery"></p>
+<p>耗电量的指标可以分为几种，Metrics 可以分别进行统计，可以统计的几个耗电量大户分别是：</p>
+<ul>
+<li>Processing</li>
+<li>Location</li>
+<li>Display</li>
+<li>Networking</li>
+<li>Accessories (蓝牙)</li>
+<li>Multimedia</li>
+<li>Camera</li>
+</ul>
+<p>下面我们大致介绍下前四个：</p>
+<h4 id="Processing"><a href="#Processing" class="headerlink" title="Processing"></a>Processing</h4><blockquote>
+<p>CPU time, GPU time, etc.</p>
+</blockquote>
+<p>这些指标可以来度量和理解 App 的复杂度，它们可以用来比对各个功能的算法效率，发现无效的渲染等。</p>
+<h4 id="Location-Metrics"><a href="#Location-Metrics" class="headerlink" title="Location Metrics"></a>Location Metrics</h4><blockquote>
+<p>Cumulative usage time, bakcground time, etc.</p>
+</blockquote>
+<p>可以用来了解定位的使用情况。</p>
+<p>例如：</p>
+<ul>
+<li>定位多余的后台定位</li>
+<li>过高的定位精度</li>
+</ul>
+<h4 id="Display-Metrics"><a href="#Display-Metrics" class="headerlink" title="Display Metrics"></a>Display Metrics</h4><blockquote>
+<p>Average Pixel Luminance （简称 APL，平均像素亮度，即每个像素的平均亮度）</p>
+</blockquote>
+<p>在 X/XS 手机上，OLED 屏幕显示的 UI 的颜色直接影响到能耗。</p>
+<ul>
+<li>越亮的颜色 = 越高的能耗（高 APL）</li>
+<li>越暗的颜色 = 越低的能耗（低 APL）</li>
+</ul>
+<h4 id="Network-Metrics"><a href="#Network-Metrics" class="headerlink" title="Network Metrics"></a>Network Metrics</h4><blockquote>
+<p>Upload and download bytes, connectivity, etc</p>
+</blockquote>
+<p>尽可能优化网络使用，因为它是一项高能耗的任务。</p>
+<p>例如：</p>
+<ul>
+<li>检查各个预期的上传/下载，看看能否推迟</li>
+<li>了解弱网络环境下的能耗情况（高耗能）</li>
+</ul>
+<h3 id="2-Performance-Metrics"><a href="#2-Performance-Metrics" class="headerlink" title="2.Performance Metrics"></a>2.Performance Metrics</h3><p><img src="/media/15606640304676/performance.jpg" alt="performance"></p>
+<p>性能指标包括以下几项：</p>
+<ul>
+<li>Hangs</li>
+<li>Disk</li>
+<li>Application Launch</li>
+<li>Memory</li>
+<li>Custom Intervals</li>
+</ul>
+<p>苹果着重介绍了前四个。</p>
+<h4 id="Hang-Metrics"><a href="#Hang-Metrics" class="headerlink" title="Hang Metrics"></a>Hang Metrics</h4><p>Hang Metrics 就是我们常说的卡顿监测 ANR，它可以用来：</p>
+<ul>
+<li>查找哪些地方的任务可以移到后台线程</li>
+<li>利用各种 dispatches 和 queues 来减少卡顿的概率</li>
+</ul>
+<h4 id="Disk-Metrics"><a href="#Disk-Metrics" class="headerlink" title="Disk Metrics"></a>Disk Metrics</h4><p>这个指标记录的是磁盘逻辑写入，它用来度量磁盘使用情况，可以用来：</p>
+<ul>
+<li>定位多余的磁盘写入</li>
+<li>检查合并策略</li>
+</ul>
+<h4 id="Application-Launch-Metrics"><a href="#Application-Launch-Metrics" class="headerlink" title="Application Launch Metrics"></a>Application Launch Metrics</h4><p>可以用来度量 App 启动或恢复所消耗的时间。</p>
+<ul>
+<li>了解启动时的耗时因素，例如数据库加载对启动耗时的影响有多大</li>
+<li>查看启动和恢复这两种路径下的不同耗时</li>
+</ul>
+<h4 id="Memory-Metrics"><a href="#Memory-Metrics" class="headerlink" title="Memory Metrics"></a>Memory Metrics</h4><p>内存的管理很重要，它也可以影响到应用的启动速度，以及在后台时，被终止的可能性。<br>Memory Metrics 用于查看平均内存占用，以及峰值内存占用。它可以用来检测内存的使用情况，例如：</p>
+<ul>
+<li>定位难以复现的内存泄漏</li>
+<li>减少应用挂起后的平均内存占用（有助于推迟应用被终止的时间）</li>
+</ul>
+<hr>
+<p><strong>了解完主要的一些指标后，让我们进入正题。</strong></p>
+<h2 id="1、在-XCTest-中监测性能（XCTest-Metrics）"><a href="#1、在-XCTest-中监测性能（XCTest-Metrics）" class="headerlink" title="1、在 XCTest 中监测性能（XCTest Metrics）"></a>1、在 XCTest 中监测性能（XCTest Metrics）</h2><p>单元测试支持检测更多的性能数据。这是本 Session 推出的第一项新功能。</p>
+<h3 id="使用-XCTest-监测性能指标"><a href="#使用-XCTest-监测性能指标" class="headerlink" title="使用 XCTest 监测性能指标"></a>使用 XCTest 监测性能指标</h3><p>XCTest Metrics 是开发和测试过程中用来衡量应用性能的工具。</p>
+<p>在 Xcode 11 以前，XCTest 就支持跑性能测试，但是，我们只能通过设定一些性能指标的基准线，来进行性能方面的监测。然而，性能指标其实包含多个维度，因此今年 XCTest 增加了一些新的指标。包括：</p>
+<ul>
+<li>CPU</li>
+<li>memory</li>
+<li>storage</li>
+<li>clock and OSSignpost</li>
+<li>custom Metrics</li>
+</ul>
+<p>另外，在应用运行的过程中 Xcode 中可以查看到应用在 CPU、内存等各个子系统上的整体性能消耗。但这些信息比较粗略，如果你想深入挖掘更多性能信息，或者诊断一些复杂问题，就可以使用 Instrument。Instrument 中提供了一些性能检测的模板，用来诊断内存、响应速度、数据读写、耗电量等问题，可以更详细、更精确地展示性能数据。</p>
+<h3 id="XCTest-示例"><a href="#XCTest-示例" class="headerlink" title="XCTest 示例"></a>XCTest 示例</h3><p>以往测量一段代码的性能表现只需要在 <code>measure</code> 代码块中编写需要检测性能的代码：</p>
+<p><img src="/media/15606640304676/xctestbefore.jpg" alt="xctestbefore"></p>
+<p>而现在，我们只需在调用 <code>measure</code> 时增加想要监测的指标作为参数，就可以从多个维度监测代码块的性能表现，十分简单：</p>
+<p><img src="/media/15606640304676/15608420618102.jpg" alt=""></p>
+<p>而检测应用启动耗时，更是容易。不需要任何代码，创建 XCTest 的时候就已经自动生成：</p>
+<p><img src="/media/15606640304676/15608420813847.jpg" alt=""></p>
+<p>同样地，如果我们设置基准线（<code>baseline</code>），那么每次运行测试时，Xcode 都会自动对比 我们设定的基准线，如果启动耗时高于基准线，那么测试就不通过。</p>
+<blockquote>
+<p>需要注意的是，在运行 XCTest 来测试 App 的性能时，不要启用 Xcode 的 debugger（去掉下图中勾选的选项），也不要开启 Xcode 的一些诊断选项，例如僵尸对象检测、内存分配记录等，以避免它们影响到应用的性能表现。可以在项目中创建一个新的 scheme 来关闭这些干扰项。</p>
+</blockquote>
+<p><img src="/media/15606640304676/15608468771088.jpg" alt=""></p>
+<p>XCTest 新增的各种 metrics 除了在应用的 UITest 中检测性能，还可以在 Unit Test 中检测应用性能。除了官方提供的 CPU、内存、存储、时钟和 OSSignpost 之外，我们也可以自定义性能指标，利用 XCTest 的 baseline，来监控各个功能的性能是否有变差。</p>
+<p>XCTest 也可以用于 A/B 测试，它可以低成本地对不同算法进行 A/B 测试，从而我们可以选取性能更优的算法。</p>
+<p>此外，因为 XCTest 可以和 Xcode 以及 Xcode Server 配合得很好，因此这些性能测试还可以在日常开发和持续集成中使用，让我们随时了解 App 的性能表现。</p>
+<h2 id="2、跟踪线上数据（Field-Metrics）"><a href="#2、跟踪线上数据（Field-Metrics）" class="headerlink" title="2、跟踪线上数据（Field Metrics）"></a>2、跟踪线上数据（Field Metrics）</h2><p>我们可以主动搜集用户的性能数据。</p>
+<h3 id="跟踪线上数据的好处"><a href="#跟踪线上数据的好处" class="headerlink" title="跟踪线上数据的好处"></a>跟踪线上数据的好处</h3><ul>
+<li>利用内测用户和线上用户的数据量</li>
+<li>发现测试时遗漏的问题</li>
+<li>追踪各个版本迭代过程中性能指标的变化</li>
+<li>了解新功能和 A/B 测试的影响</li>
+</ul>
+<h3 id="MetricsKit"><a href="#MetricsKit" class="headerlink" title="MetricsKit"></a>MetricsKit</h3><p>MetricsKit 用于收集电池用量信息和各项性能指标。它能够帮助我们记录下我们指定的关键代码块执行的时候，App 的各项性能指标。线上性能数据上报的重要性无需多言，以往我们绞尽脑汁也难以做到的性能数据上报，现在通过 MatricesKit 即可完成。</p>
+<p>MetricsKit 使用起来很简单，它会在一天结束后，将过去24小时搜集的性能数据归集在一起，然后在下一次启动 App 后，在 delegate 的回调中提供给我们。关于这个代理回调的频率，苹果的官方文档中是这么说的：</p>
+<blockquote>
+<p>The system then sends a report as an array of MXMetricPayload objects at most once per day. The array contains the metrics from the past 24 hours and any previously undelivered daily reports.</p>
+</blockquote>
+<p>也就是说，每天我们的应用最多只会收到一次回调，该次回调会把上一段 24 小时收集到的数据返回给我们。同时，如果在上一个 24 小时之前，存在老数据没有返回给我们的，也会在该次回调中一并返回。返回的数据会存储成数组的形式，每个数组的元素表示一天的数据。</p>
+<p>这个数据返回的频率，与 MetricsKit 的底层实现有关。在之前的 iOS 版本中，需要用户安装电量分析的 profile 之后，系统才会生成这种每 24 小时一份的数据库。Power Log 底层会以高效的方式收集各项性能数据，猜测可能是硬件实现的，然后将各项数据存储于 PL/SQL 格式的数据库中，每 24 小时生成一份数据库文件。因此，MetricsKit 应该是直接解析了这份数据库文件，然后将数据返回给 App。</p>
+<p><img src="/media/15606640304676/15608499923330.jpg" alt="Power Log 导出的原始数据"></p>
+<p>顺便一提，苹果做了这个解析工作之后，之前美图的测试同学做的许多自动化解析 Power Log 数据的工具差不多都可以退休了，这下总算省事了很多。不过老的 iOS 版本可能还是需要用自己的工具去解析，也还是有用的。</p>
+<h3 id="如何获取-MetricsKit-的数据"><a href="#如何获取-MetricsKit-的数据" class="headerlink" title="如何获取 MetricsKit 的数据"></a>如何获取 MetricsKit 的数据</h3><p><img src="/media/15606640304676/metric.jpg" alt="metri"></p>
+<p>如上图所示，要获得 MetricsKit 收集的数据，首先我们要实现一个 <code>Subscriber</code> 的类，并将 <code>Subscriber</code> 实例注册到 <code>MXMetricManager</code> 单例中，以便接受数据。当 MetricsKit 收集完 24 小时的数据后，就会将数据发送给它的所有 <code>Subscriber</code>。这时我们需要实现 <code>MXMetricManager</code> 的代理方法，来接收数据。</p>
+<p><img src="/media/15606640304676/15608429145157.jpg" alt=""></p>
+<p>收到数据后，我们就可以对数据进行处理，或是将数据上报到服务端。</p>
+<p>对于开发者而言，等待 24 小时再获取数据显然是不科学的，苹果也考虑得比较周到，我们在 Xcode Debug 菜单中就可以模拟触发一次数据上报的回调。</p>
+<h3 id="MXSignpost-打点"><a href="#MXSignpost-打点" class="headerlink" title="MXSignpost 打点"></a>MXSignpost 打点</h3><p>MetricsKit 还有一个特别有意思的，对我们也特别重要的接口，那就是 <code>MXSignpost</code>。我们利用 <code>MXSignpost</code> 就可以针对关键代码块打点，记录性能数据。</p>
+<p>例如，我们可以对视频合成、视频播放等关键业务场景的性能损耗进行记录，了解 App 的性能热点在哪个流程上，然后针对性地进行优化。</p>
+<p>这个接口初看起来和去年 Instrument 中增加的 <code>os_signpost</code> 的打点功能有点相似。用法也很像，只需要在目标代码前后打上点，系统就会自动记录信息。</p>
+<p>而追根溯源，我们可以发现，其实 <code>MXSignpost</code> 就是对 <code>os_signpost</code> 的封装，因此它才能够获取到线程级的性能数据。它们的原理和行为也是一致的。<code>os_signpost</code> 的性能非常好，因此一开始我非常开心，心想，那 <code>MXSignpost</code> 的性能想必也非常优秀。</p>
+<p>然而，<code>MXSignpost</code> 的头文件给我泼了盆冷水。苹果在 <code>MXSignpost</code> 的头文件上特别注明，切莫直接将 <code>MXSignpost</code> 替换成 <code>os_signpost</code>，否则，如果原本 <code>os_signpost</code> 打点的量比较多的话，将会导致 App 的性能<strong>显著下降</strong>。</p>
+<p><img src="/media/15606640304676/15608555531297.jpg" alt=""></p>
+<p>此外，自定义的打点数量也受到系统的限制，不能无限制地打点。因为过多的打点，也会输出大量日志，导致磁盘占用过大。如下图所示。但没有看到苹果有说明具体的数量限制，我们只能先自己保持克制了。</p>
+<p><img src="/media/15606640304676/15608527327680.jpg" alt=""></p>
+<p>对 <code>os_signpost</code> 感兴趣的同学可以参考王乐之前的文章：<a href="https://vongloo.me/2019/02/22/WWDC-2018-Signpost/" target="_blank" rel="noopener">WWDC-2018-Signpost</a> .</p>
+<p>同样的，执行关键代码块时记录下来的各项数据，也会在上述 24 小时的数据生成后，一并返回给我们的 <code>Subscriber</code>。返回的数据中会给出各个 <code>MXSignpost</code> 执行的时候的累计 CPU 耗时、内存占用、卡顿时间等信息。我们同样可以将这些数据上传到服务器，由后台进行统计分析。这样，我们就能从大量线上用户那里搜集的真实数据中，及早发现性能消耗的热点</p>
+<p><img src="/media/15606640304676/mxSignpost.jpg" alt="mxSignpost"></p>
+<h2 id="3、Xcode-Metrics-Organizer"><a href="#3、Xcode-Metrics-Organizer" class="headerlink" title="3、Xcode Metrics Organizer"></a>3、Xcode Metrics Organizer</h2><p>简单来说，这是苹果为我们自动搜集用户性能数据的工具。</p>
+<h3 id="什么是-Xcode-Metrics-Organizer"><a href="#什么是-Xcode-Metrics-Organizer" class="headerlink" title="什么是 Xcode Metrics Organizer"></a>什么是 Xcode Metrics Organizer</h3><ul>
+<li>开箱即用的电量和性能分析工具</li>
+<li>App 无需做出任何代码的修改</li>
+<li>从设备上的数据搜集到服务器上的数据归集，全流程都做到隐私保护</li>
+</ul>
+<p>目前，它能提供电量、启动耗时、卡顿监测、内存监测、磁盘逻辑写入的数据上报。</p>
+<p>这应该就是苹果之前预埋在 iOS 上的 <a href="https://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log.html">Power Log</a> 等工具获取到的数据。因此，从现在起，开发者升级 Xcode 后就能尝试使用这个工具了。</p>
+<h3 id="Xcode-Metrics-Organizer-如何运行的"><a href="#Xcode-Metrics-Organizer-如何运行的" class="headerlink" title="Xcode Metrics Organizer 如何运行的"></a>Xcode Metrics Organizer 如何运行的</h3><p>当用户使用 App 时，iOS 会自动记录应用的各项性能指标，而后发送到苹果的服务器上。服务器搜集用户的这些性能数据，并且自动进行分析，生成报告。当我们开发者查看 Xcode Metrics Organizer 的时候，看到的就是性能分析的结果。但是如果用户量不够多的情况下，Xcode Metrics Organizer 上有可能看不到数据。</p>
+<p><img src="/media/15606640304676/organizer.jpg" alt="organize"></p>
+<p>Xcode Metrics Organizer 最大的特点就是它开箱即用。开发者们无需对自己的 App 做出任何改动，即日起就能马上体验这项功能。根据我之前调研 <a href="https://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log.html">Power Log</a> 得到的信息，苹果在记录这些性能数据时，可以做到对 App 的性能毫无影响，并且因为是系统级的记录，准确度非常高。</p>
+<h3 id="如何使用-Xcode-Metrics-Organizer"><a href="#如何使用-Xcode-Metrics-Organizer" class="headerlink" title="如何使用 Xcode Metrics Organizer"></a>如何使用 Xcode Metrics Organizer</h3><p>在 Xcode 的 <code>Window</code> - <code>Organizer</code> 中，可以看到一个新增的 <code>Metrics</code>，这就是 Xcode Metrics Organizer。</p>
+<p>它可以查看最新版本的 App 的各项性能指标，同时，也可以查看历史版本的性能指标，并进行对比。</p>
+<p><img src="/media/15606640304676/15608386396337.jpg" alt=""></p>
+<p>在电池用量统计中，这份报告分别展示了 App 在前后台的耗电量占比。同时，它分门别类地显示了各种耗电的活动的占比，例如定位、网络等。这和之前 iOS 版本中就有的 <a href="https://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log.html">Power Log</a> 记录的数据一模一样。</p>
+<p><img src="/media/15606640304676/15608387012575.jpg" alt=""></p>
+<p>内存方面，则是提供了峰值内存和平均内存的数据。</p>
+<p><img src="/media/15606640304676/15608388613361.jpg" alt=""></p>
+<p>另外，值得一提的是，我们还可以按照 iPhone/iPad 分别查看数据，或是单独查看某个型号的数据，以分析不同设备之间的性能表现，来精细化地对某些设备进行优化。我们有时候会遇到同样的功能，在不同设备上有不同的性能表现，例如某些功能在新机型上特别卡顿，这种时候区分设备查看性能数据就能够发现此类问题。然后再利用上文提到的更加精细的性能检测工具来进行调试，就可以定位到问题。</p>
+<h2 id="隐私策略"><a href="#隐私策略" class="headerlink" title="隐私策略"></a>隐私策略</h2><p>苹果在发布会上多次强调，数据搜集的全过程都会保护用户隐私，不会导致用户隐私泄露。这也就意味着，用户是可以选择是否与我们共享这些性能数据，因此我们收集到的数据并非是所有用户的。用于控制这项隐私权限的开关位于 iOS 的 <code>设置</code> - <code>隐私</code> - <code>分析</code> - <code>共享 iPhone 分析</code>，如果用户关闭了这个开关，那么他的性能数据就无法被我们获取到，包括 Xcode Metrics Organizer 中苹果自动搜集的数据，以及 MetricsKit 中系统返回给我们的数据。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本 session 先是介绍了 Xcode 11 既有的，在开发调试阶段用于分析电量和性能的工具，然后推出了三个新的工具：</p>
+<ul>
+<li>XCTest Metrics</li>
+<li>MetricsKit</li>
+<li>Xcode Metrics Organizer</li>
+</ul>
+<p><img src="/media/15606640304676/summary.jpg" alt="summary"></p>
+<p>这些工具可以覆盖开发、内测、线上全流程的性能数据搜集，囊括了整体数据和精细化的数据。</p>
+<p>做过 iOS 性能检测的同学都知道，得益于苹果严格的权限控制，iOS 上的性能检测十分之困难。特别是耗电量的统计，尽管对我们十分重要，但为数不多的几种方法，不仅麻烦，而且只能局限于研发阶段，无法获取线上数据。为了测量 App 的耗电量和性能消耗，不少团队甚至购买了电流计和红外线测温枪（说的就是我们团队），用最原始粗暴的手段来获取粗略的数据。</p>
+<p>看到本次 WWDC 推出的 Metrics 其实我并不吃惊，苹果在数据上报方面做出的努力其实早就有迹可循。我们都知道，iOS 系统本身是有对电量的使用情况进行记录和分析的，所以我们才能在系统设置里看到过去一段时间里，各个 App 的前台工作时间和耗电情况。只是以往这些数据只用于 <code>设置</code> 中的耗电量展示，以及 <code>Sysdiagnose</code> 系统诊断中。不过我们可以通过一些方式导出这些数据。之前在调研 iOS 耗电量检测的时候，我曾经写过一篇关于 Power Log 的文章：<strong><a href="https://punmy.cn/2018/06/12/iOS%20最全面的功耗分析之——Power%20Log.html">iOS 最全面的功耗分析之——Power Log</a></strong> . 感兴趣的同学可以看一下。（当然，现在已经不能说 Power Log 是最全面的功耗分析工具了）。</p>
+<p>总的来说，本次苹果推出的 Metrics 可以说填补了 iOS 平台上性能监测的空白，使得 iOS 平台上，从开发、测试，到发布，整个流程中 App 的耗电量和性能监测成为可能。并且，这些性能监测反馈给我们的各项指标，能够帮助我们在开发的过程中做出更好的决策，让我们的 App 获得更好的性能，这也是一个优秀 App 的必要条件。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://punmy.cn/2019/06/16/wwdc_417_metrics.html" data-id="cjx1zo62v000d6lnn4vly9b9c" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+
+
+            
+    
+        <a href="http://punmy.cn/2019/06/16/wwdc_417_metrics.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2019/06/16/wwdc_417_metrics.html">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/06/11/distcc_on_xcode.html" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Xcode分布式编译调研distcc</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2019/06/16/wwdc_417_metrics.html" class="title">iOS耗电量和性能优化的全新框架</a></p>
+                            <p class="item-date"><time datetime="2019-06-16T15:50:03.000Z" itemprop="datePublished">2019-06-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2019/06/11/distcc_on_xcode.html" class="title">Xcode分布式编译调研distcc</a></p>
+                            <p class="item-date"><time datetime="2019-06-11T15:59:03.000Z" itemprop="datePublished">2019-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2019/05/25/使用cocoapods-packager打包静态库.html" class="title">使用cocoapods-packager打包静态库</a></p>
+                            <p class="item-date"><time datetime="2019-05-25T07:41:03.000Z" itemprop="datePublished">2019-05-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/工具/">工具</a></p>
+                            <p class="item-title"><a href="/2019/02/28/效率神器 Kaleidoscope.html" class="title">代码比对神器 Kaleidoscope</a></p>
+                            <p class="item-date"><time datetime="2019-02-28T15:31:03.000Z" itemprop="datePublished">2019-02-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Code/">Code</a></p>
+                            <p class="item-title"><a href="/2018/12/08/Endianness In iOS.html" class="title">iOS上的端序</a></p>
+                            <p class="item-date"><time datetime="2018-12-08T11:31:03.000Z" itemprop="datePublished">2018-12-08</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Code/">Code</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Article/" style="font-size: 10px;">Article</a> <a href="/tags/Camera/" style="font-size: 10px;">Camera</a> <a href="/tags/HTTP2/" style="font-size: 10px;">HTTP2</a> <a href="/tags/framework/" style="font-size: 12.5px;">framework</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/基础/" style="font-size: 15px;">基础</a> <a href="/tags/工具/" style="font-size: 17.5px;">工具</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a> <a href="/tags/技能/" style="font-size: 10px;">技能</a> <a href="/tags/正则表达式/" style="font-size: 10px;">正则表达式</a> <a href="/tags/网络/" style="font-size: 12.5px;">网络</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+                    <li>
+                        <a href="https://vongloo.me">Vong</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            © 2019 Nico<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    
+
+
+
+
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+        
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+
+    </div>
+    <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+<script type="text/javascript" src="/bundle.js"></script><script type="text/javascript">(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);;(function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);;var disqus_config = function () {
+        
+            this.page.url = 'http://punmy.cn/2019/06/16/wwdc_417_metrics.html';
+        
+        this.page.identifier = 'wwdc_417_metrics';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'punmy' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();</script></body></html>
