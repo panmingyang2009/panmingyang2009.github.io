@@ -1,20 +1,18 @@
 <!DOCTYPE html><html><head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
     
-    <title>巧妙利用KVO实现精准的VC耗时检测 | Punmy</title>
+    <title>Categoria: WWDC | Punmy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="本文主要想分享一下我在根据这篇博客《一种基于KVO的页面加载，渲染耗时监控方法》实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：VCProfiler">
-<meta name="keywords" content="iOS,KVO,View Controller,耗时检测,VCProfiler,Method Swizzle,hook">
-<meta property="og:type" content="article">
-<meta property="og:title" content="巧妙利用KVO实现精准的VC耗时检测">
-<meta property="og:url" content="http://punmy.cn/2018/06/18/15278496835424.html">
+    <meta name="description" content="潘名扬的博客">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Punmy">
+<meta property="og:url" content="http://punmy.cn/categories/WWDC/index.html">
 <meta property="og:site_name" content="Punmy">
-<meta property="og:description" content="本文主要想分享一下我在根据这篇博客《一种基于KVO的页面加载，渲染耗时监控方法》实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：VCProfiler">
+<meta property="og:description" content="潘名扬的博客">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-18T08:50:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="巧妙利用KVO实现精准的VC耗时检测">
-<meta name="twitter:description" content="本文主要想分享一下我在根据这篇博客《一种基于KVO的页面加载，渲染耗时监控方法》实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：VCProfiler">
+<meta name="twitter:title" content="Punmy">
+<meta name="twitter:description" content="潘名扬的博客">
     
 
     
@@ -218,140 +216,86 @@ var _hmt = _hmt || [];
 </aside>
 
             
-            <section id="main"><article id="post-15278496835424" class="article article-type-post" itemscope="" itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
+            <section id="main">
+<div class="timeline timeline-wrap">
+    <div class="timeline-row timeline-row-major">
+        <span class="node"><i class="fa fa-folder"></i></span>
+        <h1 class="title">WWDC</h1>
+    </div>
+    
+        <div class="timeline-row">
+            <span class="node"></span>
+            <div class="content">
                 
     
-        <h1 class="article-title" itemprop="name">
-            巧妙利用KVO实现精准的VC耗时检测
+        <h1 itemprop="name">
+            <a class="timeline-article-title" href="/2020/07/31/WWDC20_10642.html">WWDC20 10642 使用 Create ML 打造图片和视频的风格转化模型</a>
         </h1>
     
 
-                
-                    <div class="article-meta">
-                        
+                <div class="article-meta">
+                    
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2018/06/18/15278496835424.html">
-            <time datetime="2018-06-18T08:50:03.000Z" itemprop="datePublished">2018-06-18</time>
+        <a href="/2020/07/31/WWDC20_10642.html">
+            <time datetime="2020-07-31T12:35:27.000Z" itemprop="datePublished">2020-07-31</time>
         </a>
     </div>
 
 
-                        
+                    
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Code/">Code</a>
+        <a class="article-category-link" href="/categories/WWDC/">WWDC</a>
     </div>
 
-                        
+                    
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/工具/">工具</a>
+        <a class="tag-link" href="/tags/WWDC/">WWDC</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>
     </div>
 
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>本文主要想分享一下我在根据这篇博客 <a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="noopener">《一种基于KVO的页面加载，渲染耗时监控方法》</a> 实现 VC 耗时检测的过程中，产生并解决的疑惑，以及在该博客中发现的问题。本文最终输出了一个用于检测 VC 加载耗时的小工具：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="noopener">VCProfiler</a>。</p>
-<a id="more"></a>
-<blockquote>
-<p>本文的实现基于 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 的<a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="noopener">博客</a>，并在其基础之上进行了一点改进。最终的源代码发布在 Github 上：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="noopener">VCProfiler</a>。</p>
-</blockquote>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>View Controller 的加载耗时优化是 App 性能优化中的一个重要环节，也是用户对于 App 流畅度的一个直观感知。</p>
-<p>公司内部的性能监测工具中，也一直有对 VC 的加载耗时进行检测，但是之前的方法是在 <code>load</code> 方法中，用 Method Swizzle 的方式替换 <code>UIViewController</code> 的 <code>init</code>、<code>loadView</code>、<code>ViewDidLoad</code> 等方法，并在其中记录对应的时间戳，以此来计算 VC 加载过程中各个阶段的耗时。</p>
-<p>这样的检测方式不是很精准，因为我们 hook 的是 <code>UIViewController</code> 的方法，如果我们在自己的 VC 中重写了对应的方法，并执行了一些耗时的操作，那么这些操作的时间就没有被计算进去。因此我们需要改进现有的检测方式，以便更加精准地测量 VC 加载过程中的耗时。</p>
-<h2 id="发现新大陆"><a href="#发现新大陆" class="headerlink" title="发现新大陆"></a>发现新大陆</h2><p>在研究新方法的过程中，我发现了<a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 写的一篇博客<a href="http://satanwoo.github.io/2017/11/27/KVO-Swizzle/" target="_blank" rel="noopener">《一种基于KVO的页面加载，渲染耗时监控方法》</a>，这篇博客中描述了一种很巧妙的检测 VC 耗时的思路。</p>
-<p>这个思路利用了 KVO 在实现上的一些特性，简单来说，就是在 VC 创建的时候，故意触发 KVO，让 runtime 在我们自定义的 VC 对象上，再动态地包装一层 KVO 的子类，然后像之前一样 hook 这个子类 VC 的各个关键的方法，在其中进行时间的记录。这样一来，我们不再仅仅是检测父类的耗时，而是直接能够测量出我们自己 VC 本身的方法耗时。</p>
-<h2 id="我的疑惑"><a href="#我的疑惑" class="headerlink" title="我的疑惑"></a>我的疑惑</h2><p>具体的一些原理和实现方式 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 的博客中已经写的非常详细，我在此就不再赘述。但在读那篇博客的过程中，我心里一直有个疑问：</p>
-<p><strong>既然 hook 了父类，也就是 <code>UIViewController</code> 的 <code>init</code> 方法，那为什么不直接在父类的 <code>init</code> 方法中，获取子类 VC 的类型，然后替换子类 VC 的各个关键方法？</strong></p>
-<p>底下的评论中也有类似的疑问，但当时没有看到作者的明确回复，因此我就分别按照两种方法实现了一下 VC 的耗时检测，在实现的过程中，突然意识到了使用 KVO 的优势。</p>
-<h2 id="为何选择-KVO"><a href="#为何选择-KVO" class="headerlink" title="为何选择 KVO"></a>为何选择 KVO</h2><p>直接 hook 各个 VC 类的方法，在一般的情况下也是能实现相应的耗时检测的，但是在各个 VC 之间存在继承关系的时候，会导致<strong>子类和父类重复 hook</strong>，甚至一不小心就会在 Method Swizzle 的时候把 IMP 换错掉。</p>
-<p>假设我们有两个 VC，一个是 A，一个是 B，B 继承于 A。如果直接 hook 各个 VC 的方法，那么 A 和 B 都会被 hook 一次，当我们在加载 B 的时候，A、B 两个类的耗时检测都会被触发。而对于 KVO 的方法而言，由于每次 hook 的都是系统动态生成的 KVO 类，完全不会影响到原有的 A 和 B，所以 B 继承下来的 A 依然是纯净的 A，不会受到干扰。</p>
-<p>这是我觉得 KVO 的方法带来的最大的好处。</p>
-<h2 id="发现的问题"><a href="#发现的问题" class="headerlink" title="发现的问题"></a>发现的问题</h2><h3 id="问题1、不需要-hook-init-方法"><a href="#问题1、不需要-hook-init-方法" class="headerlink" title="问题1、不需要 hook init 方法"></a>问题1、不需要 hook init 方法</h3><p>原文在提到 hook <code>UIViewController</code> 的 init 方法的时候，同时 hook 了三个 init 方法：</p>
-<ul>
-<li>init</li>
-<li>initWithCoder:</li>
-<li>initWithNibName:bundle:</li>
-</ul>
-<p>但其实 <code>-init</code> 方法是没有必要 hook 的，因为 <code>UIViewController</code> 的 <code>-init</code> 方法最终也是调用 <code>initWithNibName:bundle:</code> 来进行初始化。如果同时 hook 了 <code>-init</code> 方法，会导致一次多余的操作。</p>
-<p>因此，我们只需要 hook 两个初始化方法就够了：</p>
-<ul>
-<li>initWithCoder:</li>
-<li>initWithNibName:bundle:</li>
-</ul>
-<h3 id="问题2、KVORemover-对-VC-的引用要用-unsafe-unretained"><a href="#问题2、KVORemover-对-VC-的引用要用-unsafe-unretained" class="headerlink" title="问题2、KVORemover 对 VC 的引用要用 unsafe_unretained"></a>问题2、KVORemover 对 VC 的引用要用 unsafe_unretained</h3><p>另一个问题是，原文中提到，使用一个 KVO remover 在 dealloc 的时候移除 VC 的 KVO：</p>
-<blockquote>
-<p>然后我们构建一个移除器，这个移除器<strong>弱引用</strong>保存了vc的实例和对应的keypath……<br>……<br>而在对应的移除器的dealloc方法里，我们把kvo监听给移除就可以了。</p>
-</blockquote>
-<figure class="highlight objc"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)dealloc</span><br><span class="line">{</span><br><span class="line"><span class="meta">#ifdef DEBUG</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"WZQKVORemover called"</span>);</span><br><span class="line"><span class="meta">#endif</span></span><br><span class="line">    <span class="keyword">if</span> (_obj) {</span><br><span class="line">        [_obj removeObserver:[WZQKVOObserverStub stub] forKeyPath:_keyPath];</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>实际实现中，使用 <code>associate object</code> 来移除 KVO 的正确性确实是有保障的，但是，如果 remover 保存的 VC 实例，也就是<code>obj</code>属性，使用了 <code>weak</code> 来修饰，那么在 remover 进入 <code>-dealloc</code> 方法的时候，上述代码中的 <code>if (_obj)</code> 判断将永远为 false。因为在 dealloc 的时候，weak 修饰的属性已经被置为 nil（但是在此处断点的话，Xcode 中仍然看得到 obj 原先的值），也就无法正常移除 KVO。</p>
-<p>因此 remover 中引用的 VC 实例需要使用 <code>unsafe_unretained</code> 来修饰。 </p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>利用 KVO 动态创建子类的方式来 hook VC，并计算耗时，这确实是一个很有意思的想法，同时也非常的简单有效。此外，由于所有的工作都可以在 <code>UIViewController</code> 的 Category 中实现，也使得这种方式基本没有侵入性。鉴于 <a href="https://github.com/SatanWoo?page=2&amp;tab=repositories" target="_blank" rel="noopener">@盗版五子棋</a> 文章中的 Github 链接是无效的，我已经将实现好的代码发布在了 Github 上，有需要的同学可以自取：<a href="https://github.com/panmingyang2009/VCProfiler" target="_blank" rel="noopener">VCProfiler</a>。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="http://punmy.cn/2018/06/18/15278496835424.html" data-id="ckdcvg42q0009lombruvs68rd" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-
-
-            
-    
-        <a href="http://punmy.cn/2018/06/18/15278496835424.html#comments" class="article-comment-link disqus-comment-count" data-disqus-url="http://punmy.cn/2018/06/18/15278496835424.html">Comentarios</a>
-    
-
-        </footer>
-    </div>
-    
-        
-<nav id="article-nav">
-    
-        <a href="/2018/12/08/Endianness In iOS.html" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más nuevo</strong>
-            <div class="article-nav-title">
-                
-                    iOS上的端序
-                
+                </div>
             </div>
+        </div>
+    
+        <div class="timeline-row">
+            <span class="node"></span>
+            <div class="content">
+                
+    
+        <h1 itemprop="name">
+            <a class="timeline-article-title" href="/2020/06/10/WWDC20_10621.html">WWDC20 10621 支持性能密集型的应用和游戏</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/06/10/WWDC20_10621.html">
+            <time datetime="2020-06-10T14:40:09.000Z" itemprop="datePublished">2020-06-10</time>
         </a>
-    
-    
-        <a href="/2018/06/12/iOS 最全面的功耗分析之——Power Log.html" id="article-nav-older" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">Más viejo</strong>
-            <div class="article-nav-title">iOS 最全面的功耗分析之——Power Log</div>
-        </a>
-    
-</nav>
-
-
-    
-</article>
-
-
-    
-    
-        <section id="comments">
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</section>
-    
 
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/WWDC/">WWDC</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/WWDC/">WWDC</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>
+    </div>
+
+                </div>
+            </div>
+        </div>
+    
+</div>
 </section>
             
                 
@@ -517,76 +461,13 @@ var _hmt = _hmt || [];
         CONTENT_URL: '/content.json',
     };
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);;(function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);;var disqus_config = function () {
+})(window);;var disqus_config = function () {
         
-            this.page.url = 'http://punmy.cn/2018/06/18/15278496835424.html';
-        
-        this.page.identifier = '15278496835424';
+        this.page.identifier = '';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'punmy' + '.disqus.com/embed.js';
+        s.src = '//' + 'punmy' + '.disqus.com/count.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();</script></body></html>

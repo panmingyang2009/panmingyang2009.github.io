@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://punmy.cn/"/>
-  <updated>2019-06-18T15:56:47.925Z</updated>
+  <updated>2020-08-02T09:17:15.947Z</updated>
   <id>http://punmy.cn/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WWDC20 10642 使用 Create ML 打造图片和视频的风格转化模型</title>
+    <link href="http://punmy.cn/2020/07/31/WWDC20_10642.html"/>
+    <id>http://punmy.cn/2020/07/31/WWDC20_10642.html</id>
+    <published>2020-07-31T12:35:27.000Z</published>
+    <updated>2020-08-02T09:17:15.947Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文源自 WWDC 2020 - 10642：Build Image and Video Style Transfer models in Create ML</p></blockquote><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本文主要介绍了苹果 Create ML 团队新推出一项新的机器学习能力：Style Transfer，也就是风格转化的机器学习能力。文中将会为大家介绍如何构建图片和视频的风格转化模型。</p><a id="more"></a><p><code>Style Transfer</code> 是一项新的机器学习任务，今年可在 Create ML 应用程序中使用。它可以将风格和内容两张图像融合在一起。</p><p>我们先来看下它可以实现的效果。左右分别是风格图像和准备风格化的内容图像，下方是输出的风格化后的图片。</p><p><img src="/media/15962782673196/15962886733780.jpg" alt></p><p><img src="/media/15962782673196/15962903563477.jpg" alt></p><p>我们可以看到，该模型能够将颜色、形状和纹理从风格图像转移到内容图像。</p><p>风格图像的颜色非常重要，会直接影响输出图像的样式。例如下方的例子，训练模型会学习我们给出的风格图像的白色背景和黑色线条，以此来创建黑白线条风格的结果图像。</p><p> <img src="/media/15962782673196/15962909413792.jpg" alt></p><p>当然，绘画不是风格图像的唯一来源，你可以使用各式各样与众不同的风格图像来表达您的创造力。例如下面的几个示例。这些只是你可以使用风格转化的几个示例。</p><p> <img src="/media/15962782673196/15962912568517.jpg" alt></p><p>但是，我们的能力不止于此，我们甚至可以直接将风格转化的模型直接应用到视频上。每帧的风格转化速度都足够快，以保持流畅的视频风格转化。因此可以为视频 App 实时应用风格转化模型。使用 A13 仿生芯片时，我们可以达到每秒120帧的处理速度。</p><h2 id="如何训练模型"><a href="#如何训练模型" class="headerlink" title="如何训练模型"></a>如何训练模型</h2><p>要训​​练样式转移模型，我们需要提供一些训练数据，包括一张风格图像和一个包含许多内容图像的文件夹。该模型从图像中学习内容和样式之间的平衡。为了获得最佳结果，用于训练的内容图像应与您期望在推理时风格化的图像相似。<br>我们可以调整模型参数来优化样式转移模型的行为。您可以使用风格强度和风格密度这两个模型参数来配置模型的行为。</p><h3 id="1、风格强度"><a href="#1、风格强度" class="headerlink" title="1、风格强度"></a>1、风格强度</h3><p>风格强度参数可以调整样式和内容之间的平衡。在风格强度较低的时候，只有部分图像背景会被风格化，而在风格强度很高的时候，整个图像都会被明显风格化。<br>我们可以看看下图，就能对比出他们的区别。</p><p> <img src="/media/15962782673196/15963528452891.jpg" alt></p><h3 id="2、风格密度"><a href="#2、风格密度" class="headerlink" title="2、风格密度"></a>2、风格密度</h3><p>使用风格密度参数，可以让该模型学习风格图像的细节。</p><p>我们拿下面的例子来看，左图使用了比较小的风格密度，右图则使用了毕竟大的风格密度。可以看到，风格密度越大，训练出来的模型会更加着眼于风格图像的细节，更突出颜色和笔触。反之则相反。</p><p>这会产生不同的风格化结果。我们可以使用风格密度参数来探索各种此类样式。</p><p><img src="/media/15962782673196/15963531836031.jpg" alt></p><h3 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h3><p>我们可以方便地使用“Create ML”来训练模型。首先直接创建一个新工程，拖入风格图像，并导入包含数百个内容图像的文件夹。接着我们可以选择针对图像或者视频进行优化。然后调整上述的两个参数，来控制内容和风格之间的平衡。默认参数在大多数情况下都能很好地工作。</p><p>最后，单击工具栏中的训练按钮。该应用程序会处理风格和内容图像，并立即开始训练模型。</p><p>每五次迭代会遇到一个模型检查点，它会将我们的测试图像风格化，以预览效果。这样我们可以使用它来交互式地、可视化地观察模型训练的过程。</p><p>在任何时候，我都可以通过单击工具栏中的快照按钮来捕获模型的快照。快照其实就是一个当前模型的拷贝，以后可以在 App 中直接使用。</p><p>训练模型仅需几分钟，完成训练后，可以拖入新的测试图像或视频，对模型进行预览和测试。完成训练的模型的大小很小，不到1MB。这样我们可以很方便地将它嵌入 App 中。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>风格转化模型性能极高，可以轻松地与其他Apple技术（例如 ARKit）结合使用，实现实时的风格转化效果。模型的尺寸很小，可以很方便地嵌入应用。模型训练时间大大减少，使培训体验变得生动有趣。我们可以在几分钟内训练完模型，然后快速迭代使用不同的风格和模型参数进行尝试。</p>]]></content>
+    
+    <summary type="html">
+    
+      本文主要介绍了苹果 Create ML 团队新推出一项新的机器学习能力：Style Transfer，也就是风格转化的机器学习能力。文中将会为大家介绍如何构建图片和视频的风格转化模型。
+    
+    </summary>
+    
+      <category term="WWDC" scheme="http://punmy.cn/categories/WWDC/"/>
+    
+    
+      <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="WWDC" scheme="http://punmy.cn/tags/WWDC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WWDC20 10621 支持性能密集型的应用和游戏</title>
+    <link href="http://punmy.cn/2020/06/10/WWDC20_10621.html"/>
+    <id>http://punmy.cn/2020/06/10/WWDC20_10621.html</id>
+    <published>2020-06-10T14:40:09.000Z</published>
+    <updated>2020-08-02T09:14:57.735Z</updated>
+    
+    <content type="html"><![CDATA[<p>iOS 和 iPadOS 提供了强大的功能，可帮助我们开发人员在所有设备上，运行复杂的应用和游戏。但是，在某些情况下，一些对性能要求十分苛刻的应用可能只能在具有 A12 仿生芯片，或更高性能的设备上提供最佳的体验。在 Xcode 12 上，对于性能密集型的应用或游戏，开发人员可以启用一项设置，来表明自己的产品对于性能有着特殊的需求。</p><a id="more"></a><h2 id="设备能力要求选项"><a href="#设备能力要求选项" class="headerlink" title="设备能力要求选项"></a>设备能力要求选项</h2><p>设备能力要求选项（Required device capabilities）是 info.plist 中的一个设置项。它其实并不是一个全新的设置项，Xcode 在之前就已经加入了这个选项。有的同学可能不太熟悉这个选项，它其实就是用来声明我们的应用需要的一些特殊能力，这些特殊能力是和设备相关的，例如 ARKit，它只能在比较新的一些设备上运行。这和我们指定应用能够支持的最低系统版本有点类似，但因为这些特殊能力不仅和系统版本有关系，也依赖于设备本身的硬件支持，所以需要用这个选项来另行声明。</p><p>有了这个选项，我们就可以声明一系列应用运行时所需的，与设备硬件相关的能力。然后，在我们把应用上传到 App Store 时，苹果就可以获取到我们的应用需要的一系列硬件能力。而后，App Store 在进行应用的分发时，就可以确保只让支持相关硬件能力的设备，下载到我们的应用。避免用户下载完应用后，一运行，才发现自己手机不支持。</p><p>即使用户强行安装了应用，iOS 也会直接阻止应用运行。</p><h3 id="现有的设备能力要求选项"><a href="#现有的设备能力要求选项" class="headerlink" title="现有的设备能力要求选项"></a>现有的设备能力要求选项</h3><p>之前，为了确保一些特殊的应用或者游戏能够限制在特定高性能的机器上运行，已经有了一些可选项，例如：</p><ul><li>Metal</li><li>ARKit</li></ul><p><img src="/media/15962781684496/15962782248952.jpg" alt></p><p>Metal 高性能渲染只有在 A7 芯片上才能运行，而 ARKit 只有在支持 AR 的设备上才能运行，一般来说是 A9 或更高的芯片。设置了对应的选项之后，就可以确保应用只在支持 Metal 或是 ARKit 的设备上运行。</p><h3 id="新的选项"><a href="#新的选项" class="headerlink" title="新的选项"></a>新的选项</h3><p>随着 iOS 14 的推出，现在 Xcode 12 中增加了一个新的设备要求选项——指定需要 A12 仿生芯片以上的处理器。有了这个选项，我们就可以将 PC 级别的游戏，或是专业软件移植到 iPhone 或者 iPad 上。</p><p>新的选项的键值为 <code>iphone-ipad-minimum-performance-a12</code>。该项设置在 Xcode 12 上开始生效。</p><p>声明了这项要求后，就指定了需要 A12 仿生芯片以上等级的芯片。该等级包含了：</p><ul><li>6核 CPU 和4核 GPU</li><li>第二代神经网络引擎</li><li>ARKit 3个数量的人体识别和动作捕捉</li><li>Metal GPU 系列 Apple 5</li></ul><p>目前支持该等级的设备包括：</p><ul><li>iPhone 11</li><li>iPhone 11 Pro</li><li>iPhone SE 2</li><li>iPad Mini 5th</li><li>iPad Pro 4th</li></ul><h2 id="如何设置"><a href="#如何设置" class="headerlink" title="如何设置"></a>如何设置</h2><p>打开 info.plist，找到 <code>Required device capabilities</code> 设置项，如果没有则新增一个。该设置项是个数组。在该设置项下新增一个 item，item 的值选择 A12 的选项，即可完成设置。</p><p><img src="/media/15962781684496/15962782421348.jpg" alt></p><h2 id="何时使用这个选项"><a href="#何时使用这个选项" class="headerlink" title="何时使用这个选项"></a>何时使用这个选项</h2><p>首先，苹果肯定是鼓励大家兼容越多机型越好的，不然旧设备各种应用运行不了，用户也会有很大意见。因此，这个设置不到万不得已，尽量不要使用。</p><p>使用这个设置项的一个前提是，我们已经对我们的应用或者游戏，进行了极致的性能优化。<br>只有我们已经尽可能地优化性能了，但还是无法兼容 A12 以下的设备。或是我们必须用到 A12 芯片的某些特有能力，我们才来考虑是否要启用这个设置项。需要注意的是，该设置项需要在 iOS 14 下才能生效。</p><p>注意，一旦开启该设置项，应用就无法被 A12 以下的设备下载和安装。为了测试设置项是否生效，我们可以提前用 TestFlight 来进行验证。</p><h2 id="阅读更多"><a href="#阅读更多" class="headerlink" title="阅读更多"></a>阅读更多</h2><p>更多关于 Metal 相关的性能优化，可以参见以下两个 Session：</p><ul><li>Delivering Optimized Metal Apps and Games</li><li>Harness Apple GPUs with Metal</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      iOS 和 iPadOS 提供了强大的功能，可帮助我们开发人员在所有设备上，运行复杂的应用和游戏。但是，在某些情况下，一些对性能要求十分苛刻的应用可能只能在具有 A12 仿生芯片，或更高性能的设备上提供最佳的体验。在 Xcode 12 上，对于性能密集型的应用或游戏，开发人员可以启用一项设置，来表明自己的产品对于性能有着特殊的需求。
+    
+    </summary>
+    
+      <category term="WWDC" scheme="http://punmy.cn/categories/WWDC/"/>
+    
+    
+      <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
+    
+      <category term="WWDC" scheme="http://punmy.cn/tags/WWDC/"/>
+    
+  </entry>
   
   <entry>
     <title>iOS耗电量和性能优化的全新框架</title>
@@ -234,9 +282,9 @@
     
       <category term="iOS" scheme="http://punmy.cn/tags/iOS/"/>
     
-      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
-    
       <category term="HTTP2" scheme="http://punmy.cn/tags/HTTP2/"/>
+    
+      <category term="基础" scheme="http://punmy.cn/tags/%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
